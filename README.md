@@ -5,7 +5,10 @@
 
 # Install pip packages
 -  Spin up Python Environment
--  python -m venv platoon-console-env 
+    - Vanilla Python
+        -  python -m venv platoon-console-env
+    - Virtual Environment Wrapper
+        - mkvirtualenv platoon-console-env
 -  source platoon-console-env/bin/activate 
 
 - cd PLATOON-CONSOLE 
