@@ -73,6 +73,6 @@ Code Platoon is a non-profit coding bootcamp dedicated to training military vete
 
 ### License
 
-Platoon Console is open-source software released under the [MIT License](https://opensource.org/licenses/MIT). Feel free to use, modify, and distribute the codebase in accordance with the terms of the license.
+Platoon Console is open-source software released under the [MIT License](LICENSE). Feel free to use, modify, and distribute the codebase in accordance with the terms of the license.
 
 Thank you for choosing Platoon Console as your learning companion. We're excited to embark on this journey with you as you take your first steps towards a successful career in technology!
