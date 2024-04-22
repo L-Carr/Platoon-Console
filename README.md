@@ -1,2 +1,4 @@
 # Platoon-Console
-Code Platoon Addon
+
+# Initializing
+

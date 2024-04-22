@@ -1,0 +1,4 @@
+.env
+ENVIRONMENT
+node_modules
+__pycache__
