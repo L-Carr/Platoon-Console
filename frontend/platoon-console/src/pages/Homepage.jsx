@@ -2,8 +2,10 @@ import React from 'react'
 
 const Homepage = () => {
   return (
-    <div>Homepage</div>
+    <>
+    <h1 className="mainH1">Platoon Console</h1>
+    </>
   )
-}
+};
 
-export default Homepage
+export default Homepage;

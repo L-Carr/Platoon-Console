@@ -1,0 +1,260 @@
+#root {
+    max-width: 1280px;
+    margin: 0 auto;
+    // padding: 2rem;
+    // padding-top: 10rem;
+    text-align: center;
+  }
+
+body {
+    background-color: #2f2f2f;
+    font-family: "Permanent Marker", system-ui;
+    color: #ffffff
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  color: #3b7f82;
+}
+
+  .mainH1 {
+    font-family: 'Permanent Marker';
+    font-size: 5rem;
+    color: #f05a1b;
+    z-index: 50;
+    text-shadow: 2px 2px 4px #00000080;
+    // -webkit-text-stroke: 3px #FFF765;
+  }
+
+  .mainH2 {
+    font-family: 'Permanent Marker';
+    font-size: 3rem;
+    margin-top: 2rem;
+    color: #f05a1b;
+    z-index: 50;
+    text-shadow: 2px 2px 4px #00000080;
+    // -webkit-text-stroke: 2px #001011;
+  }
+  .mainH3 {
+    font-family: 'Permanent Marker';
+    margin-top: 2rem;
+    color: #f05a1b;
+    z-index: 50;
+    text-shadow: 2px 2px 4px #00000080;
+    // -webkit-text-stroke: 2px #001011;
+  }
+  
+  .logo {
+    height: 10em;
+    padding: 1.5em;
+    will-change: filter;
+    transition: filter 300ms;
+  }
+
+  .logo:hover {
+    filter: drop-shadow(0 0 2em #97ce004a);
+  }
+  .logo.react:hover {
+    filter: drop-shadow(0 0 2em #97ce004a);
+  }
+
+// .mainLogo {
+//     margin-top: 8rem;
+// }
+  
+  @keyframes logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    a:nth-of-type(2) .logo {
+      animation: logo-spin infinite 20s linear;
+    }
+  }
+  
+  .navIcon {
+    width: 1.9rem;
+  }
+
+.signUpForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 500px;
+}
+
+.logout {
+  font-size: 12px;
+  text-decoration: none;
+  color: #ffffff .65;
+}
+
+.logout:hover {
+  color: #6ccff6;
+}
+
+// .Permanent Marker-regular {
+//   font-family: "Permanent Marker", system-ui;
+//   font-weight: 400;
+//   font-style: normal;
+// }
+
+.navLink {
+  // color: #fffffc;
+}
+
+.navLink:hover {
+  color: #f05a1b;
+}
+
+.dropdownToggle:hover {
+  color: #f05a1b;
+}
+
+.workoutButton {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 400px;
+}
+
+.dropdown-item:hover {
+  background-color: #6c757d; /* Change to your desired highlight color */
+}
+
+.scrollable-cards-container {
+  max-height: 400px; /* Set the maximum height */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.buttonContainer2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.exerciseButton {
+  width: 200px;
+  height: 30px;
+  display: inline-flex; 
+  justify-content: center; 
+  align-items: center; 
+  margin-right: 10px; 
+  // margin-top: 10px;
+}
+
+.exerciseButton:hover {
+  background-color: #97ce00;
+}
+
+.cardName {
+  margin-bottom: 15px;
+}
+
+.generateButton:hover {
+  background-color: #97ce00;
+}
+
+.recipeButton:hover {
+  background-color: #97ce00;
+}
+
+.closeButton{
+  background-color: #00000000;
+  // color: #2f2f2f;
+  position: absolute;
+  top: 5px;
+  left: 5px; 
+  width: "32px"; 
+  height: 32px; 
+  border-radius: "50%"; 
+  border: 0px;
+}
+
+.closeButton:hover {
+  background-color: #4c4c4cc1;
+}
+
+.homeCard {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.workoutCardClosed {
+  margin: 2rem; 
+  max-width: 600px; 
+  width: "100%"; 
+  max-height: 110px;
+  overflow-y: hidden;
+}
+
+.workoutCardOpen {
+  margin: 2rem; 
+  max-width: 600px; 
+  width: "100%"; 
+  max-height: 366px;
+  overflow-y: auto;
+}
+
+.deletePlan {
+  max-width: 600px;
+  width: 100%;
+  height: 55px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .mainH1 {
+      font-size: 3rem; /* Adjust the font size for mobile devices */
+  }
+  .video-container {
+      max-width: 100%;
+  }
+  .homeCard {
+    max-width: 90%;
+  }
+  .generateButton {
+    font-size: medium;
+  }
+  .workoutCardClosed {
+    margin: 2rem; 
+    max-width: 300px; 
+    width: "100%"; 
+    max-height: 130px;
+    overflow-y: hidden;
+  }
+  .workoutCardOpen {
+    margin: 2rem; 
+    max-width: 300px; 
+    width: "100%"; 
+    max-height: 366px;
+    overflow-y: auto;
+  }
+  .cardName {
+    font-size: 16px;
+    margin: 10px;
+  }
+  .varNameContainer {
+    height: 42px;
+  }
+  .deletePlan {
+    max-width: 300px;
+  }
+}
