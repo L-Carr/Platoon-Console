@@ -1,19 +1,39 @@
-from django.contrib.auth.models import Group
+# permissions.py
 from rest_framework import permissions
+from django.contrib.auth.models import Group
 
-class IsOwnerOrAdmin(permissions.BasePermission):
+
+class IsInstructor(permissions.BasePermission):
     """
-    Custom permission to only allow owners of an object or admins to edit it.
-    Admins are determined by is_staff status or being in the "Admin Users" group.
+    Allows full CRUD access to Instructors.
     """
+
+    def has_permission(self, request, view):
+        return Group.objects.filter(name='Instructors', user=request.user).exists()
+
+
+class IsStudent(permissions.BasePermission):
+    """
+    Allows read-only access to generic views and read/write access to own records.
+    """
+
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return Group.objects.filter(name='Students', user=request.user).exists()
+        return False
 
     def has_object_permission(self, request, view, obj):
-        # Read permissions are allowed for any request, so allow GET, HEAD, and OPTIONS.
+        # Allowing read access universally for students, write only if they own the record
         if request.method in permissions.SAFE_METHODS:
             return True
+        return obj.owner == request.user and Group.objects.filter(name='Students', user=request.user).exists()
 
-        # Determine if the user is in the "Admin Users" group.
-        # admin_group = Group.objects.filter(name='Admin Users', user=request.user).exists()
-        admin_group = Group.objects.filter(name='Admin Users', user__id=request.user.id).exists()
-        # Write permissions are allowed if the user is the owner or an admin (either is_staff or in the admin group).
-        return obj.owner == request.user or request.user.is_staff or admin_group
+
+class AnyUserReadWrite(permissions.BasePermission):
+    """
+    Allows read and write access universally, used for general purposes like chat.
+    """
+
+    def has_permission(self, request, view):
+        return True
+
