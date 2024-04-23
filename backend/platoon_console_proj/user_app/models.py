@@ -18,10 +18,11 @@ class UserAccount(models.Model):
         ('Student', 'student'),
         ('Instructor', 'instructor')
     ]
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile')
     cohort = models.ForeignKey(Cohort, on_delete=models.SET_NULL, null=True)
-    account_type = models.Charfield(max_length=100, choices=ACCOUNT_TYPES)
-    personal_data = models.ForeignKey(PersonalData, on_delete=models.SET_NULL, null=True)
+    account_type = models.CharField(max_length=100, choices=ACCOUNT_TYPES)
+    personal_data = models.OneToOneField(PersonalData, on_delete=models.CASCADE)
+    
     
     def __str__(self):
         return self.user.username
