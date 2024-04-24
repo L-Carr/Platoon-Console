@@ -18,7 +18,8 @@ class UserDetail(models.Model):
 class UserAccount(models.Model):
    
     user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile')
-    cohort = models.ForeignKey(Cohort, on_delete=models.SET_NULL, null=True)
+    cohort_name = models.ForeignKey(Cohort, on_delete=models.SET_NULL, null=True,
+    to_field='cohort_name')
    
     
     

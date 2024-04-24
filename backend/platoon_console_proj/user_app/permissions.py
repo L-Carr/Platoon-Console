@@ -37,3 +37,14 @@ class AnyUserReadWrite(permissions.BasePermission):
     def has_permission(self, request, view):
         return True
 
+
+
+class AnyUserReadOnly(permissions.BasePermission):
+    """
+    Allows read-only access to all users.
+    """
+
+    def has_permission(self, request, view):
+        # Only allow safe HTTP methods which are considered read-only
+        return request.method in permissions.SAFE_METHODS
+
