@@ -16,7 +16,7 @@ class UserDetail(models.Model):
 
     def __str__(self):
         # This method provides a string representation of the object, useful for debugging and admin displays.
-        return self.first_name + ' ' + self.last_name
+        return self.user.email
     
 # UserAccount Model
 class UserAccount(models.Model):
@@ -32,4 +32,4 @@ class UserAccount(models.Model):
     
     def __str__(self):
         # Returns the username of the associated user, making instances of this model recognizable by the user's username.
-        return self.user.username
+        return self.user.email
