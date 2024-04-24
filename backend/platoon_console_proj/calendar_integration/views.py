@@ -10,8 +10,18 @@ import datetime
 from django.http import HttpResponse, JsonResponse
 
 def google_calendar_auth(request):
-    flow = Flow.from_client_secrets_file(
-        './credentials.json',
+    flow = Flow.from_client_config(
+        client_config={
+            "web": {
+                "client_id": os.getenv('GOOGLE_CLIENT_ID'),
+                "project_id": "platoon-console",
+                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                "token_uri": os.getenv('TOKEN_URI'),
+                "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                "client_secret": os.getenv('GOOGLE_CLIENT_SECRET'),
+                "redirect_uris": [uri.strip() for uri in os.getenv('redirect_uris').split(',')]
+            }
+        },
         scopes=['https://www.googleapis.com/auth/calendar'],
         redirect_uri='http://localhost:8000/oauth2callback'
     )
@@ -24,8 +34,18 @@ def google_calendar_auth(request):
 
 def oauth2callback(request):
     state = request.session['state']
-    flow = Flow.from_client_secrets_file(
-        './credentials.json',
+    flow = Flow.from_client_config(
+        client_config={
+            "web": {
+                "client_id": os.getenv('GOOGLE_CLIENT_ID'),
+                "project_id": "platoon-console",
+                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                "token_uri": os.getenv('TOKEN_URI'),
+                "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                "client_secret": os.getenv('GOOGLE_CLIENT_SECRET'),
+                "redirect_uris": [uri.strip() for uri in os.getenv('redirect_uris').split(',')]
+            }
+        },
         scopes=['https://www.googleapis.com/auth/calendar'],
         state=state,
         redirect_uri='http://localhost:8000/oauth2callback'
@@ -34,7 +54,6 @@ def oauth2callback(request):
     credentials = flow.credentials
     request.session['credentials'] = credentials_to_dict(credentials)
     return redirect('/')
-
 
 def credentials_to_dict(credentials):
     return {
