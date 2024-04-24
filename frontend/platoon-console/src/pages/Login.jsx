@@ -87,6 +87,7 @@ const Login = () => {
                 <Button type="Submit">Submit</Button>
             </Form>
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+            <p>Don't have an account?  <Link tag="link" to="/register">Register</Link></p>
             </div>
         </>
     )
