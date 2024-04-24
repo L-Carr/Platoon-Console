@@ -2,3 +2,4 @@
 ENVIRONMENT
 node_modules
 __pycache__
+credentials.json
