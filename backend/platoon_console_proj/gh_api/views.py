@@ -39,7 +39,7 @@ class GhApiConfigInfo(APIView):
             ghapi_config = get_object_or_404(GhApiConfig, id=id)
             ghapi_config.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response({"detail":"delete method only allowed in debug mode."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message":"delete method only allowed in debug mode."}, status=status.HTTP_400_BAD_REQUEST)
 
 class GhApiConfigCreate(APIView):
     #TODO: Change this to instructor only, this is set to AllowAny just for testing purposes
@@ -53,7 +53,7 @@ class GhApiConfigCreate(APIView):
 
         if record_count > 0:
             # A config already exists
-            return Response({"detail":"A config already exists."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message":"A config already exists."}, status=status.HTTP_400_BAD_REQUEST)
         
         new_config = GhApiConfigSerializer(data=data)
 
