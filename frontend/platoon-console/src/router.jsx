@@ -3,6 +3,7 @@ import App from './App';
 import Homepage from './pages/Homepage'
 import Login from "./pages/Login"
 import Register from "./pages/Register";
+import ErrorPage from "./pages/Errorpage";
 
 const router = createBrowserRouter([
     {
@@ -22,7 +23,11 @@ const router = createBrowserRouter([
                 element: <Register />,
             },
         ],
-    }
+    },
+    {
+    path: "*",
+    element: <ErrorPage />,
+  },
 ]);
 
 export default router;
