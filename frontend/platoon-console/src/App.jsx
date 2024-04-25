@@ -23,8 +23,8 @@ function App() {
 
   return (
     <>
-    <NavBar isLoggedIn={isLoggedIn}  />
-    <div className="mainContent" style={{paddingTop: "6rem"}}>
+    <NavBar isLoggedIn={isLoggedIn} />
+    <div className="mainContent" style={{paddingTop: "8rem"}}>
     <Outlet />
     </div>
     </>
