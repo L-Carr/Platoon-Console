@@ -5,11 +5,16 @@ from django.shortcuts import redirect
 from google_auth_oauthlib.flow import Flow
 import os 
 from googleapiclient.discovery import build
+from google.oauth2.credentials import Credentials
 import google.oauth2.credentials
 import datetime
 from django.http import HttpResponse, JsonResponse
+import logging
+
+logger = logging.getLogger(__name__)
 
 def google_calendar_auth(request):
+    logger.debug("Starting Google Calendar Auth Flow")
     flow = Flow.from_client_config(
         client_config={
             "web": {
@@ -23,12 +28,13 @@ def google_calendar_auth(request):
             }
         },
         scopes=['https://www.googleapis.com/auth/calendar'],
-        redirect_uri='http://localhost:8000/oauth2callback'
+        redirect_uri='https://localhost:8000/calendar/oauth2callback/'
     )
     authorization_url, state = flow.authorization_url(
         access_type='offline',
         include_granted_scopes='true'
     )
+    logger.debug(f"Authorization URL: {authorization_url}")
     request.session['state'] = state
     return redirect(authorization_url)
 
@@ -48,12 +54,12 @@ def oauth2callback(request):
         },
         scopes=['https://www.googleapis.com/auth/calendar'],
         state=state,
-        redirect_uri='http://localhost:8000/oauth2callback'
+        redirect_uri='https://localhost:8000/calendar/oauth2callback/'
     )
     flow.fetch_token(authorization_response=request.get_full_path())
     credentials = flow.credentials
     request.session['credentials'] = credentials_to_dict(credentials)
-    return redirect('/')
+    return redirect('view_calendar_events') #Need to change this
 
 def credentials_to_dict(credentials):
     return {
@@ -64,6 +70,19 @@ def credentials_to_dict(credentials):
         "client_secret": credentials.client_secret,
         "scopes": credentials.scopes
     }
+
+def view_calendar_events(request):
+    creds = request.session.get('credentials', None)
+    if not creds: 
+        return redirect('google_calendar_auth')
+    creds = google.oauth2.credentials.Credentials(**creds)
+    service = build('calendar', 'v3', credentials=creds)
+    now = datetime.datetime.utcnow().isoformat() + 'Z'
+    events_result = service.events().list(calendarId='primary', timeMin=now,
+                                          maxResults=10, singleEvents=True,
+                                          orderBy='startTime').execute()
+    events = events_result.get('items', [])
+    return render(request, 'calendar_integration/calendar_events.html', {'events': events})
 
 def get_calendar_events(request):
     creds = request.session.get('credentials', None)
@@ -76,7 +95,8 @@ def get_calendar_events(request):
                                           maxResults=10, singleEvents=True,
                                           orderBy='startTime').execute()
     events = events_result.get('items', [])
-    return events
+    # Here we return a JsonResponse which correctly handles serialization of the list
+    return JsonResponse(events, safe=False)  # Set `safe=False` to allow list serialization
 
 def add_calendar_event(request):
     creds = request.session.get('credentials', None)
