@@ -42,6 +42,8 @@ class GhApiConfigInfo(APIView):
         return Response({"detail":"delete method only allowed in debug mode."}, status=status.HTTP_400_BAD_REQUEST)
 
 class GhApiConfigCreate(APIView):
+    #TODO: Change this to instructor only, this is set to AllowAny just for testing purposes
+    permission_classes = [AllowAny]
 
     def post(self, request):
         # This method handles POST requests to create a ghapi config
