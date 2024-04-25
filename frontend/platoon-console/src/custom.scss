@@ -85,6 +85,10 @@ a:hover {
     width: 1.9rem;
   }
 
+  .custom-navbar {
+    padding-bottom: 1rem;
+  }
+
 .signUpForm {
     display: flex;
     justify-content: center;
@@ -110,7 +114,15 @@ a:hover {
 // }
 
 .navLink {
-  // color: #fffffc;
+  // color: #f05a1b;
+}
+
+.custom-link {
+  color: #f05a1b;
+}
+
+.custom-link:hover {
+  color: #3b7f82;
 }
 
 .navLink:hover {
