@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'calendar_integration',
     'django_extensions',
-     "anymail",
+    'anymail',
     
     
 ]
