@@ -6,4 +6,7 @@ credentials.json
 cert.pem
 key.pem
 platoon-console-env
+venv
+.venv
+sslcerts
  
