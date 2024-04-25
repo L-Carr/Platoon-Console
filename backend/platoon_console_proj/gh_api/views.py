@@ -19,10 +19,18 @@ class GhApiConfigInfo(APIView):
 
         return Response(ser_ghapi_config.data)
     
-
-    
     def put(self, request, id):
-        pass
+        # This method handles PUT requests to update ghapi config values
+        ghapi_config = get_object_or_404(GhApiConfig, id=id)
+
+        data = request.data.copy()
+        update_config = GhApiConfigSerializer(ghapi_config, data=data, partial=True)
+
+        if update_config.is_valid():
+            update_config.save()
+            return Response(update_config.data, status=status.HTTP_201_CREATED)
+        return Response(update_config.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class GhApiConfigCreate(APIView):
 
@@ -34,10 +42,11 @@ class GhApiConfigCreate(APIView):
 
         if record_count > 0:
             # A config already exists
-            return Response('A config already exists!', status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail":"A config already exists."}, status=status.HTTP_400_BAD_REQUEST)
         
         new_config = GhApiConfigSerializer(data=data)
 
         if new_config.is_valid():
-            return Response('Ok')
-        return Response(f'GhApiConfig: {new_config.errors}', status=status.HTTP_400_BAD_REQUEST)
+            new_config.save()
+            return Response(new_config.data, status=status.HTTP_201_CREATED)
+        return Response(new_config.errors, status=status.HTTP_400_BAD_REQUEST)
