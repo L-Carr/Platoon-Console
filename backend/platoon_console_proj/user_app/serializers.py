@@ -50,3 +50,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         # Return the newly created User object.
         return user
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
