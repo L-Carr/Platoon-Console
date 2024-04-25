@@ -3,3 +3,6 @@ ENVIRONMENT
 node_modules
 __pycache__
 credentials.json
+cert.pem
+key.pem
+
