@@ -35,7 +35,7 @@ const ErrorPage = () => {
 
   return (
     <div style={containerStyles}>
-      <h1>Error 404</h1>
+      <h2 className="mainH2" style={{marginTop: "30px"}}>Error 404</h2>
       <p>Are you lost?</p>
       <div style={{ position: 'relative', overflow: 'hidden' }}>
         <img src={lostImage} alt="Lost" style={imageStyles} />
