@@ -5,12 +5,7 @@ from cohort.models import Cohort
 # Create your models here.
 
 class UserDetail(models.Model):
-    # Stores the first name of the user; must be provided (null=False, blank=False).
-    first_name = models.CharField(max_length=100, null=False, blank=False)
-    # Stores the last name of the user; must be provided (null=False, blank=False).
-    last_name = models.CharField(max_length=100, null=False, blank=False)
-    # Stores the email of the user, using Django's built-in EmailField for validation.
-    email = models.EmailField()
+  
     # Stores the phone number of the user; must be provided (null=False, blank=False).
     phone_number = models.CharField(max_length=100, null=False, blank=False)
 
@@ -21,7 +16,7 @@ class UserDetail(models.Model):
 
     def __str__(self):
         # This method provides a string representation of the object, useful for debugging and admin displays.
-        return self.first_name + ' ' + self.last_name
+        return self.user.email
     
 # UserAccount Model
 class UserAccount(models.Model):
@@ -37,4 +32,4 @@ class UserAccount(models.Model):
     
     def __str__(self):
         # Returns the username of the associated user, making instances of this model recognizable by the user's username.
-        return self.user.username
+        return self.user.email
