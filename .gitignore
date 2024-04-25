@@ -9,4 +9,4 @@ platoon-console-env
 venv
 .venv
 sslcerts
- 
+migrations
