@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import {
   Collapse,
   Navbar,
@@ -41,30 +41,32 @@ const toggleNavbar = () => {
       </NavbarBrand>
       <NavbarToggler onClick={toggleNavbar} className="mr-2" />
       <Collapse isOpen={isOpen} navbar>
-      <Nav className={!collapsed ? 'flex-column custom-navbar': ""}>
-        {isLoggedIn ? (
-          <>
+      {isLoggedIn ? (
+        <>
+      <Nav className='me-auto' navbar>
             <NavItem>
-              <NavLink active href="/" className='custom-link' >Home</NavLink>
+              <NavLink active to="/" tag={Link} className='custom-link' >Home</NavLink>
             </NavItem>  
             <NavItem>
-              <NavLink active href="/login" className='custom-link'  onClick={() => { handleLogout(); toggleNavbar(); }}>Logout</NavLink>
+              <NavLink active to="/login" tag={Link} className='custom-link'  onClick={() => { handleLogout(); toggleNavbar(); }}>Logout</NavLink>
             </NavItem>  
             <NavItem>
               <NavLink active href="https://github.com/CodePlatoon" className='custom-link' >Github</NavLink>
             </NavItem>  
+            </Nav>
           </>
         ) : (
           <>
+      <Nav className='me-auto' navbar>
             <NavItem>
-              <NavLink active href="/register" className='custom-link'>Register</NavLink>
+              <NavLink active tag={Link} to="/register" className='custom-link' onClick={toggleNavbar}>Register</NavLink>
             </NavItem>  
             <NavItem>
-              <NavLink active href="/login" className='custom-link'>Login</NavLink>
+              <NavLink active tag={Link} to="/login" className='custom-link' onClick={toggleNavbar}>Login</NavLink>
             </NavItem>
+        </Nav>
           </>
         )}
-        </Nav>
         </Collapse>
       </Navbar>
     </>
