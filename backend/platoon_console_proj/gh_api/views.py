@@ -19,6 +19,13 @@ class GhApiConfigInfo(APIView):
 
         return Response(ser_ghapi_config.data)
     
+
+    
+    def put(self, request, id):
+        pass
+
+class GhApiConfigCreate(APIView):
+
     def post(self, request):
         # This method handles POST requests to create a ghapi config
 
