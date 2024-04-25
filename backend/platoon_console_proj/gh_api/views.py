@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.conf import settings
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -31,6 +32,14 @@ class GhApiConfigInfo(APIView):
             return Response(update_config.data, status=status.HTTP_201_CREATED)
         return Response(update_config.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request, id):
+        # This method handles DELETE requests - for testing
+        # Do not use this method in production
+        if settings.DEBUG:
+            ghapi_config = get_object_or_404(GhApiConfig, id=id)
+            ghapi_config.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"detail":"delete method only allowed in debug mode."}, status=status.HTTP_400_BAD_REQUEST)
 
 class GhApiConfigCreate(APIView):
 
