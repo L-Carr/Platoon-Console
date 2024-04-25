@@ -15,7 +15,6 @@ import logo from '/src/assets/platoon-console-v2.svg'
 const NavBar = ({ isLoggedIn, setIsLoggedIn }) => {
 
 const [collapsed, setCollapsed] = useState(true);
-// const toggleNavbar = () => setCollapsed(!collapsed);
 const [isOpen, setIsOpen] = useState(false);
 const navigate = useNavigate()
 
@@ -27,11 +26,6 @@ const handleLogout = () => {
   navigate('/login')
 }
 
-// const closeNavBar = () => {
-//   if (isOpen) {
-//     setIsOpen(false)
-//   }
-// };
 
 const toggleNavbar = () => {
   setCollapsed(!collapsed)
