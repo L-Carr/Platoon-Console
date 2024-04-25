@@ -48,6 +48,8 @@ class GhApiConfigCreate(APIView):
     def post(self, request):
         # This method handles POST requests to create a ghapi config
 
+        # This method currently has a hard limit of only 1 record
+
         data = request.data.copy()
         record_count = GhApiConfig.objects.count()
 
@@ -61,3 +63,14 @@ class GhApiConfigCreate(APIView):
             new_config.save()
             return Response(new_config.data, status=status.HTTP_201_CREATED)
         return Response(new_config.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class GhApiConfigViewAll(APIView):
+    #TODO: Change this to instructor only, this is set to AllowAny just for testing purposes
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        # This method handles GET requests to view all config records
+        ghapi_config = GhApiConfig.objects.all()
+        ser_config = GhApiConfigSerializer(ghapi_config, many=True)
+
+        return Response(ser_config.data)    
