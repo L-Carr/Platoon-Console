@@ -5,4 +5,5 @@ __pycache__
 credentials.json
 cert.pem
 key.pem
-
+platoon-console-env
+ 
