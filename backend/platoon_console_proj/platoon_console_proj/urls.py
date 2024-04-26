@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('user_app.urls')),
     path('calendar/', include('calendar_integration.urls')),
+    path('gh/', include('gh_api.urls'),)
     
 ]
