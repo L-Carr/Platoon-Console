@@ -8,6 +8,20 @@ from .serializers import GhApiConfigSerializer, GhApiConfig
 
 # Create your views here.
 
+def get_active_config():
+    # This function retrieves the active config record
+    config_count = GhApiConfig.objects.count()
+
+    # There should not be more than one record
+    # This ensures we get the id of the active record
+    if config_count == 1:
+        config_record = GhApiConfig.objects.all().first()
+        return config_record
+    elif config_count == 0:
+        return 0
+    else:
+        raise ValueError(f'Invalid amount of configs in database: found {config_count}')
+
 class GhApiConfigInfo(APIView):
     #TODO: Change this to instructor only, this is set to AllowAny just for testing purposes
     permission_classes = [AllowAny]
