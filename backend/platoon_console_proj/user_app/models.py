@@ -12,11 +12,11 @@ class UserDetail(models.Model):
     # Creates a one-to-one relationship between UserDetail and Django's User model.
     # 'related_name' allows access to UserDetail from the User instance.
     # 'on_delete=models.CASCADE' specifies that if the User is deleted, the associated UserDetail should also be deleted.
-    user = models.OneToOneField(User, related_name='userdetail', on_delete=models.CASCADE, null=True)
+    user = models.OneToOneField(User, related_name='userdetail', on_delete=models.CASCADE, null=False)
 
     def __str__(self):
         # This method provides a string representation of the object, useful for debugging and admin displays.
-        return self.user.email
+        return self.user.username # pylint: disable=no-member
     
 # UserAccount Model
 class UserAccount(models.Model):
@@ -32,4 +32,4 @@ class UserAccount(models.Model):
     
     def __str__(self):
         # Returns the username of the associated user, making instances of this model recognizable by the user's username.
-        return self.user.email
+        return self.user.username # pylint: disable=no-member
