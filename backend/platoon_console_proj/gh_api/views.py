@@ -87,4 +87,5 @@ class GhApiConfigViewAll(APIView):
         ghapi_config = GhApiConfig.objects.all()
         ser_config = GhApiConfigSerializer(ghapi_config, many=True)
 
-        return Response(ser_config.data)    
+        return Response(ser_config.data)
+            
