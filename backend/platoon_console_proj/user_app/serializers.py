@@ -50,3 +50,12 @@ class UserSerializer(serializers.ModelSerializer):
 
         # Return the newly created User object.
         return user
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate_password(self, value):
+        # Example: Validate password complexity (this is more typical during registration)
+        validate_password(value)
+        return value
