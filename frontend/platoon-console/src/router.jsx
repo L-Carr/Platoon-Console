@@ -4,6 +4,8 @@ import Homepage from './pages/Homepage'
 import Login from "./pages/Login"
 import Register from "./pages/Register";
 import ErrorPage from "./pages/Errorpage";
+import ForgotPassword from "./pages/ForgotPassword";
+import ChangePassword from "./pages/ChangePassword";
 
 const router = createBrowserRouter([
     {
@@ -21,6 +23,14 @@ const router = createBrowserRouter([
             {
                 path: "register/",
                 element: <Register />,
+            },
+            {
+                path: "forgot-password/",
+                element: <ForgotPassword />,
+            },
+            {
+                path: "change-password/:uuid64/:token/",
+                element: <ChangePassword />,
             },
         ],
     },
