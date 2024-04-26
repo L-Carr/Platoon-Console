@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -16,19 +16,18 @@ const Login = () => {
         setErrorMessage("");
         try {
             const userData = {
-                "email": email,
+                "username": email,
                 "password": password
             };
 
-            let response = await axios.post("http://127.0.0.1:8000/", userData, {
+            let response = await axios.post("https://127.0.0.1:8000/user/login/", userData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-            const { token, display_name } = response.data;
+            const { token } = response.data;
             
             localStorage.setItem('token', token);
-            localStorage.setItem('display_name', display_name);
             
             setErrorMessage("");
             setEmail("");
