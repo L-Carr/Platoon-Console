@@ -26,7 +26,7 @@ const ChangePassword = () => {
                 "new_password": newPassword
             };
 
-            let response = await axios.post(`http://127.0.0.1:8000/user/password-reset/${uuid64}/${token}/`, userData, {
+            let response = await axios.put(`http://127.0.0.1:8000/user/password-reset/${uuid64}/${token}/`, userData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
