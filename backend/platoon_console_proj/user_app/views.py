@@ -107,7 +107,7 @@ class UserLogin(APIView):
         except UserAccount.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
-class LogOutView(APIView):
+class UserLogout(APIView):
     """
     API view to log out a user and delete their authentication token.
     """
