@@ -34,7 +34,7 @@ const Register = () => {
                 "password": password
             };
 
-            let response = await axios.post("http://127.0.0.1:8000/user/register/", userData, {
+            let response = await axios.post("https://127.0.0.1:8000/user/register/", userData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
