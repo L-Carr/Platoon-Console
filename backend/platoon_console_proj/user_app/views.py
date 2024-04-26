@@ -97,15 +97,7 @@ class UserPasswordReset(APIView):
         
         return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
 
-from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.authtoken.models import Token
-from django.contrib.auth import authenticate, login
 
-from .serializers import LoginSerializer
-from .models import UserAccount
 
 class UserLogin(APIView):
     permission_classes = [AllowAny]
@@ -127,15 +119,12 @@ class UserLogin(APIView):
 
         # Retrieve or create a user profile
         try:
-            user_profile = UserAccount.objects.get(user=user)
+           
+            token, _ = Token.objects.get_or_create(user=user)
+            login(request, user)
+            return Response({'token': token.key}, status=status.HTTP_200_OK)
+
         except UserAccount.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        # Retrieve or create a token for the authenticated user
-        token, _ = Token.objects.get_or_create(user=user)
-        
-        # Log the user in (start session)
-        login(request, user)
-
-        return Response({'token': token.key}, status=status.HTTP_200_OK)
-
+     
