@@ -7,5 +7,6 @@ urlpatterns = [
     path('test-api/', views.test_api, name='test_api'),
     path('add-event/', views.add_calendar_event, name='add_calendar_event'),
     path('get-events/', views.get_calendar_events, name='get_calendar_events'),
-    path('view-events/', views.view_calendar_events, name='view_calendar_events')
+    path('view-events/', views.view_calendar_events, name='view_calendar_events'), 
+    path('google-credentials/', views.get_google_credentials, name='get_google_credentials'),
 ]

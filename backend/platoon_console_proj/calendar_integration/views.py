@@ -10,7 +10,7 @@ import google.oauth2.credentials
 import datetime
 from django.http import HttpResponse, JsonResponse
 import logging
-
+from rest_framework.status import HTTP_401_UNAUTHORIZED
 logger = logging.getLogger(__name__)
 
 def google_calendar_auth(request):
@@ -150,3 +150,38 @@ def test_api(request):
 
     # Return the list of events as JSON
     return JsonResponse(events, safe=False)
+
+# def get_google_credentials(request):
+#     if request.user.is_authenticated: 
+#         return JsonResponse({
+#             "apiKey": os.getenv('GOOGLE_API_KEY'),
+#             "clientId": os.getenv('GOOGLE_CLIENT_ID'),
+#         })
+#     else: 
+#         return JsonResponse({
+#             "error": "User is not authenticated"
+#         },  HTTP_401_UNAUTHORIZED)
+
+def get_google_credentials(request):
+    if request.user.is_authenticated:
+        # Retrieve credentials from environment variables
+        api_key = os.getenv('GOOGLE_API_KEY')
+        client_id = os.getenv('GOOGLE_CLIENT_ID')
+
+        # Check if both environment variables are set
+        if api_key and client_id:
+            return JsonResponse({
+                "apiKey": api_key,
+                "clientId": client_id,
+            })
+        else:
+            # Return an error if any of the environment variables are not set
+            return JsonResponse({
+                "error": "API key or Client ID is not configured."
+            }, status=500)  # Internal Server Error
+
+    else:
+        # User is not authenticated
+        return JsonResponse({
+            "error": "User is not authenticated"
+        }, status=401)  # Unauthorized
