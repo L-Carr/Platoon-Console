@@ -5,8 +5,10 @@ cffi==1.16.0
 charset-normalizer==3.3.2
 cryptography==42.0.5
 Django==5.0.3
+django-anymail==10.3
 django-cors-headers==4.3.1
 django-extensions==3.2.3
+django-utils==0.0.2
 djangorestframework==3.15.1
 fastcore==1.5.29
 ghapi==1.0.5
@@ -29,6 +31,7 @@ psycopg-binary==3.1.18
 pyasn1==0.6.0
 pyasn1_modules==0.4.0
 pycparser==2.22
+pyOpenSSL==24.1.0
 pyparsing==3.1.2
 python-dotenv==1.0.1
 requests==2.31.0
