@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'calendar_integration',
     'django_extensions',
     'anymail',
-    
+    'gh_api',
     
 ]
 
