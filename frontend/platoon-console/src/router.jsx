@@ -4,6 +4,7 @@ import Homepage from './pages/Homepage'
 import Login from "./pages/Login"
 import Register from "./pages/Register";
 import ErrorPage from "./pages/Errorpage";
+import GoogleApiInitializer from "./components/Calendar";
 
 const router = createBrowserRouter([
     {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
                 path: "register/",
                 element: <Register />,
             },
+            {
+                path: "google-calendar/",
+                element: <GoogleApiInitializer />,
+            }
         ],
     },
     {
