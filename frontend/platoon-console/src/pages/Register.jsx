@@ -159,7 +159,7 @@ const Register = () => {
                         />
                     </FormGroup>
                     {' '}
-                    <Button type="Submit">Submit</Button>
+                    <Button type="Submit" disabled={checkPassword()}>Submit</Button>
                 </Form>
                 {successMessage ? (
                     <>
