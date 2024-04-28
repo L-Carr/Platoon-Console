@@ -49,42 +49,6 @@ You've reached Platoon.Console Support,
 You have requested a password reset. Please click the link below to reset your password. If you did not request this, please ignore this email. http://127.0.0.1:8000/user/password-reset/MjM/c623t0-66fd36f4754acb32921bb30bde934438/
 
 # GhApi - GitHub integration
-## VIEW ALL CONFIG RECORDS
-- NOTE: There should be only 1 record
-- **ENDPOINT** : `https://127.0.0.1:8000/gh/all/`
-- **Type** : GET
-- **Response** :
-    ```json
-        [
-            {
-                "id": 1,
-                "repo_owner": "Code-Platoon-Curriculum",
-                "repo_name": "curriculum"
-            }
-        ]
-    ```
-
-## GET A CONFIG RECORD
-- NOTE: There should be only 1 record
-- **ENDPOINT** : `https://127.0.0.1:8000/gh/<record id>/`
-- **Type** : GET
-- **Response** :
-    - Success: HTTP 200
-    ```json
-        {
-            "id": 1,
-            "repo_owner": "Code-Platoon-Curriculum",
-            "repo_name": "curriculum"
-        }
-    ```
-
-    - Error: HTTP 404
-
-    ```json
-        {
-            "message": "No GhApiConfig matches the given query."
-        }
-    ```
 
 ## CREATE A CONFIG RECORD
 - **ENDPOINT** : `https://127.0.0.1:800/gh/`
@@ -112,6 +76,62 @@ You have requested a password reset. Please click the link below to reset your p
         }
     ```
 
+## DELETE A CONFIG RECORD - TESTING ONLY
+- NOTE: This endpoint is only functional in DEBUG mode
+- **ENDPOINT** : `https://127.0.0.1:8000/gh/<record id>/`
+- **Type** : DELETE
+- **Response** :
+    - Success: HTTP 204
+
+## GET A CONFIG RECORD
+- NOTE: There should be only 1 record
+- **ENDPOINT** : `https://127.0.0.1:8000/gh/<record id>/`
+- **Type** : GET
+- **Response** :
+    - Success: HTTP 200
+    ```json
+        {
+            "id": 1,
+            "repo_owner": "Code-Platoon-Curriculum",
+            "repo_name": "curriculum"
+        }
+    ```
+
+    - Error: HTTP 404
+
+    ```json
+        {
+            "message": "No GhApiConfig matches the given query."
+        }
+    ```
+
+## GET ALL CONFIG RECORDS
+- NOTE: There should be only 1 record
+- **ENDPOINT** : `https://127.0.0.1:8000/gh/all/`
+- **Type** : GET
+- **Response** :
+    ```json
+        [
+            {
+                "id": 1,
+                "repo_owner": "Code-Platoon-Curriculum",
+                "repo_name": "curriculum"
+            }
+        ]
+    ```
+
+## GET CURRICULUM URL
+- **ENDPOINT** : `https://127.0.0.1:8000/gh/main/`
+- **Type** : GET
+- **Response** :
+    - Success: HTTP 200
+    ```json
+        {
+            "name": "curriculum",
+            "html_url": "https://github.com/Code-Platoon-Curriculum/curriculum"
+        }
+    ```
+
 ## UPDATE A CONFIG RECORD
 - **ENDPOINT** : `https://127.0.0.1:8000/gh/<record id>/`
 - **Type** : PUT
@@ -129,24 +149,5 @@ You have requested a password reset. Please click the link below to reset your p
             "id": 1,
             "repo_owner": "Code-Platoon-Curriculum",
             "repo_name": "curriculum"
-        }
-    ```
-
-## DELETE A CONFIG RECORD - TESTING ONLY
-- NOTE: This endpoint is only functional in DEBUG mode
-- **ENDPOINT** : `https://127.0.0.1:8000/gh/<record id>/`
-- **Type** : DELETE
-- **Response** :
-    - Success: HTTP 204
-
-## GET CURRICULUM URL
-- **ENDPOINT** : `https://127.0.0.1:8000/gh/main/`
-- **Type** : GET
-- **Response** :
-    - Success: HTTP 200
-    ```json
-        {
-            "name": "curriculum",
-            "html_url": "https://github.com/Code-Platoon-Curriculum/curriculum"
         }
     ```
