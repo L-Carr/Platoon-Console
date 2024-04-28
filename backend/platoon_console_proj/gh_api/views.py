@@ -5,6 +5,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from .serializers import GhApiConfigSerializer, GhApiConfig
+from ghapi.all import GhApi
+import os
+from dotenv import load_dotenv
 
 # Create your views here.
 
@@ -21,6 +24,21 @@ def get_active_config():
         return 0
     else:
         raise ValueError(f'Invalid amount of configs in database: found {config_count}')
+    
+def get_active_repo():
+    # This function calls the active config record and returns an object configured for use with GitHub and the specified repository
+
+    try:
+        config_record = get_active_config()
+        owner = config_record.repo_owner
+        repo = config_record.repo_name
+        load_dotenv()
+        token = os.getenv("GH_API_TOKEN")
+
+        api = GhApi(owner=owner, repo=repo, token=token)
+        return api
+    except Exception as error:
+        print(f'GhApi get_active_repo error: {error}')
 
 class GhApiConfigInfo(APIView):
     #TODO: Change this to instructor only, this is set to AllowAny just for testing purposes
@@ -88,4 +106,22 @@ class GhApiConfigViewAll(APIView):
         ser_config = GhApiConfigSerializer(ghapi_config, many=True)
 
         return Response(ser_config.data)
-            
+
+class GhApiMainReadme(APIView):
+    #TODO: Change this to only allow logged in students and instrurctors
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        # This method handles GET requests to view the main readme
+        api = get_active_repo()
+        if api :
+            cp_repos = api.repos
+            cp_curr_repo = cp_repos.get()
+
+            result = {
+                'name':cp_curr_repo.name,
+                'html_url':cp_curr_repo.html_url
+            }
+
+            return Response(result)
+        return Response({"message":"There is no config record."}, status=status.HTTP_400_BAD_REQUEST)

@@ -138,3 +138,15 @@ You have requested a password reset. Please click the link below to reset your p
 - **Type** : DELETE
 - **Response** :
     - Success: HTTP 204
+
+## GET CURRICULUM URL
+- **ENDPOINT** : `https://127.0.0.1:8000/gh/main/`
+- **Type** : GET
+- **Response** :
+    - Success: HTTP 200
+    ```json
+        {
+            "name": "curriculum",
+            "html_url": "https://github.com/Code-Platoon-Curriculum/curriculum"
+        }
+    ```
