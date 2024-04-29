@@ -232,6 +232,32 @@ a:hover {
   margin-bottom: 20px;
 }
 
+.consoleCard {
+  // background-color: #2f2f2f;
+  background-color: #1d1d1d;
+  color: #ffffff;
+  margin: 2rem; 
+  width: 302px; 
+  min-height: 128px;
+  border: 0px;
+  border: 2px solid;
+  border-color: #4d4d4d;
+  // box-shadow: 0 0 1px #ffffff, 0 0 2px #f05a1b, 0 0 4px #f05a1b, 0 0 8px #f05a1b;
+}
+
+.consoleCardUl {
+  text-decoration: none; 
+  list-style-type: none;
+  margin: 0 auto; 
+  padding-left: 0;
+}
+
+.linkCard {
+  margin: 2rem auto;
+  width: 90%;
+  
+}
+
 @media (max-width: 768px) {
   .mainH1 {
       font-size: 3rem; /* Adjust the font size for mobile devices */
