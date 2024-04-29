@@ -3,7 +3,7 @@ import React from 'react'
 const Homepage = () => {
   return (
     <>
-    <h1 className="mainH1">Platoon Console</h1>
+    <h2 className="mainH2">Platoon Console</h2>
     </>
   )
 };
