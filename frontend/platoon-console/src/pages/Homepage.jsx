@@ -62,7 +62,7 @@ const Homepage = () => {
             <ul className="consoleCardUl">
               <li><Link to="https://github.com/Code-Platoon-Curriculum" target="_blank" rel="noopener noreferrer">Curriculum</Link></li>
               <li><Link to="https://github.com/Code-Platoon-Curriculum/whiskey-demos-and-notes" target="_blank" rel="noopener noreferrer">Demos & Notes</Link></li>
-              <li><Link to="https://github.com/Code-Platoon-https://github.com/Code-Platoon-Assignments/" target="_blank" rel="noopener noreferrer">Assignments</Link></li>
+              <li><Link to="https://github.com/Code-Platoon-Assignments/" target="_blank" rel="noopener noreferrer">Assignments</Link></li>
             </ul>
           </CardBody>
         </Card>
