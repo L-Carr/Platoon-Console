@@ -51,7 +51,7 @@ const toggleNavbar = () => {
               <NavLink active to="/login" tag={Link} className='custom-link'  onClick={() => { handleLogout(); toggleNavbar(); }}>Logout</NavLink>
             </NavItem>  
             <NavItem>
-              <NavLink active href="https://github.com/CodePlatoon" className='custom-link' >Github</NavLink>
+              <NavLink active href="https://github.com/CodePlatoon" className='custom-link' target="_blank" rel="noopener noreferrer">Github</NavLink>
             </NavItem>  
             </Nav>
           </>

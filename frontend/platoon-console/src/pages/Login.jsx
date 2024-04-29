@@ -33,7 +33,7 @@ const Login = () => {
             setEmail("");
             setPassword("");
             
-            navigate('/')
+            window.location.href = '/';
             
         } catch (error) {
             if (error.response) {

@@ -21,7 +21,9 @@ function App() {
   useEffect(() => {
     // Redirect to /login if not logged in
     if (!isLoggedIn) {
-      navigate('/login')
+      navigate('/login');
+    } else {
+      navigate('/');
     }
   }, [isLoggedIn, navigate]) // Re-run whenever isLoggedIn or navigate changes
 
