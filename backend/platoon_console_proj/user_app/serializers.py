@@ -64,3 +64,20 @@ class LoginSerializer(serializers.Serializer):
         except ValidationError as e:
             raise serializers.ValidationError(str(e))
         return value
+    
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserDetail
+        fields = ['phone_number', 'user']  # Add other fields if necessary
+
+class UserAccountSerializer(serializers.ModelSerializer):
+    cohort_name = serializers.SlugRelatedField(
+        slug_field='cohort_name', 
+        queryset=Cohort.objects.all(),
+        allow_null=True
+    )
+
+    class Meta:
+        model = UserAccount
+        fields = ['cohort_name', 'user']
