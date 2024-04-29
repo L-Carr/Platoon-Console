@@ -97,14 +97,6 @@ You have requested a password reset. Please click the link below to reset your p
         }
     ```
 
-    - Error: HTTP 404
-
-    ```json
-        {
-            "message": "No GhApiConfig matches the given query."
-        }
-    ```
-
 ## GET ALL CONFIG RECORDS
 - NOTE: There should be only 1 record
 - **ENDPOINT** : `https://127.0.0.1:8000/gh/all/`
@@ -131,6 +123,38 @@ You have requested a password reset. Please click the link below to reset your p
             "html_url": "https://github.com/Code-Platoon-Curriculum/curriculum"
         }
     ```
+
+## GET A WEEK URL
+- NOTE: Keep it simple - use the week number to search
+- **ENDPOINT** : `https://127.0.0.1:8000/gh/<week str>/`
+- **Type** : GET
+- **Response** :
+    - Success: HTTP 200
+    ```json
+        {
+            "week_name": "7-Django",
+            "week_html_url": "https://github.com/Code-Platoon-Curriculum/curriculum/tree/main/7-Django",
+            "day_one_name": "1-intro-to-django-orm",
+            "day_one_url": "https://github.com/Code-Platoon-Curriculum/curriculum/tree/main/7-Django/1-intro-to-django-orm",
+            "day_two_name": "2-validators-and-serializers",
+            "day_two_url": "https://github.com/Code-Platoon-Curriculum/curriculum/tree/main/7-Django/2-validators-and-serializers",
+            "day_three_name": "3-associations-and-django-server",
+            "day_three_url": "https://github.com/Code-Platoon-Curriculum/curriculum/tree/main/7-Django/3-associations-and-django-server",
+            "day_four_name": "4-api-views-and-testing",
+            "day_four_url": "https://github.com/Code-Platoon-Curriculum/curriculum/tree/main/7-Django/4-api-views-and-testing",
+            "day_five_name": "5-back-end-apis",
+            "day_five_url": "https://github.com/Code-Platoon-Curriculum/curriculum/tree/main/7-Django/5-back-end-apis",
+            "day_six_name": "6-create-read-update-delete",
+            "day_six_url": "https://github.com/Code-Platoon-Curriculum/curriculum/tree/main/7-Django/6-create-read-update-delete",
+            "day_seven_name": "7-user-authentication",
+            "day_seven_url": "https://github.com/Code-Platoon-Curriculum/curriculum/tree/main/7-Django/7-user-authentication",
+            "day_eight_name": "8-review",
+            "day_eight_url": "https://github.com/Code-Platoon-Curriculum/curriculum/tree/main/7-Django/8-review",
+            "cheatsheets_name": "CheatSheets",
+            "cheatsheets_url": "https://github.com/Code-Platoon-Curriculum/curriculum/tree/main/7-Django/CheatSheets",
+            "resources_name": "Resources",
+            "resources_url": "https://github.com/Code-Platoon-Curriculum/curriculum/tree/main/7-Django/Resources"
+        }
 
 ## UPDATE A CONFIG RECORD
 - **ENDPOINT** : `https://127.0.0.1:8000/gh/<record id>/`
