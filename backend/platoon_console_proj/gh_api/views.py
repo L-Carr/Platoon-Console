@@ -6,8 +6,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from .serializers import GhApiConfigSerializer, GhApiConfig
 from ghapi.all import GhApi
-import os
 from dotenv import load_dotenv
+import os
+import re
 
 # Create your views here.
 
@@ -125,3 +126,84 @@ class GhApiMainReadme(APIView):
 
             return Response(result)
         return Response({"message":"There is no config record."}, status=status.HTTP_400_BAD_REQUEST)
+    
+class GhApiWeekReadme(APIView):
+    #TODO: Change this to only allow logged in students and instructors
+
+    def get(self, request, week):
+        # This method handles GET requests to view the week readme
+        api = get_active_repo()
+        if api:
+            cp_repos = api.repos
+            # This retrieves the content info for the repo
+            cp_content = cp_repos.get_content(path="/")
+
+            # Create a RegEx pattern to search for the week 
+            week_pattern = re.compile(r'^' + week)
+            week_dir = None
+
+            # Search through the directories in the repo for a directory that matches our pattern
+            for dir in cp_content:
+                if re.match(week_pattern, dir['name']):
+                    week_dir = dir
+                    break
+                
+            if week_dir:
+
+                # Retrieve the content for the directory found
+                week_content = cp_repos.get_content(path=week_dir["path"])
+
+                # This will be our result dictionary
+                # Populate the week info first
+                result = {
+                    "week_name":week_dir.name,
+                    "week_html_url":week_dir.html_url,
+                }
+                # For each topic that matches a day we'll assign them to dictionary values
+                # This currently depends on the directories starting with the day number - the current pattern they are stored in
+                for topic in week_content:
+                    print(topic.name)
+                    if re.match(r'^(?:1\D)|(?:^[Dd]ay1)', topic.name):
+                        result['day_one_name'] = topic.name
+                        result['day_one_url'] = topic.html_url
+                    elif re.match(r'(?:^2)|(?:^[Dd]ay2)', topic.name):
+                        result['day_two_name'] = topic.name
+                        result['day_two_url'] = topic.html_url
+                    elif re.match(r'(?:^3)|(?:^[Dd]ay3)', topic.name):
+                        result['day_three_name'] = topic.name
+                        result['day_three_url'] = topic.html_url
+                    elif re.match(r'^4', topic.name):
+                        result['day_four_name'] = topic.name
+                        result['day_four_url'] = topic.html_url
+                    elif re.match(r'^5', topic.name):
+                        result['day_five_name'] = topic.name
+                        result['day_five_url'] = topic.html_url
+                    elif re.match(r'^6', topic.name):
+                        result['day_six_name'] = topic.name
+                        result['day_six_url'] = topic.html_url
+                    elif re.match(r'^7', topic.name):
+                        result['day_seven_name'] = topic.name
+                        result['day_seven_url'] = topic.html_url
+                    elif re.match(r'^8', topic.name):
+                        result['day_eight_name'] = topic.name
+                        result['day_eight_url'] = topic.html_url
+                    elif re.match(r'^9', topic.name):
+                        result['day_nine_name'] = topic.name
+                        result['day_nine_url'] = topic.html_url
+                    elif re.match(r'^10', topic.name):
+                        result['day_ten_name'] = topic.name
+                        result['day_ten_url'] = topic.html_url
+                    elif re.match(f'^old', topic.name):
+                        result['previous_name'] = topic.name
+                        result['previous_url'] = topic.html_url
+                    elif re.match(f'^R|resources', topic.name):
+                        result['resources_name'] = topic.name
+                        result['resources_url'] = topic.html_url
+                    elif re.match(f'C|cheatS|sheets?', topic.name):
+                        result['cheatsheets_name'] = topic.name
+                        result['cheatsheets_url'] = topic.html_url
+
+                return Response(result)
+            return Response({"message":"That week does not exist in the curriculum."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message":"There is no config record."}, status=status.HTTP_400_BAD_REQUEST)
+            

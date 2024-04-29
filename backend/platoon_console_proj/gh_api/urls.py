@@ -4,6 +4,7 @@ from .views import (
     GhApiConfigCreate, 
     GhApiConfigViewAll,
     GhApiMainReadme,
+    GhApiWeekReadme,
 )
 
 urlpatterns = [
@@ -11,4 +12,5 @@ urlpatterns = [
     path('<int:id>/', GhApiConfigInfo.as_view(), name='get-gh-config'),
     path('all/', GhApiConfigViewAll.as_view(), name='all-gh-config'),
     path('main/', GhApiMainReadme.as_view(), name='main-readme'),
+    path('week/<str:week>/', GhApiWeekReadme.as_view(), name='week-readme'),
 ]
