@@ -56,6 +56,8 @@ def oauth2callback(request):
         state=state,
         redirect_uri='https://localhost:8000/calendar/oauth2callback/'
     )
+    logger.debug("TOKEN_URI: " + os.getenv('TOKEN_URI'))
+
     flow.fetch_token(authorization_response=request.get_full_path())
     credentials = flow.credentials
     request.session['credentials'] = credentials_to_dict(credentials)

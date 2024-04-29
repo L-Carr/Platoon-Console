@@ -85,6 +85,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'platoon_console_proj.wsgi.application'
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
