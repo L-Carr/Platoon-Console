@@ -162,7 +162,7 @@ class GhApiWeekReadme(APIView):
                 # For each topic that matches a day we'll assign them to dictionary values
                 # This currently depends on the directories starting with the day number - the current pattern they are stored in
                 for topic in week_content:
-                    print(topic.name)
+                    # print(topic.name)
                     if re.match(r'^(?:1\D)|(?:^[Dd]ay1)', topic.name):
                         result['day_one_name'] = topic.name
                         result['day_one_url'] = topic.html_url
