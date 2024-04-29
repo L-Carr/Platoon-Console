@@ -199,7 +199,7 @@ class GhApiWeekReadme(APIView):
                     elif re.match(f'^R|resources', topic.name):
                         result['resources_name'] = topic.name
                         result['resources_url'] = topic.html_url
-                    elif re.match(f'C|cheatS|sheets?', topic.name):
+                    elif re.match(f'^C|cheatS|sheets?', topic.name):
                         result['cheatsheets_name'] = topic.name
                         result['cheatsheets_url'] = topic.html_url
 
