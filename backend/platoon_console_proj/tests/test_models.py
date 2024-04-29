@@ -51,3 +51,5 @@ class TestUserModels(TestCase):
             user = ser_data.save()
             self.assertIsNotNone(user)
 
+    
+

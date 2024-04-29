@@ -1,3 +1,5 @@
+from django.contrib.auth.password_validation import validate_password
+
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.core.exceptions import ValidationError
@@ -43,5 +45,27 @@ class TestUserView(TestCase):
         )
         with self.subTest():
             self.assertEqual(response.status_code, 201)
-        # print(response.data)
-        # self.assertRegex(response.data["email"], "angelfan5741@gmail.com")
+        print(response.data)
+        self.assertRegex(response.data["email"], "angelfan5741@gmail.com")
+
+    def test_004_test_user_login(self):
+        """
+        This test attempts to validate a user is able to login
+        """
+
+        client = Client()
+        response = client.post(
+            reverse("user-login"),
+            data = {
+                "email" : "angelfan5741@gmail.com",
+                "password" : "123456"
+            },
+            content_type="application/json"
+        )
+        with self.subTest():
+            self.assertEqual(response.status_code, 200)
+        self.assertIn("token", response.content)
+        #unfinished test, receiving error:
+#          File "/home/neka/projects/platoon-console/           Platoon-Console/backend/platoon_console_proj/user_app/serializers.py", line 60, in validate_password
+#     validate_password(value)
+# NameError: name 'validate_password' is not defined
