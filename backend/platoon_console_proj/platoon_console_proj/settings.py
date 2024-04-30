@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'anymail',
     'gh_api',
     'demo',
+    'accountability_app',
     
 ]
 
