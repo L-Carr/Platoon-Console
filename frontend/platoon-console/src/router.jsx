@@ -29,7 +29,7 @@ const router = createBrowserRouter([
                 element: <ForgotPassword />,
             },
             {
-                path: "change-password/:uuid64/:token/",
+                path: "change-password/:uidb64/:token/",
                 element: <ChangePassword />,
             },
         ],
