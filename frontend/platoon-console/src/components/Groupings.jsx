@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { Card, CardImg, CardBody, CardTitle } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+
 
 const Groupings = () => {
   const [students, setStudents] = useState([]);
@@ -61,25 +64,35 @@ const Groupings = () => {
 
   return (
     <div>
-      <input
+      <h2 className="mainH2">Generate Groups</h2>
+      Students per group:<Input
+        style={{width: "100px", margin: "0 auto"}}
         type="number"
         value={groupSize}
         onChange={handleGroupSizeChange}
         placeholder="Enter group size"
         min={1}
-      ></input>
-      <button onClick={createGroups}>Create Groups</button>
-      <button onClick={copyToClipboard}>Copy Groups</button>
-      {groups.map((group, idx) => (
-        <div key={idx}>
-          <h2>Group {idx + 1}</h2>
-          {group.map((stud) => (
-            <p key={stud.id}>
-              {stud.first} {stud.last}
-            </p>
-          ))}
-        </div>
-      ))}
+      ></Input>
+      <Button style={{margin: "10px"}} onClick={createGroups}>Create Groups</Button>
+      <Button onClick={copyToClipboard}>Copy Groups</Button>
+      <div className="card-container" style={{ marginTop: "2rem", display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
+        {groups.map((group, idx) => (
+          <Card key={idx} className="groupCard">
+            <CardBody>
+              <CardTitle>
+                <h3 className="mainH3">Group {idx + 1}</h3>
+              </CardTitle>
+              <ul className="consoleCardUl">
+                {group.map((stud) => (
+                  <li key={stud.id}>
+                    {stud.first} {stud.last}
+                  </li>
+                ))}
+              </ul>
+            </CardBody>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };
