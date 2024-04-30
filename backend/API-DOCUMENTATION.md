@@ -192,9 +192,9 @@ You have requested a password reset. Please click the link below to reset your p
     ```json
         {
             "id": 1,
-            "status": "on deck",
-            "student": 1,
-            "cohort": 1
+            "student": "dj.mann78@yahoo.com",
+            "cohort": "Whiskey",
+            "status": "on deck"
         }
     ```
     - Error: HTTP 400
