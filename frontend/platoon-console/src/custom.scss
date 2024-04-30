@@ -41,8 +41,8 @@ a:hover {
   }
   .mainH3 {
     font-family: 'Special Elite';
-    margin-top: 2rem;
-    color: #f05a1b;
+    // margin-top: 2rem;
+    color: #3b7f82;
     z-index: 50;
     text-shadow: 2px 2px 4px #00000080;
     // -webkit-text-stroke: 2px #001011;
@@ -230,6 +230,43 @@ a:hover {
   width: 100%;
   height: 55px;
   margin-bottom: 20px;
+}
+
+.consoleCard {
+  // background-color: #2f2f2f;
+  background-color: #1d1d1d;
+  color: #ffffff;
+  margin: 2rem; 
+  width: 302px; 
+  min-height: 128px;
+  border: 0px;
+  // border: 2px solid;
+  // border-color: #4d4d4d;
+  // box-shadow: 0 0 1px #ffffff, 0 0 2px #f05a1b, 0 0 4px #f05a1b, 0 0 8px #f05a1b;
+  // box-shadow: 0 0 1px #2d2d2d, 0 0 2px #2d2d2d, 0 0 4px #000000, 0 0 8px #000000;
+}
+
+.groupCard {
+  // background-color: #2f2f2f;
+  background-color: #1d1d1d;
+  color: #ffffff;
+  margin: 2rem; 
+  width: 302px; 
+  min-height: 98px;
+  border: 0px;
+}
+
+.consoleCardUl {
+  text-decoration: none; 
+  list-style-type: none;
+  margin: 0 auto; 
+  padding-left: 0;
+}
+
+.linkCard {
+  margin: 2rem auto;
+  width: 90%;
+  
 }
 
 @media (max-width: 768px) {
