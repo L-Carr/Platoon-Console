@@ -32,8 +32,8 @@ class AllCohortDemoInfo(APIView):
         
         return Response(ser_demos.data)
     
-    def put(self, request, cohort_name):
-        # This method handles PUT requests to update 
+    def post(self, request, cohort_name):
+        # This method handles POST requests to create records for all students in a cohort where no record is present
         cohort = get_object_or_404(Cohort, cohort_name=cohort_name)
         students = UserAccount.objects.filter(cohort_name=cohort)
 
@@ -81,3 +81,27 @@ class StudentDemoInfo(APIView):
             ser_demo.save()
             return Response(ser_demo.data, status=status.HTTP_201_CREATED)
         return Response(ser_demo.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class ResetCohortDemoInfo(APIView):
+
+    def put(self, request, cohort_name):
+        # This method handles PUT requests to reset a cohorts demo records
+        cohort = get_object_or_404(Cohort, cohort_name=cohort_name)
+
+        demos = DemoStudent.objects.filter(cohort=cohort)
+        data = {
+            'status':'to do'
+        }
+
+        for demo in demos:
+            print(demo)
+            ser_demo = DemoStudentSerializer(demo, data=data, partial=True)
+            if ser_demo.is_valid():
+                ser_demo.save()
+            else:
+                print(f'ResetCohortDemoInfo Error: {ser_demo.errors}')
+
+        updated_demos = DemoStudent.objects.filter(cohort=cohort)
+        ser_updated_demos = DemoStudentSerializer(updated_demos, many=True)
+
+        return Response(ser_updated_demos.data, status=status.HTTP_201_CREATED)
