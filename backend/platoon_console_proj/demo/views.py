@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from .serializers import DemoStudentSerializer, DemoStudent
 from cohort.models import Cohort
+from user_app.models import UserAccount, User
 
 # Create your views here.
 
@@ -24,9 +25,36 @@ class AllCohortDemoInfo(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, cohort_name):
-        # This method handles Get requests to view all demo records for a cohort
+        # This method handles GET requests to view all demo records for a cohort
         cohort = get_object_or_404(Cohort, cohort_name=cohort_name)
         cohort_demos = DemoStudent.objects.filter(cohort=cohort)
         ser_demos = DemoStudentSerializer(cohort_demos, many=True)
         
         return Response(ser_demos.data)
+    
+    def put(self, request, cohort_name):
+        # This method handles PUT requests to update 
+        cohort = get_object_or_404(Cohort, cohort_name=cohort_name)
+        students = UserAccount.objects.filter(cohort_name=cohort)
+
+        # Loop through the students found in the cohort
+        for student in students:
+            # Check if this student has a demo record
+            demo = DemoStudent.objects.filter(student=student)
+
+            # If the student does not have a record, create one
+            if demo.count() == 0:
+                data = {
+                    'student':student.id,
+                    'cohort':cohort.id
+                }
+                ser_demo = DemoStudentSerializer(data=data)
+                if ser_demo.is_valid():
+                    ser_demo.save()
+                else:
+                    print(f'AllCohortDemoInfo - put: Serializer errors {ser_demo.errors}')
+
+        cohort_demos = DemoStudent.objects.filter(cohort=cohort)
+        ser_demos = DemoStudentSerializer(cohort_demos, many=True)
+
+        return Response(ser_demos.data, status=status.HTTP_201_CREATED)
