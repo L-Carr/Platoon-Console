@@ -33,7 +33,7 @@ const Login = () => {
             setEmail("");
             setPassword("");
             
-            navigate('/')
+            window.location.href = '/';
             
         } catch (error) {
             if (error.response) {
@@ -47,7 +47,7 @@ const Login = () => {
     return (
         <>
             <div className="card-container" style={{ marginTop: "2rem", width: "100%", display: "flex", flexDirection: "column", alignItems: "center"}}>
-            <h1 className="mainH1">Login</h1>
+            <h2 className="mainH2">Login</h2>
             <Form style={{width: "300px", marginTop: "20px", marginBottom: "20px"}} onSubmit={handleSubmit}>
                 <FormGroup>
                     <Label
