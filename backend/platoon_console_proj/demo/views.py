@@ -60,6 +60,8 @@ class AllCohortDemoInfo(APIView):
         return Response(ser_demos.data, status=status.HTTP_201_CREATED)
     
 class StudentDemoInfo(APIView):
+    #TODO: Change this to student and instructor only,  this is set to AllowAny just for testing purposes
+    permission_classes = [AllowAny]
 
     def get(self, request, id):
         # This method handles GET requests to view a students demo record
@@ -83,7 +85,9 @@ class StudentDemoInfo(APIView):
         return Response(ser_demo.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class ResetCohortDemoInfo(APIView):
-
+    #TODO: Change this to student and instructor only,  this is set to AllowAny just for testing purposes
+    permission_classes = [AllowAny]
+    
     def put(self, request, cohort_name):
         # This method handles PUT requests to reset a cohorts demo records
         cohort = get_object_or_404(Cohort, cohort_name=cohort_name)
