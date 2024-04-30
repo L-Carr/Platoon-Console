@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'anymail',
     'gh_api',
+    'accountability_app',
     
 ]
 
