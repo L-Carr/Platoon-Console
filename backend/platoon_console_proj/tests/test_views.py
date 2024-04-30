@@ -65,7 +65,24 @@ class TestUserView(TestCase):
         with self.subTest():
             self.assertEqual(response.status_code, 200)
         self.assertIn("token", response.content)
-        #unfinished test, receiving error:
-#          File "/home/neka/projects/platoon-console/           Platoon-Console/backend/platoon_console_proj/user_app/serializers.py", line 60, in validate_password
-#     validate_password(value)
-# NameError: name 'validate_password' is not defined
+
+    def test_005_invalid_login(self):
+        client = Client()
+        response = client.post(
+            reverse("user-login"),
+            data={
+                "email": "angelfan5741@gmail.com",
+                "password": "invalid_password"
+            },
+            content_type="application/json"
+    )
+        self.assertEqual(response.status_code, 400)
+
+    def test_006_logout_with_invalid_token(self):
+        client = Client()
+        response = client.post(
+            reverse("user-logout"),
+            HTTP_AUTHORIZATION="Token invalid_token"
+    )
+        self.assertEqual(response.status_code, 401) 
+        
