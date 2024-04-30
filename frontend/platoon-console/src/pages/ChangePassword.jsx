@@ -10,7 +10,7 @@ const ChangePassword = () => {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
-    const { uuid64 } = useParams();
+    const { uidb64 } = useParams();
     const { token } = useParams();
 
     const checkPassword = () => {
@@ -25,23 +25,32 @@ const ChangePassword = () => {
             const userData = {
                 "new_password": newPassword
             };
-
-            let response = await axios.put(`http://127.0.0.1:8000/user/password-reset/${uuid64}/${token}/`, userData, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+    
+            // Split token by '-'
+            const tokenPart = token.split('-')[1];
+            console.log(tokenPart)
+            console.log(uidb64)
+    
+            let response = await axios.put(
+                `https://127.0.0.1:8000/user/password-reset/${uidb64}/${token}/`, 
+                userData, 
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': tokenPart  // Set tokenPart as the value of 'token' header
+                    }
             });
             // const { token } = response.data;
 
             localStorage.setItem('token', token);
 
             setErrorMessage("");
-            setSuccessMessage("Password updated successfully!");
+            setSuccessMessage(response.data.message);
             setNewPassword("");
             setVerifyPassword("");
             
             setTimeout(() => {
-                navigate("login/");
+                navigate("/");
             }, 2000);
 
             console.log(response)

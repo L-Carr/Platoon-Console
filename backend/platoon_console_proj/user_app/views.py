@@ -57,9 +57,11 @@ class UserPasswordReset(APIView):
             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))  # Encode the user's ID.
             link = request.build_absolute_uri(
                 reverse('password-reset-confirm', kwargs={'uidb64': uidb64, 'token': token})  # Create a password reset link.
-            )
+            )   
+            print(f"\n\n***{uidb64}    {token}***\n\n")
             # Send the password reset email.
-            single_email_distro(email, "Platoon.Console Password Reset", "You've reached Platoon.Console Support,", f"You have requested a password reset. Please click the link below to reset your password. If you did not request this, please ignore this email. {link}")
+            link2 = f"http://localhost:5173/change-password/{uidb64}/{token}/"
+            single_email_distro(email, "Platoon.Console Password Reset", "You've reached Platoon.Console Support,", f"You have requested a password reset. Please click the link below to reset your password. If you did not request this, please ignore this email. {link2}")
             return Response({'message': 'Password reset email sent.'}, status=status.HTTP_200_OK)
         except user.DoesNotExist:
             return Response({'error': 'User does not exist.'}, status=status.HTTP_404_NOT_FOUND)

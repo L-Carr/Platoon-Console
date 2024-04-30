@@ -156,4 +156,10 @@ EMAIL_BACKEND = "anymail.backends.sendinblue.EmailBackend"
 
 SERVER_EMAIL ="noreply@platoon-console.com"
 
+CORS_ALLOW_HEADERS = [
+    '*',
+]
+
+CORS_ALLOW_ALL_HEADERS = True
+
 CORS_ORIGIN_ALLOW_ALL = True

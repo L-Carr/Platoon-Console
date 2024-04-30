@@ -12,10 +12,13 @@ function App() {
     setIsLoggedIn(isAuthenticated);
 
     // Redirect to /login if not logged in
-    if (!isAuthenticated) {
+    if (
+      !isAuthenticated &&
+      !/^\/(login|forgot-password|change-password\/)/.test(location.pathname)
+    ) {
       navigate('/login');
     }
-  }, [navigate]); // Re-run whenever navigate changes
+  }, [navigate, location.pathname]); 
 
   return (
     <>
