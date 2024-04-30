@@ -74,7 +74,7 @@ const Register = () => {
     return (
         <>
             <div className="card-container" style={{ marginTop: "2rem", width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <h1 className="mainH1">Register</h1>
+                <h2 className="mainH2">Register</h2>
                 <Form style={{ width: "300px", marginTop: "20px", marginBottom: "20px" }} onSubmit={handleSubmit}>
                     <FormGroup>
                         <Input
