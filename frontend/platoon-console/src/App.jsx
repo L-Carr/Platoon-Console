@@ -1,29 +1,24 @@
-import { useState, useEffect } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
-import NavBar from './components/NavBar'
+import { useState, useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import NavBar from './components/NavBar';
 
-const useLoggedIn = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Check for auth with token in local storage
-    const isAuthenticated = localStorage.getItem('token') !== null
-    setIsLoggedIn(isAuthenticated)
-  }, []) // Run once after the initial render
+    const isAuthenticated = localStorage.getItem('token') !== null;
+    setIsLoggedIn(isAuthenticated);
 
-  return isLoggedIn
-}
-
-function App() {
-  const isLoggedIn = useLoggedIn()
-  const navigate = useNavigate()
-  
-  useEffect(() => {
     // Redirect to /login if not logged in
-    if (!isLoggedIn) {
-      navigate('/login')
+    if (
+      !isAuthenticated &&
+      !/^\/(login|forgot-password|change-password\/)/.test(location.pathname)
+    ) {
+      navigate('/login');
     }
-  }, [isLoggedIn, navigate]) // Re-run whenever isLoggedIn or navigate changes
+  }, [navigate, location.pathname]); 
 
   return (
     <>
@@ -32,7 +27,7 @@ function App() {
         <Outlet />
       </div>
     </>
-  )
+  );
 }
 
 export default App;

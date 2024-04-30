@@ -8,9 +8,10 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.urls import reverse
-from .serializers import UserSerializer, LoginSerializer
+from .serializers import UserSerializer, LoginSerializer,UserDetailSerializer,UserAccountSerializer
 from .utils import single_email_distro
-from .models import UserAccount
+from .models import UserAccount,UserDetail
+from django.contrib.auth.models import Group
 
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
@@ -56,9 +57,11 @@ class UserPasswordReset(APIView):
             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))  # Encode the user's ID.
             link = request.build_absolute_uri(
                 reverse('password-reset-confirm', kwargs={'uidb64': uidb64, 'token': token})  # Create a password reset link.
-            )
+            )   
+            print(f"\n\n***{uidb64}    {token}***\n\n")
             # Send the password reset email.
-            single_email_distro(email, "Platoon.Console Password Reset", "You've reached Platoon.Console Support,", f"You have requested a password reset. Please click the link below to reset your password. If you did not request this, please ignore this email. {link}")
+            link2 = f"http://localhost:5173/change-password/{uidb64}/{token}/"
+            single_email_distro(email, "Platoon.Console Password Reset", "You've reached Platoon.Console Support,", f"You have requested a password reset. Please click the link below to reset your password. If you did not request this, please ignore this email. {link2}")
             return Response({'message': 'Password reset email sent.'}, status=status.HTTP_200_OK)
         except user.DoesNotExist:
             return Response({'error': 'User does not exist.'}, status=status.HTTP_404_NOT_FOUND)
@@ -103,7 +106,54 @@ class UserLogin(APIView):
         try:
             token, _ = Token.objects.get_or_create(user=user)  # Retrieve or create a token for the user.
             login(request, user)  # Log the user in.
-            return Response({'token': token.key}, status=status.HTTP_200_OK)
+
+             # Serialize the user's details and account information
+            user_detail = UserDetail.objects.get(user=user)
+            user_account = UserAccount.objects.get(user=user)
+            user_detail_serializer = UserDetailSerializer(user_detail)
+            user_account_serializer = UserAccountSerializer(user_account)
+            group_names = user.groups.values_list('name', flat=True)
+            
+            # Construct the response data
+            # response_data = {
+            #     'user_token': token.key,
+            #     'User_detail': user_detail_serializer.data,
+            #     'user_account': user_account_serializer.data,
+            #     'Name': user.last_name,
+            #     'User First Name': user.first_name,
+            #     'User Groups': list(group_names)
+              
+            # }
+            response_data = {
+                'token': token.key,
+                'user_groups': list(group_names),
+                'user_cohort': user_account_serializer.data.get('cohort_name'),
+                'user_id': user_account_serializer.data.get('user'),
+                'user_first_name': user.first_name,
+                'user_last_name': user.last_name,
+                'user_phone_number': user_detail_serializer.data.get('phone_number')
+               
+            }
+
+#             {
+#   "UserReturned": {
+#     "token": "08dee1dd28a48dfec3079de4febc233c20420c32",
+#     "User Information": {
+#       "phone_number": "951653911",
+#       "user": 3
+#     },
+#     "User Account": {
+#       "cohort_name": "Whiskey",
+#       "user": 3
+#     },
+#     "User Last Name": "Doe",
+#     "User First Name": "Jane",
+#     "User Groups": [
+#       "Students"
+#     ]
+#   }
+# }
+            return Response(response_data, status=status.HTTP_200_OK)
         except UserAccount.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
