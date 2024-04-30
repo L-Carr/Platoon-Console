@@ -7,7 +7,7 @@ from .serializers import DemoStudentSerializer, DemoStudent
 
 # Create your views here.
 
-class StudentDemoAllInfo(APIView):
+class AllStudentDemoInfo(APIView):
     #TODO: Change this to student and instructor only,  this is set to AllowAny just for testing purposes
     permission_classes = [AllowAny]
 
