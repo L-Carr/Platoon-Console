@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'calendar_integration',
     'django_extensions',
     'anymail',
-    'gh_api'
+    'gh_api',
+    'demo',
     
 ]
 
@@ -157,3 +158,10 @@ EMAIL_BACKEND = "anymail.backends.sendinblue.EmailBackend"
 
 SERVER_EMAIL ="noreply@platoon-console.com"
 
+CORS_ALLOW_HEADERS = [
+    '*',
+]
+
+CORS_ALLOW_ALL_HEADERS = True
+
+CORS_ORIGIN_ALLOW_ALL = True
