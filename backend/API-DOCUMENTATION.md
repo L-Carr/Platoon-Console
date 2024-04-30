@@ -6,7 +6,7 @@
 - **Body** : 
 ```python
 {
-  "username": "angelfan5741@gmail.com",
+  "username": "user@email.com",
   "password" : "10932ALKJ"
 }
 
@@ -17,7 +17,7 @@
 - **Body** : 
 ```python
 {
-  "email":"angelfan5741@gmail.com"
+  "email":"user@email.com"
 }
 
 ```
@@ -35,7 +35,7 @@
 - **Type**: PUT
 - **Body** : 
 ```python
-{"email" : "angelfan5741@gmail.com",
+{"email" : "user@email.com",
 "cohort_code": "TYZIAI",
  "password" : "123456",
  "phone_number": 951653911,
@@ -177,7 +177,88 @@ You have requested a password reset. Please click the link below to reset your p
     ```
 
 # Demo
-## UPDATE A DEMO RECORD
+
+## RESET COHORT DEMO RECORDS
+- NOTE: This changes the status to 'to do' for all records in the cohort
+- **ENDPOINT** : `https://127.0.0.1:8000/demo/reset/<cohort_name>/`
+- **Type** : PUT
+- **Response** :
+    - Success: 201
+    ```json
+        [
+            {
+                "id": 1,
+                "student": "user@email.com",
+                "cohort": "Whiskey",
+                "status": "to do"
+            }
+        ] 
+    ```
+
+## VIEW ALL COHORT DEMO RECORDS
+- **ENDPOINT** : `https://127.0.0.1:8000/demo/all/<cohort_name>/`
+- **Type** : GET
+- **Response** :
+    - Success: 200
+    ```json
+        [
+            {
+                "id": 1,
+                "student": "user@email.com",
+                "cohort": "Whiskey",
+                "status": "on deck"
+            }
+        ]
+    ```
+
+## VIEW ALL DEMO RECORDS
+- **ENDPOINT** : `https://127.0.0.1:8000/demo/all/`
+- **Type** : GET
+- **Response** :
+    - Success: 200
+    ```json
+        [
+            {
+                "id": 1,
+                "student": "user@email.com",
+                "cohort": "Whiskey",
+                "status": "on deck"
+            }
+        ]
+    ```
+
+## VIEW STUDENT DEMO RECORD
+- **ENDPOINT** : `https://127.0.0.1:8000/demo/student/<student_id>/`
+- **Type** : GET
+- **Response** :
+    - Success: 200
+    ```json
+        {
+            "id": 1,
+            "student": "user@email.com",
+            "cohort": "Whiskey",
+            "status": "on deck"
+        }
+    ```
+
+## UPDATE ALL COHORT DEMO RECORDS
+- NOTE: This endpoint only creates records for students in a cohort who do not have a demo record
+- **ENDPOINT** : `https://127.0.0.1:8000/demo/all/<cohort_name>/`
+- **Type** : POST
+- **Response** :
+    - Success: 201
+    ```json
+        [
+            {
+                "id": 1,
+                "student": "user@email.com",
+                "cohort": "Whiskey",
+                "status": "on deck"
+            }
+        ]
+    ```
+
+## UPDATE A STUDENT DEMO RECORD
 - NOTE: Valid options: 'to do', 'on deck', 'complete'
 - **ENDPOINT** : `https://127.0.0.1:8000/demo/student/<student_id>/`
 - **Type** : PUT
@@ -192,7 +273,7 @@ You have requested a password reset. Please click the link below to reset your p
     ```json
         {
             "id": 1,
-            "student": "dj.mann78@yahoo.com",
+            "student": "user@email.com",
             "cohort": "Whiskey",
             "status": "on deck"
         }
