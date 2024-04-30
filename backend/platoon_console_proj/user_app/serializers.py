@@ -2,6 +2,9 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import UserAccount, UserDetail
 from cohort.models import Cohort
+from django.contrib.auth.password_validation import validate_password
+from rest_framework import serializers
+from django.core.exceptions import ValidationError
 
 class UserSerializer(serializers.ModelSerializer):
     # Declare a custom field not present in the User model but needed for additional processing.
@@ -50,3 +53,31 @@ class UserSerializer(serializers.ModelSerializer):
 
         # Return the newly created User object.
         return user
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate_password(self, value):
+        try:
+            validate_password(value)
+        except ValidationError as e:
+            raise serializers.ValidationError(str(e))
+        return value
+    
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserDetail
+        fields = ['phone_number', 'user']  # Add other fields if necessary
+
+class UserAccountSerializer(serializers.ModelSerializer):
+    cohort_name = serializers.SlugRelatedField(
+        slug_field='cohort_name', 
+        queryset=Cohort.objects.all(),
+        allow_null=True
+    )
+
+    class Meta:
+        model = UserAccount
+        fields = ['cohort_name', 'user']

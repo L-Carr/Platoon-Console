@@ -4,6 +4,8 @@ import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ErrorPage from "./pages/Errorpage";
+import ForgotPassword from "./pages/ForgotPassword";
+import ChangePassword from "./pages/ChangePassword";
 import GroupProgramming from "./pages/GroupProgramming";
 
 const router = createBrowserRouter([
@@ -24,11 +26,20 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
+        path: "forgot-password/",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "change-password/:uidb64/:token/",
+        element: <ChangePassword />,
+      },
+      {
         path: "groups/",
         element: <GroupProgramming />,
       },
     ],
   },
+
   {
     path: "*",
     element: <ErrorPage />,
@@ -36,8 +47,6 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
-
-
 
 // Group 1: Sarah Taylor, Margaret Johnson, Lisa Wilson
 // Group 2: Patricia Thomas, William Perez, James Lopez
@@ -49,3 +58,5 @@ export default router;
 // Group 8: Daniel Thompson, Sandra Jackson, Anthony Anderson
 // Group 9: Mark Davis, Jennifer Smith, Joseph Gonzalez
 // Group 10: Thomas Robinson, Jessica White, David Ramirez
+
+

@@ -10,7 +10,7 @@ import {
   NavLink,
   Container
 } from 'reactstrap';
-import logo from '/src/assets/platoon-console-v2.svg'
+import logo from '/src/assets/platoon-console-v3.svg'
 
 const NavBar = ({ isLoggedIn, setIsLoggedIn }) => {
 
@@ -35,7 +35,7 @@ const toggleNavbar = () => {
 
   return (
     <>
-      <Navbar className='navbar-expand-sm navbar-dark' >
+      <Navbar className='navbar-expand-sm navbar-dark' style={{ position: 'absolute', width: '100%'}}>
       <NavbarBrand href="/">
         <img alt="logo" src={logo} style={{ height: 40, width: 40 }} />
       </NavbarBrand>
@@ -50,9 +50,9 @@ const toggleNavbar = () => {
             <NavItem>
               <NavLink active to="/login" tag={Link} className='custom-link'  onClick={() => { handleLogout(); toggleNavbar(); }}>Logout</NavLink>
             </NavItem>  
-            <NavItem>
-              <NavLink active href="https://github.com/CodePlatoon" className='custom-link' >Github</NavLink>
-            </NavItem>  
+            {/* <NavItem>
+              <NavLink active href="https://github.com/CodePlatoon" className='custom-link' target="_blank" rel="noopener noreferrer">Github</NavLink>
+            </NavItem>   */}
             </Nav>
           </>
         ) : (

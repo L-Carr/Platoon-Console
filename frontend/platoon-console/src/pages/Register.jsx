@@ -9,6 +9,7 @@ const Register = () => {
     const [lastName, setLastName] = useState("")
     const [email, setEmail] = useState("")
     const [phoneNumber, setPhoneNumber] = useState("")
+    const [cohortCode, setCohortCode] = useState("")
     const [password, setPassword] = useState("")
     const [verifyPassword, setVerifyPassword] = useState("")
     const [successMessage, setSuccessMessage] = useState("");
@@ -29,18 +30,18 @@ const Register = () => {
                 "last_name": lastName,
                 "email": email,
                 "phone_number": phoneNumber,
+                "cohort_code": cohortCode,
                 "password": password
             };
 
-            let response = await axios.post("http://127.0.0.1:8000/", userData, {
+            let response = await axios.post("https://127.0.0.1:8000/user/register/", userData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-            const { token, display_name } = response.data;
+            const { token } = response.data;
 
             localStorage.setItem('token', token);
-            localStorage.setItem('display_name', display_name);
 
             setErrorMessage("");
             setSuccessMessage("Registration successful!");
@@ -73,14 +74,14 @@ const Register = () => {
     return (
         <>
             <div className="card-container" style={{ marginTop: "2rem", width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <h1 className="mainH1">Register</h1>
+                <h2 className="mainH2">Register</h2>
                 <Form style={{ width: "300px", marginTop: "20px", marginBottom: "20px" }} onSubmit={handleSubmit}>
                     <FormGroup>
                         <Input
                             id="exampleFirstName"
                             name="firstName"
                             placeholder="First Name"
-                            type="firstName"
+                            type="text"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
                         />
@@ -97,7 +98,7 @@ const Register = () => {
                             id="exampleLastName"
                             name="lastName"
                             placeholder="Last Name"
-                            type="lastName"
+                            type="text"
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
                         />
@@ -127,6 +128,17 @@ const Register = () => {
                     {' '}
                     <FormGroup>
                         <Input
+                            id="exampleCohortCode"
+                            name="cohortCode"
+                            placeholder="Cohort Code"
+                            type="text"
+                            value={cohortCode}
+                            onChange={(e) => setCohortCode(e.target.value)}
+                        />
+                    </FormGroup>
+                    {' '}
+                    <FormGroup>
+                        <Input
                             id="examplePassword"
                             name="password"
                             placeholder="Password"
@@ -147,7 +159,7 @@ const Register = () => {
                         />
                     </FormGroup>
                     {' '}
-                    <Button type="Submit">Submit</Button>
+                    <Button type="Submit" disabled={checkPassword()}>Submit</Button>
                 </Form>
                 {successMessage ? (
                     <>

@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'calendar_integration',
     'django_extensions',
-    
+    'anymail',
+    'gh_api',
     
 ]
 
@@ -135,3 +136,29 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
+# EMAIL CONFIGURATION
+ANYMAIL = {
+
+    "BREVO_API_KEY": os.getenv("BREVO_API_KEY"),
+}
+
+EMAIL_BACKEND = "anymail.backends.sendinblue.EmailBackend"
+
+SERVER_EMAIL ="noreply@platoon-console.com"
+
+CORS_ALLOW_HEADERS = [
+    '*',
+]
+
+CORS_ALLOW_ALL_HEADERS = True
+
+CORS_ORIGIN_ALLOW_ALL = True
