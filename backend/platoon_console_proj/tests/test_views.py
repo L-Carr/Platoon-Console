@@ -62,9 +62,12 @@ class TestUserView(TestCase):
             },
             content_type="application/json"
         )
+        print('LOOK HERE!!!!!!!')
+        print(response.content)
         with self.subTest():
             self.assertEqual(response.status_code, 200)
         self.assertIn("token", response.content)
+        print('LOOK ABOVE!!!!!!')
         #unfinished test, receiving error:
 #          File "/home/neka/projects/platoon-console/           Platoon-Console/backend/platoon_console_proj/user_app/serializers.py", line 60, in validate_password
 #     validate_password(value)

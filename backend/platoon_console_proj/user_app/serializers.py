@@ -19,7 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Retrieve cohort_code from the validated data, defaulting to None if not found.
         cohort_code = validated_data.get('cohort_code', None)
-       
+
         phone_number = validated_data.get('phone_number', None)
         # Initialize cohort to None, will hold the Cohort object if found.
         cohort = None

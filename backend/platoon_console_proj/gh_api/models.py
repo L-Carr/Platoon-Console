@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+# sCreate your models here.
 
 class GhApiConfig(models.Model):
     # Config model for GitHub Api calls
