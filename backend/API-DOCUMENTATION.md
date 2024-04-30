@@ -175,3 +175,34 @@ You have requested a password reset. Please click the link below to reset your p
             "repo_name": "curriculum"
         }
     ```
+
+# Demo
+## UPDATE A DEMO RECORD
+- NOTE: Valid options: 'to do', 'on deck', 'complete'
+- **ENDPOINT** : `https://127.0.0.1:8000/demo/student/<student_id>/`
+- **Type** : PUT
+- **Body** :
+    ```json
+        {
+            "status":"on deck"
+        }
+    ```
+- **Response** :
+    - Success: HTTP 201
+    ```json
+        {
+            "id": 1,
+            "status": "on deck",
+            "student": 1,
+            "cohort": 1
+        }
+    ```
+    - Error: HTTP 400
+    ```json
+        {
+            "status": [
+                "Value must be 'to do', 'on deck', or 'complete'.",
+                "Ensure this field has no more than 10 characters."
+            ]
+        }
+    ```

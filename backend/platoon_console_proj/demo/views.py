@@ -58,3 +58,26 @@ class AllCohortDemoInfo(APIView):
         ser_demos = DemoStudentSerializer(cohort_demos, many=True)
 
         return Response(ser_demos.data, status=status.HTTP_201_CREATED)
+    
+class StudentDemoInfo(APIView):
+
+    def get(self, request, id):
+        # This method handles GET requests to view a students demo record
+        demo = get_object_or_404(DemoStudent, student=id)
+
+        ser_demo = DemoStudentSerializer(demo)
+
+        return Response(ser_demo.data)
+    
+    def put(self, request, id):
+        # This method handles PUT request to update a students demo record
+        demo = get_object_or_404(DemoStudent, student=id)
+
+        data = request.data.copy()
+
+        ser_demo = DemoStudentSerializer(demo, data=data, partial=True)
+
+        if ser_demo.is_valid():
+            ser_demo.save()
+            return Response(ser_demo.data, status=status.HTTP_201_CREATED)
+        return Response(ser_demo.errors, status=status.HTTP_400_BAD_REQUEST)

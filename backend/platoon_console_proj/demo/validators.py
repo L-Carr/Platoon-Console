@@ -1,9 +1,7 @@
 from django.core.exceptions import ValidationError
 
 def validate_status(status):
-    error_message = {
-        'message':'Status must be "to do", "on deck", or "complete".'
-    }
+    error_message = "Value must be 'to do', 'on deck', or 'complete'."
 
     valid_status = [
         'to do',
