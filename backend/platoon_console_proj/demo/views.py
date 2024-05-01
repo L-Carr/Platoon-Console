@@ -57,9 +57,19 @@ class AllCohortDemoInfo(APIView):
         cohort_demos = DemoStudent.objects.filter(cohort=cohort)
         ser_demos = DemoStudentSerializer(cohort_demos, many=True)
 
+        response = ser_demos.data
+
+        for demo in response:
+            print(f'demo record {demo}')
+            user = get_object_or_404(User, email=student)
+            print(f'first name {user.first_name}')
+            demo['first_name'] = user.first_name
+            demo['last_name'] = user.last_name
+
+        print(f'Response {response}')
         if adding_students:
-            return Response(ser_demos.data, status=status.HTTP_201_CREATED)
-        return Response(ser_demos.data, status=status.HTTP_200_OK)
+            return Response(response, status=status.HTTP_201_CREATED)
+        return Response(response, status=status.HTTP_200_OK)
     
 class StudentDemoInfo(APIView):
     #TODO: Change this to student and instructor only,  this is set to AllowAny just for testing purposes
