@@ -1,4 +1,5 @@
 .env
+.vscode
 ENVIRONMENT
 node_modules
 __pycache__
@@ -10,3 +11,5 @@ venv
 .venv
 sslcerts
 migrations
+*/migrations/*.py
+!*/migrations/__init__.py
