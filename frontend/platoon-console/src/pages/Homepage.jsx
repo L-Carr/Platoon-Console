@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardBody, CardTitle, Modal, ModalBody, ModalHeader, Button } from 'reactstrap';
+import Accountability from '../components/Accountability';
 
 const Homepage = () => {
+  const [accountabilityModalOpen, setAccountabilityModalOpen] = useState(false);
   const [agendaModalOpen, setAgendaModalOpen] = useState(false);
   const [monthlyModalOpen, setMonthlyModalOpen] = useState(false);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
+
+  const toggleAccountabilityModal = () => {
+    setAccountabilityModalOpen(!accountabilityModalOpen);
+  };
 
   const toggleAgendaModal = () => {
     setAgendaModalOpen(!agendaModalOpen);
@@ -18,6 +24,7 @@ const Homepage = () => {
   const toggleFeedbackModal = () => {
     setFeedbackModalOpen(!feedbackModalOpen);
   };
+
 
   return (
     <>
@@ -32,7 +39,7 @@ const Homepage = () => {
               </div>
             </CardTitle>
             <ul className="consoleCardUl">
-              <li><Link to="rollcall/">Attendance Check In</Link></li>
+              <li><Link onClick={toggleAccountabilityModal}>Attendance Check In</Link></li>
               <li><Link onClick={toggleFeedbackModal}>Daily Feedback Form</Link></li>
             </ul>
           </CardBody>
@@ -82,6 +89,13 @@ const Homepage = () => {
 
 
       </div>
+
+      <Modal isOpen={accountabilityModalOpen} toggle={toggleAccountabilityModal} size="xl">
+      <ModalHeader toggle={toggleAccountabilityModal} />
+        <ModalBody style={{backgroundColor: "#2f2f2f"}}>
+          <Accountability />
+        </ModalBody>
+      </Modal>
 
       <Modal isOpen={feedbackModalOpen} toggle={toggleFeedbackModal} size="xl">
       <ModalHeader toggle={toggleFeedbackModal} />
