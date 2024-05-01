@@ -19,8 +19,6 @@ const Demo = () => {
           'Content-Type': 'application/json'
         }
       });
-      console.log('Update Demos')
-      console.log(await response.data)
       setDemos(await response.data)
     } catch (error) {
       if (error.response) {
