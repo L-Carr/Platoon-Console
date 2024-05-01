@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardBody, CardTitle, Modal, ModalBody, Button } from 'reactstrap';
+import Demo from "../components/Demo";
 
 const Homepage = () => {
   const [agendaModalOpen, setAgendaModalOpen] = useState(false);
@@ -66,6 +67,18 @@ const Homepage = () => {
             </ul>
           </CardBody>
         </Card>
+
+        <Card className="consoleCard">
+          <CardBody>
+            <CardTitle style={{marginBottom: "0"}}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
+                <h3>Demos</h3>
+              </div>
+            </CardTitle>
+              <Demo />
+          </CardBody>
+        </Card>
+        
 
         <Card className="consoleCard">
           <CardBody>
