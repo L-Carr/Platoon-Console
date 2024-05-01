@@ -20,10 +20,4 @@ class Membership(models.Model):
     def __str__(self):
         user_cohort = self.user.profile.cohort_name if hasattr(self.user, 'profile') else 'No Cohort'
         return f'{self.user.last_name} {self.user.first_name} - {user_cohort} - {self.team.name} ({self.role})'
-    
-    # This was a merge relic.
-    #TODO: Need to determine what combination of this is correct
-    # def __str__(self):
-    #     user_detail = self.user.userdetail.phone_number if hasattr(self.user, 'userdetail') else 'No Phone Number'
-    #     user_account = self.user.profile.cohort_name if hasattr(self.user, 'profile') else 'No Cohort'
-    #     return f'{self.user.first_name} {self.user.last_name} - {self.user.email} - {user_detail} - {user_account}'
+
