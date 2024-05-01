@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "./App";
-import Homepage from "./pages/Homepage";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import App from './App';
+import VideoGallery from "./pages/VideoGallery";
+import ChangePassword from "./pages/ChangePassword";
 import ErrorPage from "./pages/Errorpage";
 import ForgotPassword from "./pages/ForgotPassword";
-import ChangePassword from "./pages/ChangePassword";
+import Homepage from './pages/Homepage';
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import GroupProgramming from "./pages/GroupProgramming";
 import DemoPage from "./pages/DemoPage";
 
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
         path: "change-password/:uidb64/:token/",
         element: <ChangePassword />,
       },
+            {
+                path: "videos/",
+                element: <VideoGallery />,
+            },
       {
         path: "groups/",
         element: <GroupProgramming />,
