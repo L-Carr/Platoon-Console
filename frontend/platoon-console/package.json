@@ -17,6 +17,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.23.0",
     "react-youtube": "^10.1.0",
     "reactstrap": "^9.2.2"
