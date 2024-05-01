@@ -83,6 +83,22 @@ You have requested a password reset. Please click the link below to reset your p
 - **Response** :
     - Success: HTTP 204
 
+
+## GET A LIST OF COHORTS
+- NOTE: There should be only 1 record
+- **ENDPOINT** : "https://127.0.0.1:8000/cohort/"
+- **Type** : GET
+- **Response** :
+    - Success: HTTP 200
+    ```json
+        {
+            "cohort_code": 1,
+            "cohort_name": "Whiskey",
+            "start_date": "2021-01-09",
+            "end_date": "2021-05-10"
+        }
+    ```
+
 ## GET A CONFIG RECORD
 - NOTE: There should be only 1 record
 - **ENDPOINT** : `https://127.0.0.1:8000/gh/<record id>/`
