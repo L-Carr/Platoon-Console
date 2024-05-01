@@ -156,6 +156,39 @@ You have requested a password reset. Please click the link below to reset your p
             "resources_url": "https://github.com/Code-Platoon-Curriculum/curriculum/tree/main/7-Django/Resources"
         }
 
+
+## GET TEAMS
+- **ENDPOINT** : 'https://127.0.0.1:8000/teams/'
+- **TYPE**: GET 
+- **RESPONSE**: 
+    -SUCCESS HTTP 200 
+    ```json 
+
+    {
+        "id": 1,
+        "name": "Purple Cobras",
+        "description": "Team 2"
+    }
+
+    ``` 
+
+## GET TEAM Members 
+- **ENDPOINT** : 'https://127.0.0.1:8000/teams/<int:team_id>/memberships/'
+- **TYPE**: GET 
+- **RESPONSE**: 
+    -SUCCESS HTTP 200 
+    ```json 
+    {
+        "team": 1,
+        "user_email": "testuser@fakemail.com",
+        "cohort_name": null,
+        "first_name": "Test",
+        "last_name": "User"
+    }
+
+    Returns all members of Team based on Team ID
+
+    ``` 
 ## UPDATE A CONFIG RECORD
 - **ENDPOINT** : `https://127.0.0.1:8000/gh/<record id>/`
 - **Type** : PUT
