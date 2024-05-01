@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const Accountability = () => {
 
     const [attendance, setAttendance] = useState("");
-    const [reason, setReason] = useState("");
+    const [reason, setReason] = useState(null);
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -25,7 +25,10 @@ const Accountability = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrorMessage("");
-        console.log(requestData)
+        if (attendance === "no" && !reason) {
+            setErrorMessage("Please provide a reason for absence");
+            return;
+        }
         try {
             let response = await axios.post("https://127.0.0.1:8000/accountability/record/", requestData, {
                 headers: {
