@@ -23,6 +23,7 @@ urlpatterns = [
     path('calendar/', include('calendar_integration.urls')),
     path('gh/', include('gh_api.urls')),
     path('demo/', include('demo.urls')),
+    path('teams/', include('teams.urls')),
     path('accountability/', include('accountability_app.urls')),
     path('cohort/', include('cohort.urls')),
 ]
