@@ -59,7 +59,7 @@ const Demo = () => {
     <ul className="consoleCardUl">
       <li>Student - Status</li>
       <hr />
-      {demos.map((demo, index) => <li key={index}>{demo.first_name} {demo.last_name} - {demo.status} On Deck - Complete</li>)}
+      {demos.map((demo, index) => <li key={index}>{demo.first_name} {demo.last_name} - {demo.status} (On Deck - Complete)</li>)}
     </ul>
   )
 }
