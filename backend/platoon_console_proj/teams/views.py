@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -15,3 +16,8 @@ class TeamListView(APIView):
         teams = Team.objects.all()
         serializer = TeamSerializer(teams, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+=======
+from django.shortcuts import render
+
+# Create your views here.
+>>>>>>> main
