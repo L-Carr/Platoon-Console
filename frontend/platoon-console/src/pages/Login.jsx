@@ -25,7 +25,7 @@ const Login = () => {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log(response)
+            
             const { token, user_cohort, user_first_name, user_last_name } = response.data;
             
             localStorage.setItem('token', token);
