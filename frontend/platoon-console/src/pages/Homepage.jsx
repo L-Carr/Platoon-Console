@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardBody, CardTitle, Modal, ModalBody, Button } from 'reactstrap';
+import { Card, CardBody, CardTitle, Modal, ModalBody, ModalHeader, Button } from 'reactstrap';
 import Demo from "../components/Demo";
 
 const Homepage = () => {
@@ -47,8 +47,8 @@ const Homepage = () => {
               </div>
             </CardTitle>
             <ul className="consoleCardUl">
-              <li><Link onClick={toggleAgendaModal}>Weekly Agenda</Link></li>
-              <li><Link onClick={toggleMonthlyModal}>Current Month</Link></li>
+              <li><Link onClick={toggleAgendaModal}>Daily Agenda</Link></li>
+              <li><Link onClick={toggleMonthlyModal}>Monthly Schedule</Link></li>
             </ul>
           </CardBody>
         </Card>
@@ -84,11 +84,11 @@ const Homepage = () => {
           <CardBody>
             <CardTitle style={{marginBottom: "0"}}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
-                <h3>My Links</h3>
+                <h3>Pairs & Demos</h3>
               </div>
             </CardTitle>
             <ul className="consoleCardUl">
-              <li><Link to="" target="_blank" rel="noopener noreferrer"></Link></li>
+            <li><Link to="groups/">Generate Pairs</Link></li>
             </ul>
           </CardBody>
         </Card>
@@ -97,18 +97,21 @@ const Homepage = () => {
       </div>
 
       <Modal isOpen={feedbackModalOpen} toggle={toggleFeedbackModal} size="xl">
+      <ModalHeader toggle={toggleFeedbackModal} />
         <ModalBody>
           <iframe title="Daily Feedback" src="https://share.hsforms.com/1I02qHVEvRlOEs5ggeJPU8Ap8bb6" style={{ width: '100%', height: '100vw', border: 'none' }} />
         </ModalBody>
       </Modal>
 
       <Modal isOpen={agendaModalOpen} toggle={toggleAgendaModal} size="xl">
+      <ModalHeader toggle={toggleAgendaModal} />
         <ModalBody>
-          <iframe title="Calendar" src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=America%2FNew_York&bgcolor=%23ffffff&mode=AGENDA&showNav=0&showPrint=0&showTabs=0&showCalendars=0&showTitle=0&showTz=0&showDate=0&src=Y184NDY4MjI3MDQ0YzQ1MGEyYTZlN2YwNDdkMzEwZTcwYWU3YTA5NGJlMzg4ZjJhYTY1Y2M4NzJkOTRhNDcyYTgxQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%238E24AA" style={{ width: '100%', height: '500px', border: 'none' }} />
+          <iframe title="Calendar" src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=America%2FNew_York&bgcolor=%23ffffff&mode=AGENDA&showNav=0&showPrint=0&showTabs=0&showCalendars=0&showTitle=0&showTz=0&showDate=0&src=Y184NDY4MjI3MDQ0YzQ1MGEyYTZlN2YwNDdkMzEwZTcwYWU3YTA5NGJlMzg4ZjJhYTY1Y2M4NzJkOTRhNDcyYTgxQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%238E24AA" style={{ width: '100%', height: '250px', border: 'none' }} />
         </ModalBody>
       </Modal>
       
       <Modal isOpen={monthlyModalOpen} toggle={toggleMonthlyModal} size="xl">
+      <ModalHeader toggle={toggleMonthlyModal} />
         <ModalBody>
           <iframe title="Calendar" src="https://calendar.google.com/calendar/embed?src=c_8468227044c450a2a6e7f047d310e70ae7a094be388f2aa65cc872d94a472a81%40group.calendar.google.com&ctz=America%2FNew_York" style={{ width: '100%', height: '500px', border: 'none' }} />
         </ModalBody>
