@@ -33,8 +33,8 @@ const VideoGallery = () => {
         thumbnail: item.snippet.thumbnails.high.url, // Use high quality thumbnail
         publishedAt: item.snippet.publishedAt, // Video publish date
       }));
-      console.log("DATA ALL DAY!!! >>", data);
-      console.log("VIDEOITEMS!!!>>", videoItems);
+      // console.log("DATA ALL DAY!!! >>", data);
+      // console.log("VIDEOITEMS!!!>>", videoItems);
       setVideos(videoItems);
     } catch (error) {
       console.error("Failed to fetch videos", error);
