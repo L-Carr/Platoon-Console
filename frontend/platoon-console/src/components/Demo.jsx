@@ -14,7 +14,7 @@ const Demo = () => {
     try {
       const userCohort = "Whiskey"
 
-      let response = await axios.post(`https://127.0.0.1:8000/demo/all/${userCohort}/`, {
+      let response = await axios.post(`https://127.0.0.1:8000/demo/all/Whiskey/`, {
         headers: {
           'Content-Type': 'application/json'
         }
