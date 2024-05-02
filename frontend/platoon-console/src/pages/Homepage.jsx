@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardBody, CardTitle, Modal, ModalBody, ModalHeader, Button } from 'reactstrap';
+import Demo from "../components/Demo";
+import Accountability from '../components/Accountability';
 
 const Homepage = () => {
+  const [accountabilityModalOpen, setAccountabilityModalOpen] = useState(false);
   const [agendaModalOpen, setAgendaModalOpen] = useState(false);
   const [monthlyModalOpen, setMonthlyModalOpen] = useState(false);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
+
+  const toggleAccountabilityModal = () => {
+    setAccountabilityModalOpen(!accountabilityModalOpen);
+  };
 
   const toggleAgendaModal = () => {
     setAgendaModalOpen(!agendaModalOpen);
@@ -18,6 +25,7 @@ const Homepage = () => {
   const toggleFeedbackModal = () => {
     setFeedbackModalOpen(!feedbackModalOpen);
   };
+
 
   return (
     <>
@@ -32,7 +40,7 @@ const Homepage = () => {
               </div>
             </CardTitle>
             <ul className="consoleCardUl">
-              <li><Link to="rollcall/">Attendance Check In</Link></li>
+              <li><Link onClick={toggleAccountabilityModal}>Attendance Check In</Link></li>
               <li><Link onClick={toggleFeedbackModal}>Daily Feedback Form</Link></li>
             </ul>
           </CardBody>
@@ -70,6 +78,18 @@ const Homepage = () => {
         <Card className="consoleCard">
           <CardBody>
             <CardTitle style={{marginBottom: "0"}}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
+                <h3>Demos</h3>
+              </div>
+            </CardTitle>
+              <Demo />
+          </CardBody>
+        </Card>
+        
+
+        <Card className="consoleCard">
+          <CardBody>
+            <CardTitle style={{marginBottom: "0"}}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
                 <h3>Pairs & Demos</h3>
               </div>
@@ -82,6 +102,13 @@ const Homepage = () => {
 
 
       </div>
+
+      <Modal isOpen={accountabilityModalOpen} toggle={toggleAccountabilityModal} size="xl">
+      <ModalHeader toggle={toggleAccountabilityModal} />
+        <ModalBody style={{backgroundColor: "#2f2f2f"}}>
+          <Accountability />
+        </ModalBody>
+      </Modal>
 
       <Modal isOpen={feedbackModalOpen} toggle={toggleFeedbackModal} size="xl">
       <ModalHeader toggle={toggleFeedbackModal} />

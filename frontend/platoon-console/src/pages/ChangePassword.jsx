@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Form, FormGroup, Input, Button } from 'reactstrap';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 const ChangePassword = () => {
 
@@ -40,9 +40,7 @@ const ChangePassword = () => {
                         'token': tokenPart  // Set tokenPart as the value of 'token' header
                     }
             });
-            // const { token } = response.data;
-
-            localStorage.setItem('token', token);
+            console.log(response)
 
             setErrorMessage("");
             setSuccessMessage(response.data.message);
@@ -50,7 +48,7 @@ const ChangePassword = () => {
             setVerifyPassword("");
             
             setTimeout(() => {
-                navigate("/");
+                navigate("/login");
             }, 2000);
 
             console.log(response)
@@ -97,6 +95,7 @@ const ChangePassword = () => {
                 {successMessage ? (
                     <>
                         <p style={{ color: 'green' }}>{successMessage}</p>
+                        
                     </>
                 ) : (
                     <>
