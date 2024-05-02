@@ -19,9 +19,7 @@ class AllStudentDemoInfo(StudentPermissions):
 
         return Response(ser_demos.data)
     
-class AllCohortDemoInfo(APIView):
-    #TODO: Change this to student and instructor only, this is set to AllowAny just for testing purposes
-    permission_classes = [AllowAny]
+class AllCohortDemoInfo(InstructorPermissions):
 
     def get(self, request, cohort_name):
         # This method handles GET requests to view all demo records for a cohort

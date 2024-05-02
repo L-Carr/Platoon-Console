@@ -19,10 +19,34 @@ from django.utils.encoding import force_bytes, force_str
 
 
 from user_app.permissions import IsInstructor, IsStudent
+
+
+class InstructorPermissions(APIView):
+    '''
+    Instructor Permissions
+    '''
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsInstructor]
+
+class StudentPermissions(APIView):
+    '''
+    Student Permissions
+    '''
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsStudent]
+
+class GenericAuthPermissions(APIView):
+    '''
+    GenericAuthPermissions Permissions
+    '''
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+
 class UserRegistration(APIView):
-    """
+    '''
     API view for registering new users. Open to all users.
-    """
+    '''
     permission_classes = [AllowAny]  # Allows access without authentication.
 
     def post(self, request):
@@ -160,7 +184,7 @@ class UserLogin(APIView):
         except UserAccount.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
-class UserLogout(APIView):
+class UserLogout(GenericAuthPermissions):
     """
     API view to log out a user and delete their authentication token.
     """
@@ -175,13 +199,6 @@ class UserLogout(APIView):
 
 
 
-class InstructorPermissions(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated, IsInstructor]
-
-class StudentPermissions(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated, IsStudent]
 
 
 
