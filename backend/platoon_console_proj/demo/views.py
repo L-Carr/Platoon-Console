@@ -1,8 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
 from .serializers import DemoStudentSerializer, DemoStudent
 from cohort.models import Cohort
 from user_app.models import UserAccount, User
@@ -10,7 +8,7 @@ from user_app.models import UserAccount, User
 from user_app.views import InstructorPermissions,StudentPermissions
 # Create your views here.
 
-class AllStudentDemoInfo(StudentPermissions):
+class AllStudentDemoInfo(InstructorPermissions):
 
     def get(self, request):
         # This method handles GET requests to view all demo records
@@ -19,7 +17,7 @@ class AllStudentDemoInfo(StudentPermissions):
 
         return Response(ser_demos.data)
     
-class AllCohortDemoInfo(InstructorPermissions):
+class AllCohortDemoInfo(StudentPermissions):
 
     def get(self, request, cohort_name):
         # This method handles GET requests to view all demo records for a cohort
@@ -68,9 +66,7 @@ class AllCohortDemoInfo(InstructorPermissions):
             return Response(response, status=status.HTTP_201_CREATED)
         return Response(response, status=status.HTTP_200_OK)
     
-class StudentDemoInfo(APIView):
-    #TODO: Change this to student and instructor only,  this is set to AllowAny just for testing purposes
-    permission_classes = [AllowAny]
+class StudentDemoInfo(InstructorPermissions):
 
     def get(self, request, id):
         # This method handles GET requests to view a students demo record
@@ -93,9 +89,7 @@ class StudentDemoInfo(APIView):
             return Response(ser_demo.data, status=status.HTTP_201_CREATED)
         return Response(ser_demo.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class ResetCohortDemoInfo(APIView):
-    #TODO: Change this to student and instructor only,  this is set to AllowAny just for testing purposes
-    permission_classes = [AllowAny]
+class ResetCohortDemoInfo(InstructorPermissions):
     
     def put(self, request, cohort_name):
         # This method handles PUT requests to reset a cohorts demo records
