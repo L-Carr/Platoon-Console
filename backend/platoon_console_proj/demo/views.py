@@ -35,28 +35,40 @@ class AllCohortDemoInfo(APIView):
         # This method handles POST requests to create records for all students in a cohort where no record is present
         cohort = get_object_or_404(Cohort, cohort_name=cohort_name)
         students = UserAccount.objects.filter(cohort_name=cohort)
+        
+        adding_students = False
 
         # Loop through the students found in the cohort
         for student in students:
             # Check if this student has a demo record
             demo = DemoStudent.objects.filter(student=student)
 
-            # If the student does not have a record, create one
-            if demo.count() == 0:
-                data = {
-                    'student':student.id,
-                    'cohort':cohort.id
-                }
-                ser_demo = DemoStudentSerializer(data=data)
-                if ser_demo.is_valid():
-                    ser_demo.save()
-                else:
-                    print(f'AllCohortDemoInfo - put: Serializer errors {ser_demo.errors}')
+            # If no record exists, create one
+            if not demo.exists():
+                print(f'Demo does not exist')
+                new_demo = DemoStudent.objects.create(
+                    student=student,
+                    cohort=cohort
+                )
+                new_demo.full_clean()
+                adding_students = True
 
         cohort_demos = DemoStudent.objects.filter(cohort=cohort)
         ser_demos = DemoStudentSerializer(cohort_demos, many=True)
 
-        return Response(ser_demos.data, status=status.HTTP_201_CREATED)
+        response = ser_demos.data
+
+        for demo in response:
+            print(f'demo record {demo}')
+            user = get_object_or_404(User, email=student)
+            print(f'first name {user.first_name}')
+            demo['first_name'] = user.first_name
+            demo['last_name'] = user.last_name
+
+        print(f'Response {response}')
+        if adding_students:
+            return Response(response, status=status.HTTP_201_CREATED)
+        return Response(response, status=status.HTTP_200_OK)
     
 class StudentDemoInfo(APIView):
     #TODO: Change this to student and instructor only,  this is set to AllowAny just for testing purposes

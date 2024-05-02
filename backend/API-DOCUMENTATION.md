@@ -302,7 +302,9 @@ You have requested a password reset. Please click the link below to reset your p
                 "id": 1,
                 "student": "user@email.com",
                 "cohort": "Whiskey",
-                "status": "on deck"
+                "status": "on deck",
+                "first_name": "Boba",
+                "last_name": "Fett"
             }
         ]
     ```
