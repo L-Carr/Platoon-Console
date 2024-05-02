@@ -25,9 +25,14 @@ const Login = () => {
                     'Content-Type': 'application/json'
                 }
             });
-            const { token } = response.data;
+            
+            const { token, user_cohort, user_first_name, user_last_name } = response.data;
             
             localStorage.setItem('token', token);
+            localStorage.setItem('user_cohort', user_cohort);
+            localStorage.setItem('user_first_name', user_first_name);
+            localStorage.setItem('user_last_name', user_last_name);
+
             
             setErrorMessage("");
             setEmail("");
