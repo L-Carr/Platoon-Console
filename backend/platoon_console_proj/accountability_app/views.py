@@ -6,9 +6,10 @@ from django.shortcuts import get_object_or_404
 from cohort.models import Cohort
 from .models import AttendanceRecord, User
 from .serializers import AttendanceRecordsSerializer
-
+from rest_framework.permissions import AllowAny
 
 class AttendanceRecordCreateOrUpdate(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         # Get the Current Date
         today = timezone.localdate()
