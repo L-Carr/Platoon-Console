@@ -41,6 +41,7 @@ const Accountability = () => {
             setSuccessMessage("Your attendance record has been submitted");
         } catch (error) {
             setErrorMessage("Error submitting attendance record");
+            console.log(error);
         }
     };
     
