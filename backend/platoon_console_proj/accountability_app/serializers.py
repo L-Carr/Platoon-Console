@@ -6,6 +6,10 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+class AttendanceOverrideSerializer(serializers.ModelSerializer):
+     class Meta:
+        model = AttendanceRecord
+        fields = '__all__'
 
 class AttendanceRecordsSerializer(serializers.ModelSerializer):
 

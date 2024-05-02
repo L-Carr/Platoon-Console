@@ -5,7 +5,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from cohort.models import Cohort
 from .models import AttendanceRecord, User
-from .serializers import AttendanceRecordsSerializer
+from .serializers import AttendanceRecordsSerializer,AttendanceOverrideSerializer
 from rest_framework.permissions import AllowAny
 
 class AttendanceRecordCreateOrUpdate(APIView):
@@ -107,13 +107,13 @@ class AdminAttendanceOverride(APIView):
     """
     Updates an attendance record.
     """
-
-    def patch(self, request, pk):
+    permission_classes = [AllowAny]
+    def patch(self, request, record_id):
         '''
         Update method for Instructors to alter existing Attendance Records
         '''
-        attendance_record = get_object_or_404(AttendanceRecord, pk=pk)
-        serializer = AttendanceRecordsSerializer(
+        attendance_record = get_object_or_404(AttendanceRecord, pk=record_id)
+        serializer = AttendanceOverrideSerializer(
             attendance_record, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()

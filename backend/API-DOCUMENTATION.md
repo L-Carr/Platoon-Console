@@ -336,3 +336,253 @@ You have requested a password reset. Please click the link below to reset your p
             ]
         }
     ```
+
+
+
+## CREATE OR UPDATE USERS ATTENDANCE 
+- **ENDPOINT** : `https://127.0.0.1:8000/accountability/record/`
+- **Type** : POST
+- **Body** :
+    ```json
+        {
+        "accountability_date": "2024-05-02",
+        "accountability_status": 2,
+        "pair_status": true,
+        "absence_reason": "Dog Ate Homework",
+        "excused_status": false,
+        }
+    ```
+- **Response** :
+    - Success: 200
+    ```json
+        {
+        "id": 220,
+        "cohort": "Whiskey",
+        "accountability_date": "2024-05-02",
+        "accountability_status": 2,
+        "pair_status": true,
+        "absence_reason": "Dog Ate Homework",
+        "excused_status": false,
+        "first_name": "Jane",
+        "last_name": "Doe",
+        "user": 3
+        }
+    ```
+
+
+## LIST ATTENDANCE FOR GIVEN COHORT (ALL INSTRUCTOR) 
+- **ENDPOINT** : `https://127.0.0.1:8000/accountability/retrieve/?cohort_name=Whiskey`
+- **Query Paramater**: cohort_name
+- **Type** : GET
+{
+  "accountability_status": 2,
+  "pair_status": true,
+  "absence_reason": "Wel",
+  "excused_status": true
+}
+- **Response** :
+    - Success: 200
+    ```json
+        [
+  {
+    "id": 211,
+    "cohort": "Whiskey",
+    "accountability_date": "2024-05-01",
+    "accountability_status": 0,
+    "pair_status": false,
+    "absence_reason": "",
+    "excused_status": false,
+    "first_name": "Carr",
+    "last_name": "Landon",
+    "user": 4
+  },
+  {
+    "id": 212,
+    "cohort": "Whiskey",
+    "accountability_date": "2024-05-01",
+    "accountability_status": 0,
+    "pair_status": false,
+    "absence_reason": "",
+    "excused_status": false,
+    "first_name": "Carr",
+    "last_name": "Jane",
+    "user": 5
+  },
+  {
+    "id": 213,
+    "cohort": "Whiskey",
+    "accountability_date": "2024-05-01",
+    "accountability_status": 0,
+    "pair_status": false,
+    "absence_reason": "",
+    "excused_status": false,
+    "first_name": "Carr",
+    "last_name": "Jane",
+    "user": 6
+  },
+  {
+    "id": 214,
+    "cohort": "Whiskey",
+    "accountability_date": "2024-05-01",
+    "accountability_status": 0,
+    "pair_status": false,
+    "absence_reason": "",
+    "excused_status": false,
+    "first_name": "Carr",
+    "last_name": "Jane",
+    "user": 7
+  },
+  {
+    "id": 215,
+    "cohort": "Whiskey",
+    "accountability_date": "2024-05-01",
+    "accountability_status": 0,
+    "pair_status": false,
+    "absence_reason": "",
+    "excused_status": false,
+    "first_name": "Carr",
+    "last_name": "Jane",
+    "user": 8
+  },
+  {
+    "id": 216,
+    "cohort": "Whiskey",
+    "accountability_date": "2024-05-01",
+    "accountability_status": 0,
+    "pair_status": false,
+    "absence_reason": "",
+    "excused_status": false,
+    "first_name": "",
+    "last_name": "Jane",
+    "user": 9
+  },
+  {
+    "id": 210,
+    "cohort": "Whiskey",
+    "accountability_date": "2024-05-01",
+    "accountability_status": 4,
+    "pair_status": false,
+    "absence_reason": "",
+    "excused_status": false,
+    "first_name": "Jane",
+    "last_name": "Doe",
+    "user": 3
+  },
+  {
+    "id": 221,
+    "cohort": "Whiskey",
+    "accountability_date": "2024-05-02",
+    "accountability_status": 0,
+    "pair_status": false,
+    "absence_reason": "",
+    "excused_status": false,
+    "first_name": "Carr",
+    "last_name": "Landon",
+    "user": 4
+  },
+  {
+    "id": 222,
+    "cohort": "Whiskey",
+    "accountability_date": "2024-05-02",
+    "accountability_status": 0,
+    "pair_status": false,
+    "absence_reason": "",
+    "excused_status": false,
+    "first_name": "Carr",
+    "last_name": "Jane",
+    "user": 5
+  },
+  {
+    "id": 223,
+    "cohort": "Whiskey",
+    "accountability_date": "2024-05-02",
+    "accountability_status": 0,
+    "pair_status": false,
+    "absence_reason": "",
+    "excused_status": false,
+    "first_name": "Carr",
+    "last_name": "Jane",
+    "user": 6
+  },
+  {
+    "id": 224,
+    "cohort": "Whiskey",
+    "accountability_date": "2024-05-02",
+    "accountability_status": 0,
+    "pair_status": false,
+    "absence_reason": "",
+    "excused_status": false,
+    "first_name": "Carr",
+    "last_name": "Jane",
+    "user": 7
+  },
+  {
+    "id": 225,
+    "cohort": "Whiskey",
+    "accountability_date": "2024-05-02",
+    "accountability_status": 0,
+    "pair_status": false,
+    "absence_reason": "",
+    "excused_status": false,
+    "first_name": "Carr",
+    "last_name": "Jane",
+    "user": 8
+  },
+  {
+    "id": 226,
+    "cohort": "Whiskey",
+    "accountability_date": "2024-05-02",
+    "accountability_status": 0,
+    "pair_status": false,
+    "absence_reason": "",
+    "excused_status": false,
+    "first_name": "",
+    "last_name": "Jane",
+    "user": 9
+  },
+  {
+    "id": 220,
+    "cohort": "Whiskey",
+    "accountability_date": "2024-05-02",
+    "accountability_status": 1,
+    "pair_status": false,
+    "absence_reason": "Failure To launch 2",
+    "excused_status": false,
+    "first_name": "Jane",
+    "last_name": "Doe",
+    "user": 3
+  }
+        ]
+    ```
+
+
+## REWRITE  ATTENDANCE (ALL INSTRUCTOR) 
+- **ENDPOINT** : `https://127.0.0.1:8000/accountability/alter/220/`
+- **Query Paramater**: Pass Id of Attendance
+- **Type** : PATCH
+- **Body** :
+
+    ```json
+        {
+        "accountability_status": 2,
+        "pair_status": true,
+        "absence_reason": "Wel",
+        "excused_status": true
+        }
+    ```
+- **Response** :
+    - Success: 200
+    ```json
+        {
+  "id": 220,
+  "accountability_date": "2024-05-02",
+  "accountability_status": 2,
+  "pair_status": true,
+  "absence_reason": "Wel",
+  "excused_status": true,
+  "first_name": "Jane",
+  "last_name": "Doe",
+  "user": 3,
+  "cohort": 1
+        }
+    ```
