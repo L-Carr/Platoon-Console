@@ -34,10 +34,10 @@ const router = createBrowserRouter([
         path: "change-password/:uidb64/:token/",
         element: <ChangePassword />,
       },
-            {
-                path: "videos/",
-                element: <VideoGallery />,
-            },
+      {
+        path: "videos/",
+        element: <VideoGallery />,
+      },
       {
         path: "groups/",
         element: <GroupProgramming />,
