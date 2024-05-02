@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import YouTube from "react-youtube"; // Import YouTube component to display YouTube videos
 
-// Set the root element for accessibility reasons
-// Modal.setAppElement('#root');
-
 const VideoGallery = () => {
   // State vars for videos, modal visibility, selected video, hover effect, search functionality
   const [videos, setVideos] = useState([]); // Videos fetched from YouTube API
