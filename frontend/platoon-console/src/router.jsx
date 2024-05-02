@@ -7,6 +7,7 @@ import ErrorPage from "./pages/Errorpage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ChangePassword from "./pages/ChangePassword";
 import GroupProgramming from "./pages/GroupProgramming";
+import RollCallPage from "./pages/RollCallPage";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "groups/",
         element: <GroupProgramming />,
+      },
+      {
+        path: "rollcall/",
+        element: <RollCallPage />,
       },
     ],
   },
