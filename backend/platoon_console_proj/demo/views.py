@@ -7,11 +7,10 @@ from .serializers import DemoStudentSerializer, DemoStudent
 from cohort.models import Cohort
 from user_app.models import UserAccount, User
 
+from user_app.views import InstructorPermissions
 # Create your views here.
 
-class AllStudentDemoInfo(APIView):
-    #TODO: Change this to student and instructor only,  this is set to AllowAny just for testing purposes
-    permission_classes = [AllowAny]
+class AllStudentDemoInfo(InstructorPermissions):
 
     def get(self, request):
         # This method handles GET requests to view all demo records

@@ -2,7 +2,7 @@ from django.contrib.auth.models import Group
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
 
 from django.contrib.auth import authenticate, login, logout, get_user_model
@@ -11,11 +11,14 @@ from django.urls import reverse
 from .serializers import UserSerializer, LoginSerializer,UserDetailSerializer,UserAccountSerializer
 from .utils import single_email_distro
 from .models import UserAccount,UserDetail
-from django.contrib.auth.models import Group
+from rest_framework.authentication import TokenAuthentication
 
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 
+
+
+from user_app.permissions import IsInstructor, IsStudent
 class UserRegistration(APIView):
     """
     API view for registering new users. Open to all users.
@@ -168,3 +171,18 @@ class UserLogout(APIView):
         request.user.auth_token.delete()  # Delete the user's token.
         logout(request)  # Log out the user.
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+class InstructorPermissions(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsInstructor]
+
+class StudentPermissions(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsStudent]
+
+
+
+
