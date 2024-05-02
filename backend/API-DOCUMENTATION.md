@@ -83,6 +83,22 @@ You have requested a password reset. Please click the link below to reset your p
 - **Response** :
     - Success: HTTP 204
 
+
+## GET A LIST OF COHORTS
+- NOTE: There should be only 1 record
+- **ENDPOINT** : "https://127.0.0.1:8000/cohort/"
+- **Type** : GET
+- **Response** :
+    - Success: HTTP 200
+    ```json
+        {
+            "cohort_code": 1,
+            "cohort_name": "Whiskey",
+            "start_date": "2021-01-09",
+            "end_date": "2021-05-10"
+        }
+    ```
+
 ## GET A CONFIG RECORD
 - NOTE: There should be only 1 record
 - **ENDPOINT** : `https://127.0.0.1:8000/gh/<record id>/`
@@ -156,6 +172,39 @@ You have requested a password reset. Please click the link below to reset your p
             "resources_url": "https://github.com/Code-Platoon-Curriculum/curriculum/tree/main/7-Django/Resources"
         }
 
+
+## GET TEAMS
+- **ENDPOINT** : 'https://127.0.0.1:8000/teams/'
+- **TYPE**: GET 
+- **RESPONSE**: 
+    -SUCCESS HTTP 200 
+    ```json 
+
+    {
+        "id": 1,
+        "name": "Purple Cobras",
+        "description": "Team 2"
+    }
+
+    ``` 
+
+## GET TEAM Members 
+- **ENDPOINT** : 'https://127.0.0.1:8000/teams/<int:team_id>/memberships/'
+- **TYPE**: GET 
+- **RESPONSE**: 
+    -SUCCESS HTTP 200 
+    ```json 
+    {
+        "team": 1,
+        "user_email": "testuser@fakemail.com",
+        "cohort_name": null,
+        "first_name": "Test",
+        "last_name": "User"
+    }
+
+    Returns all members of Team based on Team ID
+
+    ``` 
 ## UPDATE A CONFIG RECORD
 - **ENDPOINT** : `https://127.0.0.1:8000/gh/<record id>/`
 - **Type** : PUT
