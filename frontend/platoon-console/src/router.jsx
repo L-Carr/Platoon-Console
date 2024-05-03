@@ -9,7 +9,6 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import GroupProgramming from "./pages/GroupProgramming";
 import DemoPage from "./pages/DemoPage";
-import VideoGallery from "./pages/VideoGallery";
 import RollCallPage from "./pages/RollCallPage";
 
 const router = createBrowserRouter([
