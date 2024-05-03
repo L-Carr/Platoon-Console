@@ -9,6 +9,7 @@ from .serializers import AttendanceRecordsSerializer,AttendanceOverrideSerialize
 from rest_framework.permissions import AllowAny
 from user_app.views import InstructorPermissions, StudentPermissions,AttendanceRecordPermissions
 from rest_framework.views import APIView
+
 class AttendanceRecordCreateOrUpdate(AttendanceRecordPermissions):
    # permission_classes = [AllowAny]
     def post(self, request):

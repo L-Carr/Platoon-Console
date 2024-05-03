@@ -57,6 +57,7 @@ class IsAttendanceRecords(permissions.BasePermission):
 
     def has_permission(self, request, view):
         print(Group.objects.filter(name='Students', user=request.user).exists())
+        
         if not Group.objects.filter(name='Students', user=request.user).exists():
             print("User is not part of the 'Students' group.")
             return False

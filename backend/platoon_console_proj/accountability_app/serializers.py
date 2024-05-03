@@ -13,7 +13,7 @@ class AttendanceOverrideSerializer(serializers.ModelSerializer):
 
 class AttendanceRecordsSerializer(serializers.ModelSerializer):
 
-    #cohort = serializers.SerializerMethodField()
+    cohort = serializers.SerializerMethodField()
 
     class Meta:
         model = AttendanceRecord
@@ -21,9 +21,9 @@ class AttendanceRecordsSerializer(serializers.ModelSerializer):
         # Set `cohort` as read-only since it will be derived
         read_only_fields = ('first_name', 'last_name' )
 
-    # def get_cohort(self, instance):
-    #     return instance.cohort.cohort_name
-    #     # return cohort
+    def get_cohort(self, instance):
+        return instance.cohort.cohort_name
+        # return cohort
 
     def create(self, validated_data):
         # Assign the user from the request context
@@ -33,7 +33,7 @@ class AttendanceRecordsSerializer(serializers.ModelSerializer):
         validated_data['last_name'] = user.last_name
         print(f"Validated Data CREATE {validated_data}")
       
-        validated_data['cohort'] = user.profile.cohort_name.name
+        validated_data['cohort'] = user.profile.cohort_name
 
         return super().create(validated_data)
 
