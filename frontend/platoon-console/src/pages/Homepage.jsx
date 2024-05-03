@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardBody, CardTitle, Modal, ModalBody, ModalHeader, Button } from 'reactstrap';
+import { Card, CardBody, CardTitle, Modal, ModalBody, ModalHeader, Button, CardText } from 'reactstrap';
 import Demo from "../components/Demo";
 import Accountability from '../components/Accountability';
 
-const Homepage = () => {
+const Homepage = ({ nextStudent }) => {
   const [accountabilityModalOpen, setAccountabilityModalOpen] = useState(false);
   const [agendaModalOpen, setAgendaModalOpen] = useState(false);
   const [monthlyModalOpen, setMonthlyModalOpen] = useState(false);
@@ -75,20 +75,7 @@ const Homepage = () => {
           </CardBody>
         </Card>
 
-        <Card className="consoleCard">
-          <CardBody>
-            <CardTitle style={{marginBottom: "0"}}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
-                <h3>Demos</h3>
-              </div>
-            </CardTitle>
-            <ul className="consoleCardUl">
-              <li><Link to="demo/">Generate Demo List</Link></li>
-            </ul>
-          </CardBody>
-        </Card>
         
-
         <Card className="consoleCard">
           <CardBody>
             <CardTitle style={{marginBottom: "0"}}>
@@ -98,6 +85,7 @@ const Homepage = () => {
             </CardTitle>
             <ul className="consoleCardUl">
             <li><Link to="groups/">Generate Pairs</Link></li>
+            <li><Link to="demo/">Generate Demo List</Link></li>
             </ul>
           </CardBody>
         </Card>
