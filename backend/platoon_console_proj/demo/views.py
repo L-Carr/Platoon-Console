@@ -6,7 +6,7 @@ from .serializers import DemoStudentSerializer, DemoStudent
 from cohort.models import Cohort
 from user_app.models import UserAccount, User
 
-from user_app.views import InstructorPermissions,StudentPermissions, APIView
+from user_app.views import InstructorPermissions, GenericAuthPermissions, APIView
 # Create your views here.
 
 class AllStudentDemoInfo(InstructorPermissions):
@@ -19,7 +19,7 @@ class AllStudentDemoInfo(InstructorPermissions):
 
         return Response(ser_demos.data)
     
-class AllCohortDemoInfo(APIView):
+class AllCohortDemoInfo(GenericAuthPermissions):
 
     def get(self, request, cohort_name):
         # This method handles GET requests to view all demo records for a cohort
