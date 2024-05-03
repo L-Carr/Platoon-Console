@@ -4,19 +4,13 @@ import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 're
 
 const Demo = () => {
   const [errorMessage, setErrorMessage] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState(null);
   const [demos, setDemos] = useState([])
   const [nextStudent, setNextStudent] = useState("")
   const [studentId, setStudentId] = useState(0)
   const [newStatus, setNewStatus] = useState("")
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [status, setStatus] = useState('Online');
-
-  // const showme = ""
-
-  // How is cohort being tracked here?
-  // For student? (easy, included in endpoint)
-  // For instructor?
+  const [status, setStatus] = useState(null);
 
   const updateDemos = async () => {
     // Uses a post request to check with backend and create records for any student who does not have a demo record, gets current updated list of all demo records
@@ -33,7 +27,6 @@ const Demo = () => {
       console.log(response)
       setDemos(response.data)
       setNextStudent(response.data)
-      // setStudentId(response.data[0])
       if (response.data.length > 0) {
         setStudentId(response.data[0])
       } else {
@@ -85,16 +78,9 @@ const Demo = () => {
   options: "on deck", "complete"
   display text with current status or button to update?
   */
-  // console.log(studentId)
   const updateDemoStatus = async (studentId, newStatus) => {
     try {
       const token = localStorage.getItem("token")
-      // console.log(nextStudent)
-      // if (demos.length > 0) {
-      //   setStudentId(demos[0].student)
-      //   console.log(studentId)
-      // }
-      // const studentId = 1
       const response = await axios.put(`https://127.0.0.1:8000/demo/student/${studentId}/`, {status: newStatus}, {
         headers: {
           'Authorization': `Token ${token}`,
@@ -102,7 +88,6 @@ const Demo = () => {
         }
       })
       updateDemos()
-      // setNewStatus("")
       console.log("Status updated successfully: ", response.data)
     } catch (error){
       console.error("Error ")
@@ -119,7 +104,7 @@ const Demo = () => {
   - does not include first names and last names
   */
 
-  //this reset function is working, actually setting all statuses back to to do*********
+  //this reset function sets all statuses back to to do
  const resetDemoList = async () => {
   try {
     const userCohort = "Whiskey"
@@ -140,16 +125,12 @@ const Demo = () => {
   updateDemos()
  }, [])
 
- const toggleDropDown = ({ status }) => {
-  setDropdownOpen(!dropdownOpen)
+ const toggleDropDown = (demoId) => {
+  setDropdownOpen((prevId) => (prevId === demoId ? null : demoId))
  }
 
- const handleStatusChange = async ({ studentId, newStatus }) => {
-  // const selectedStatus = e.target.value
-  // setNewStatus(selectedStatus)
-  // console.log(newStatus)
-  console.log("Status updated to: " + selectedStatus);
-  // setSelectedStatus(newStatus)
+ const handleStatusChange = async (studentId, newStatus) => {
+  console.log(`Status updated for student ${studentId} to ${newStatus}: ` + selectedStatus);
   try {
     const token = localStorage.getItem("token");
     // Update the status of each student in demos array
@@ -185,7 +166,7 @@ const Demo = () => {
     {nextStudent && (
       <div className='p-3'>
         <h1>Next Student Up for Demo</h1>
-        <h6>{nextStudent.first_name} {nextStudent.last_name}</h6>
+        <p>{nextStudent[0].first_name} {nextStudent[0].last_name}</p>
       </div>
     )}
     <div className='p-4'>
@@ -194,27 +175,23 @@ const Demo = () => {
       <Button onClick={resetDemoList}className='resetButton'>Reset</Button>
       
     </div>
-      
     <div className='p-5'>
-    <p>Status: {status}</p>
       {demos.map((demo, index) => (<li key={index}>
-        {demo.first_name} {demo.last_name} - 
-        {demo.status} 
-        <Dropdown isOpen={dropdownOpen} toggle={toggleDropDown} className='p-5'>
+        {demo.first_name} {demo.last_name} - {demo.status} 
+        <Dropdown isOpen={dropdownOpen === demo.id} toggle={() => toggleDropDown(demo.id)} className='p-5'>
         <DropdownToggle caret>
-          {selectedStatus ? selectedStatus : 'Select Status'}
+          Select Status
         </DropdownToggle>
         <DropdownMenu>
-          <DropdownItem onClick={() => handleStatusChange(studentId,'to do')}>To Do</DropdownItem>
-          <DropdownItem onClick={() => handleStatusChange(studentId,'on deck')}>On Deck</DropdownItem>
-          <DropdownItem onClick={() => handleStatusChange(studentId,'complete')}>Complete</DropdownItem>
+          <DropdownItem onClick={() => handleStatusChange(demo.id,'to do')}>To Do</DropdownItem>
+          <DropdownItem onClick={() => handleStatusChange(demo.id,'on deck')}>On Deck</DropdownItem>
+          <DropdownItem onClick={() => handleStatusChange(demo.id,'complete')}>Complete</DropdownItem>
         </DropdownMenu>
         </Dropdown>
         </li>
       ))}
-      </div>
+    </div>
     </ul>
-    
     </>
   )
 }
