@@ -1,23 +1,25 @@
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import Group
 from rest_framework import status
 from rest_framework.response import Response
 from .serializers import DemoStudentSerializer, DemoStudent
 from cohort.models import Cohort
 from user_app.models import UserAccount, User
 
-from user_app.views import InstructorPermissions,StudentPermissions
+from user_app.views import InstructorPermissions,StudentPermissions, APIView
 # Create your views here.
 
 class AllStudentDemoInfo(InstructorPermissions):
 
     def get(self, request):
         # This method handles GET requests to view all demo records
+        # This method is obsolete - to be removed
         student_demos = DemoStudent.objects.all()
         ser_demos = DemoStudentSerializer(student_demos, many=True)
 
         return Response(ser_demos.data)
     
-class AllCohortDemoInfo(StudentPermissions):
+class AllCohortDemoInfo(APIView):
 
     def get(self, request, cohort_name):
         # This method handles GET requests to view all demo records for a cohort
@@ -41,27 +43,35 @@ class AllCohortDemoInfo(StudentPermissions):
 
             # If no record exists, create one
             if not demo.exists():
-                print(f'Demo does not exist')
+
+                # DemoStudent is linked to the UserAccount id
+                user = get_object_or_404(UserAccount, user_id=student.user_id)
+
                 new_demo = DemoStudent.objects.create(
-                    student=student,
+                    student=user,
                     cohort=cohort
                 )
                 new_demo.full_clean()
                 adding_students = True
 
+        # Query DB for all records (after creating new ones if needed)
         cohort_demos = DemoStudent.objects.filter(cohort=cohort)
         ser_demos = DemoStudentSerializer(cohort_demos, many=True)
 
         response = ser_demos.data
 
+        # Loop through each record to add first name and last name for response
         for demo in response:
-            print(f'demo record {demo}')
-            user = get_object_or_404(User, email=student)
-            print(f'first name {user.first_name}')
+
+            # Get this UserAccount (linked in DemoStudent)
+            account = get_object_or_404(UserAccount, id=demo["student"])
+            # Get this User - first_name and last_name are in User
+            user = get_object_or_404(User, id=account.user_id)
+
+            # Add the first name and last name to the response dict for this student
             demo['first_name'] = user.first_name
             demo['last_name'] = user.last_name
 
-        print(f'Response {response}')
         if adding_students:
             return Response(response, status=status.HTTP_201_CREATED)
         return Response(response, status=status.HTTP_200_OK)
