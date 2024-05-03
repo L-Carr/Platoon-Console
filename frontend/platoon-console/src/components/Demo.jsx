@@ -1,13 +1,15 @@
 import axios from 'axios';
 import {useState, useEffect} from 'react';
-import { Button } from 'reactstrap';
+import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 const Demo = () => {
   const [errorMessage, setErrorMessage] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
   const [demos, setDemos] = useState([])
   const [nextStudent, setNextStudent] = useState("")
   const [studentId, setStudentId] = useState("")
   const [newStatus, setNewStatus] = useState("")
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   // const showme = ""
 
@@ -52,7 +54,7 @@ const Demo = () => {
 
 
   //get request to list one student status
-  const getDemoStatus = async (studentId) => {
+  const getDemoStatus = async (studentId, newStatus) => {
     try {
       const token = localStorage.getItem("token")
       console.log(nextStudent)
@@ -86,11 +88,11 @@ const Demo = () => {
   const updateDemoStatus = async (studentId, newStatus) => {
     try {
       const token = localStorage.getItem("token")
-      console.log(nextStudent)
-      if (demos.length > 0) {
-        setStudentId(demos[0].student)
-        console.log(studentId)
-      }
+      // console.log(nextStudent)
+      // if (demos.length > 0) {
+      //   setStudentId(demos[0].student)
+      //   console.log(studentId)
+      // }
       // const studentId = 1
       const response = await axios.put(`https://127.0.0.1:8000/demo/student/${studentId}/`, {status: newStatus}, {
         headers: {
@@ -99,7 +101,7 @@ const Demo = () => {
         }
       })
       updateDemos()
-      setNewStatus("")
+      // setNewStatus("")
       console.log("Status updated successfully: ", response.data)
     } catch (error){
       console.error("Error ")
@@ -115,6 +117,8 @@ const Demo = () => {
   will return a list of all students with updated statuses
   - does not include first names and last names
   */
+
+  //this reset function is working, actually setting all statuses back to to do*********
  const resetDemoList = async () => {
   try {
     const userCohort = "Whiskey"
@@ -135,26 +139,41 @@ const Demo = () => {
   updateDemos()
  }, [])
 
+ const toggleDropDown = () => {
+  setDropdownOpen(!dropdownOpen)
+ }
+
+ const handleStatusChange = (newStatus) => {
+  setSelectedStatus(newStatus)
+ }
+
   return (
     <>
     <ul className="consoleCardUl">
     {nextStudent && (
       <div className='p-3'>
         <h1>Next Student Up for Demo</h1>
-        <p>{nextStudent.first_name} {nextStudent.last_name}</p>
+        <h6>{nextStudent.first_name} {nextStudent.last_name}</h6>
       </div>
     )}
     <div className='p-4'>
 
       <li>Student - Status</li>
-        <Button onClick={() => setNewStatus('to do')} className='statusButton'>To Do</Button>
-        <Button onClick={() => setNewStatus('on deck')} className='statusButton'>On Deck</Button>
-        <Button onClick={() => setNewStatus('complete')} className='statusButton'>Complete</Button>
-        <Button onClick={resetDemoList}className='resetButton'>Reset</Button>
+      <Button onClick={resetDemoList}className='resetButton'>Reset</Button>
+      
     </div>
       {demos.map((demo, index) => (<li key={index}>
-        {demo.first_name} {demo.last_name} - {demo.status} ({demo.status === "On Deck" ? "On Deck" : "Complete"})
-        <Button onClick={() => updateDemoStatus(demo.id, newStatus)}>Update Status</Button>
+        {demo.first_name} {demo.last_name} - {demo.status} 
+        <Dropdown isOpen={dropdownOpen} toggle={toggleDropDown}>
+        <DropdownToggle caret>
+          {selectedStatus ? selectedStatus : 'Select Status'}
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem onClick={() => handleStatusChange('to do')}>To Do</DropdownItem>
+          <DropdownItem onClick={() => handleStatusChange('on deck')}>On Deck</DropdownItem>
+          <DropdownItem onClick={() => handleStatusChange('complete')}>Complete</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
         </li>
       ))}
     </ul>
