@@ -69,7 +69,17 @@ class LoginSerializer(serializers.Serializer):
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserDetail
-        fields = ['phone_number', 'user']  # Add other fields if necessary
+        fields = ['phone_number', 'user'] 
+        
+    def create(self, validated_data):
+        return UserDetail.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.phone_number = validated_data.get('phone_number', instance.phone_number)
+        instance.slack_handle = validated_data.get('slack_handle', instance.slack_handle)
+        instance.github_handle = validated_data.get('github_handle', instance.github_handle)
+        instance.save()
+        return instance # Add other fields if necessary
 
 class UserAccountSerializer(serializers.ModelSerializer):
     cohort_name = serializers.SlugRelatedField(

@@ -196,7 +196,38 @@ class UserLogout(GenericAuthPermissions):
         logout(request)  # Log out the user.
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class UserDetailView(APIView):
+    permission_classes = [IsAuthenticated]  # Ensure only authenticated users can access this view
 
+    def get(self, request):
+        user_detail, created = UserDetail.objects.get_or_create(user=request.user)
+        serializer = UserDetailSerializer(user_detail)
+        return Response(serializer.data)
+
+    def post(self, request):
+        # Since we're creating or ensuring existence in get, POST may not be necessary
+        # If needed, use POST only to create new details explicitly
+        user_detail, created = UserDetail.objects.get_or_create(user=request.user, defaults=request.data)
+        if not created:
+            return Response({'message': 'User details already exist'}, status=status.HTTP_409_Conflict)
+        serializer = UserDetailSerializer(user_detail)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def put(self, request):
+        user_detail, created = UserDetail.objects.update_or_create(
+            user=request.user, 
+            defaults=request.data
+        )
+        serializer = UserDetailSerializer(user_detail)
+        return Response(serializer.data)
+
+    def patch(self, request):
+        user_detail, _ = UserDetail.objects.update_or_create(
+            user=request.user, 
+            defaults=request.data
+        )
+        serializer = UserDetailSerializer(user_detail)
+        return Response(serializer.data)
 
 
 
