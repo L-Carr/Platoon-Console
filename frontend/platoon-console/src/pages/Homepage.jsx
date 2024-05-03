@@ -4,7 +4,8 @@ import { Button, Card, CardBody, CardTitle, Modal, ModalBody, ModalHeader, CardT
 import Accountability from '../components/Accountability';
 import Demo from "../components/Demo";
 
-const Homepage = ({ nextStudent }) => {
+
+const Homepage = () => {
   const [accountabilityModalOpen, setAccountabilityModalOpen] = useState(false);
   const [agendaModalOpen, setAgendaModalOpen] = useState(false);
   const [monthlyModalOpen, setMonthlyModalOpen] = useState(false);
@@ -30,6 +31,7 @@ const Homepage = ({ nextStudent }) => {
   return (
     <>
       <h2 className="mainH2">Platoon Console</h2>
+      <div style={{backgroundColor: "#1d1d1d", padding: "1rem", maxWidth: "85%", margin: "0 auto", marginTop: "2rem", marginBottom: "2rem", borderRadius: "10px"}}>
       <div className="card-container" style={{ marginTop: "2rem", display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
 
         <Card className="consoleCard">
@@ -103,10 +105,10 @@ const Homepage = ({ nextStudent }) => {
             </ul>
           </CardBody>
         </Card>
-
       </div>
+     </div>
 
-      <Modal isOpen={accountabilityModalOpen} toggle={toggleAccountabilityModal} size="xl">
+      <Modal isOpen={accountabilityModalOpen} toggle={toggleAccountabilityModal} size="xl" style={{maxWidth: "500px"}}>
       <ModalHeader toggle={toggleAccountabilityModal} />
         <ModalBody style={{backgroundColor: "#2f2f2f"}}>
           <Accountability />
