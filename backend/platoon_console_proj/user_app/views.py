@@ -18,7 +18,7 @@ from django.utils.encoding import force_bytes, force_str
 
 
 
-from user_app.permissions import IsInstructor, IsStudent
+from user_app.permissions import IsInstructor, IsStudent,IsAttendanceRecords
 
 
 class InstructorPermissions(APIView):
@@ -42,6 +42,9 @@ class GenericAuthPermissions(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
+class AttendanceRecordPermissions(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsAttendanceRecords]
 
 class UserRegistration(APIView):
     '''
