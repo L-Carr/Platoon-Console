@@ -8,9 +8,10 @@ from .models import AttendanceRecord, User
 from .serializers import AttendanceRecordsSerializer,AttendanceOverrideSerializer
 from rest_framework.permissions import AllowAny
 from user_app.views import InstructorPermissions, StudentPermissions,AttendanceRecordPermissions
+from rest_framework.views import APIView
 
 class AttendanceRecordCreateOrUpdate(AttendanceRecordPermissions):
-
+   # permission_classes = [AllowAny]
     def post(self, request):
         # Get the Current Date
         today = timezone.localdate()

@@ -38,7 +38,6 @@ class AnyUserReadWrite(permissions.BasePermission):
         return True
 
 
-
 class AnyUserReadOnly(permissions.BasePermission):
     """
     Allows read-only access to all users.
@@ -57,29 +56,37 @@ class IsAttendanceRecords(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        # Check if the user is authenticated and is part of the 'Students' group
-        print("Cohort name from request:", request.data.get('cohort_name'))
-        if not request.user or not request.user.is_authenticated or not request.user.groups.filter(name='Students').exists():
-            print("User is not authenticated or is not part of the 'Students' group.")
+        print(Group.objects.filter(name='Students', user=request.user).exists())
+
+        if not Group.objects.filter(name='Students', user=request.user).exists():
+            print("User is not part of the 'Students' group.")
             return False
 
         # Check if the request is a POST request to create attendance records
         if request.method == 'POST':
-            cohort_name = request.data.get('cohort_name')
+           
+            cohort_name = request.data.get('cohort_name', '').strip()
+
             if cohort_name:
-                print("Cohort name provided in request data.")
+                print(f"Cohort name provided in request data: {cohort_name}")
 
                 # Check if the user is part of the cohort they are trying to update/create records for
                 # This assumes there is a relation `profile` on user that contains `cohort_name`
-                user_cohort = request.user.profile.cohort_name if hasattr(request.user, 'profile') else None
+              
+
+                user_cohort = getattr(request.user.profile.cohort_name, 'cohort_name').strip()
+                print(f"Cohort profile check: {user_cohort}")
+
                 if user_cohort == cohort_name:
-                    print("User is part of the cohort they are trying to update/create records for.")
+                    print(
+                        "User is part of the cohort they are trying to update/create records for.")
                     # Additional checks can be added here to ensure user has the role to create records for others
                     return True
                 else:
-                    print("User is part of the cohort they are trying to update/create records for.")
+                    print(
+                        "User is NOT  part of the cohort they are trying to update/create records for.")
                     return False
-        return True
+        return False
 
     # def has_object_permission(self, request, view, obj):
     #     # Check group membership and safe methods first

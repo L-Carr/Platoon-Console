@@ -9,6 +9,10 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import GroupProgramming from "./pages/GroupProgramming";
 import DemoPage from "./pages/DemoPage";
+import Homepage from './pages/Homepage';
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import VideoGallery from "./pages/VideoGallery";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "change-password/:uidb64/:token/",
         element: <ChangePassword />,
+      },
+      {
+        path: "videos/",
+        element: <VideoGallery />,
       },
       {
         path: "videos/",
@@ -68,5 +76,3 @@ export default router;
 // Group 8: Daniel Thompson, Sandra Jackson, Anthony Anderson
 // Group 9: Mark Davis, Jennifer Smith, Joseph Gonzalez
 // Group 10: Thomas Robinson, Jessica White, David Ramirez
-
-
