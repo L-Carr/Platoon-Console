@@ -99,7 +99,7 @@ const RollCall = () => {
 
   return (
     <div>
-      <h3 className="tertiaryH3">Daily Attendance {currentDate}</h3>
+      <h3 className="tertiaryH3">Daily Attendance {fetchDate}</h3>
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
         <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown} style={{marginTop: "20px", marginRight: "10px", marginBottom: "20px"}}>
           <DropdownToggle className="attendanceDropdown" caret>
