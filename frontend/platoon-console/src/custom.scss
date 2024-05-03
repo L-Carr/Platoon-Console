@@ -1,15 +1,15 @@
 #root {
-    max-width: 1280px;
-    margin: 0 auto;
-    // padding: 2rem;
-    // padding-top: 10rem;
-    text-align: center;
-  }
+  max-width: 1280px;
+  margin: 0 auto;
+  // padding: 2rem;
+  // padding-top: 10rem;
+  text-align: center;
+}
 
 body {
-    background-color: #2f2f2f;
-    font-family: "Special Elite", system-ui;
-    color: #ffffff
+  background-color: #2f2f2f;
+  font-family: "Special Elite", system-ui;
+  color: #ffffff;
 }
 
 a {
@@ -21,86 +21,104 @@ a:hover {
   color: #f05a1b;
 }
 
-  .mainH1 {
-    font-family: 'Special Elite';
-    font-size: 5rem;
-    color: #f05a1b;
-    z-index: 50;
-    text-shadow: 2px 2px 4px #00000080;
-    // -webkit-text-stroke: 3px #FFF765;
-  }
+.mainH1 {
+  font-family: "Special Elite";
+  font-size: 5rem;
+  color: #f05a1b;
+  z-index: 50;
+  text-shadow: 2px 2px 4px #00000080;
+  // -webkit-text-stroke: 3px #FFF765;
+}
 
-  .mainH2 {
-    font-family: 'Special Elite';
-    font-size: 3rem;
-    margin-top: 2rem;
-    color: #f05a1b;
-    z-index: 50;
-    text-shadow: 2px 2px 4px #00000080;
-    // -webkit-text-stroke: 2px #001011;
-  }
-  .mainH3 {
-    font-family: 'Special Elite';
-    // margin-top: 2rem;
-    color: #3b7f82;
-    z-index: 50;
-    text-shadow: 2px 2px 4px #00000080;
-    // -webkit-text-stroke: 2px #001011;
-  }
-  
-  .logo {
-    height: 10em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-  }
+.mainH2 {
+  font-family: "Special Elite";
+  font-size: 3rem;
+  margin-top: 2rem;
+  color: #f05a1b;
+  z-index: 50;
+  text-shadow: 2px 2px 4px #00000080;
+  // -webkit-text-stroke: 2px #001011;
+}
+.mainH3 {
+  font-family: "Special Elite";
+  // margin-top: 2rem;
+  color: #3b7f82;
+  z-index: 50;
+  text-shadow: 2px 2px 4px #00000080;
+  // -webkit-text-stroke: 2px #001011;
+}
 
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #97ce004a);
-  }
-  .logo.react:hover {
-    filter: drop-shadow(0 0 2em #97ce004a);
-  }
+.modal-mainH4 {
+  background-color: #2f2f2f;
+  font-family: "Special Elite";
+  color: #ffffff;
+  z-index: 50;
+  text-shadow: 2px 2px 4px #00000080;
+}
+
+.logo {
+  height: 10em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.secondaryH3 {
+  font-family: "Special Elite";
+  color: #f05a1b;
+  z-index: 50;
+}
+
+.mainH4 {
+  color: #3b7f82;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #97ce004a);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #97ce004a);
+}
 
 // .mainLogo {
 //     margin-top: 8rem;
 // }
-  
-  @keyframes logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
-  @media (prefers-reduced-motion: no-preference) {
-    a:nth-of-type(2) .logo {
-      animation: logo-spin infinite 20s linear;
-    }
-  }
-  
-  .navIcon {
-    width: 1.9rem;
-  }
 
-  .custom-navbar {
-    padding-bottom: 1rem;
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
   }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.navIcon {
+  width: 1.9rem;
+}
+
+.custom-navbar {
+  padding-bottom: 1rem;
+}
 
 .signUpForm {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 500px;
 }
 
 .logout {
   font-size: 12px;
   text-decoration: none;
-  color: #ffffff .65;
+  color: #ffffff 0.65;
 }
 
 .logout:hover {
@@ -165,10 +183,10 @@ a:hover {
 .exerciseButton {
   width: 200px;
   height: 30px;
-  display: inline-flex; 
-  justify-content: center; 
-  align-items: center; 
-  margin-right: 10px; 
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
   // margin-top: 10px;
 }
 
@@ -188,15 +206,15 @@ a:hover {
   background-color: #97ce00;
 }
 
-.closeButton{
+.closeButton {
   background-color: #00000000;
   // color: #2f2f2f;
   position: absolute;
   top: 5px;
-  left: 5px; 
-  width: "32px"; 
-  height: 32px; 
-  border-radius: "50%"; 
+  left: 5px;
+  width: "32px";
+  height: 32px;
+  border-radius: "50%";
   border: 0px;
 }
 
@@ -210,17 +228,17 @@ a:hover {
 }
 
 .workoutCardClosed {
-  margin: 2rem; 
-  max-width: 600px; 
-  width: "100%"; 
+  margin: 2rem;
+  max-width: 600px;
+  width: "100%";
   max-height: 110px;
   overflow-y: hidden;
 }
 
 .workoutCardOpen {
-  margin: 2rem; 
-  max-width: 600px; 
-  width: "100%"; 
+  margin: 2rem;
+  max-width: 600px;
+  width: "100%";
   max-height: 366px;
   overflow-y: auto;
 }
@@ -236,8 +254,8 @@ a:hover {
   // background-color: #2f2f2f;
   background-color: #1d1d1d;
   color: #ffffff;
-  margin: 2rem; 
-  width: 302px; 
+  margin: 2rem;
+  width: 302px;
   min-height: 128px;
   border: 0px;
   // border: 2px solid;
@@ -250,31 +268,30 @@ a:hover {
   // background-color: #2f2f2f;
   background-color: #1d1d1d;
   color: #ffffff;
-  margin: 2rem; 
-  width: 302px; 
+  margin: 2rem;
+  width: 302px;
   min-height: 98px;
   border: 0px;
 }
 
 .consoleCardUl {
-  text-decoration: none; 
+  text-decoration: none;
   list-style-type: none;
-  margin: 0 auto; 
+  margin: 0 auto;
   padding-left: 0;
 }
 
 .linkCard {
   margin: 2rem auto;
   width: 90%;
-  
 }
 
 @media (max-width: 768px) {
   .mainH1 {
-      font-size: 3rem; /* Adjust the font size for mobile devices */
+    font-size: 3rem; /* Adjust the font size for mobile devices */
   }
   .video-container {
-      max-width: 100%;
+    max-width: 100%;
   }
   .homeCard {
     max-width: 90%;
@@ -283,16 +300,16 @@ a:hover {
     font-size: medium;
   }
   .workoutCardClosed {
-    margin: 2rem; 
-    max-width: 300px; 
-    width: "100%"; 
+    margin: 2rem;
+    max-width: 300px;
+    width: "100%";
     max-height: 130px;
     overflow-y: hidden;
   }
   .workoutCardOpen {
-    margin: 2rem; 
-    max-width: 300px; 
-    width: "100%"; 
+    margin: 2rem;
+    max-width: 300px;
+    width: "100%";
     max-height: 366px;
     overflow-y: auto;
   }
@@ -306,4 +323,12 @@ a:hover {
   .deletePlan {
     max-width: 300px;
   }
+}
+
+.video-thumbnail:hover .video-title {
+  color: orange; /* Change title color to orange */
+}
+
+.video-thumbnail:hover .overlay {
+  background-color: rgba(0, 0, 0, 0.3); /* Add a light black overlay */
 }

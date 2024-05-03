@@ -14,7 +14,7 @@ function App() {
     // Redirect to /login if not logged in
     if (
       !isAuthenticated &&
-      !/^\/(login|forgot-password|change-password\/)/.test(location.pathname)
+      !/^\/(login|forgot-password|change-password|register\/?)/.test(location.pathname)
     ) {
       navigate('/login');
     }

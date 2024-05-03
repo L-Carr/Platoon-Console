@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'gh_api',
     'demo',
     'accountability_app',
+    'teams',
     
 ]
 

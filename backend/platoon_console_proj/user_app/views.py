@@ -2,7 +2,7 @@ from django.contrib.auth.models import Group
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
 
 from django.contrib.auth import authenticate, login, logout, get_user_model
@@ -11,15 +11,42 @@ from django.urls import reverse
 from .serializers import UserSerializer, LoginSerializer,UserDetailSerializer,UserAccountSerializer
 from .utils import single_email_distro
 from .models import UserAccount,UserDetail
-from django.contrib.auth.models import Group
+from rest_framework.authentication import TokenAuthentication
 
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 
+
+
+from user_app.permissions import IsInstructor, IsStudent
+
+
+class InstructorPermissions(APIView):
+    '''
+    Instructor Permissions
+    '''
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsInstructor]
+
+class StudentPermissions(APIView):
+    '''
+    Student Permissions
+    '''
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsStudent]
+
+class GenericAuthPermissions(APIView):
+    '''
+    GenericAuthPermissions Permissions
+    '''
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+
 class UserRegistration(APIView):
-    """
+    '''
     API view for registering new users. Open to all users.
-    """
+    '''
     permission_classes = [AllowAny]  # Allows access without authentication.
 
     def post(self, request):
@@ -157,7 +184,7 @@ class UserLogin(APIView):
         except UserAccount.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
-class UserLogout(APIView):
+class UserLogout(GenericAuthPermissions):
     """
     API view to log out a user and delete their authentication token.
     """
@@ -168,3 +195,11 @@ class UserLogout(APIView):
         request.user.auth_token.delete()  # Delete the user's token.
         logout(request)  # Log out the user.
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
+
+
+
