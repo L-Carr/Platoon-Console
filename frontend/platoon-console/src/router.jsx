@@ -8,7 +8,6 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ChangePassword from "./pages/ChangePassword";
 import GroupProgramming from "./pages/GroupProgramming";
 import DemoPage from "./pages/DemoPage";
-import Demo from "./components/Demo";
 
 const router = createBrowserRouter([
   {
