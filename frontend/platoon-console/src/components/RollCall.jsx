@@ -3,6 +3,7 @@ import { Card, CardBody, CardTitle, Button } from 'reactstrap';
 import axios from 'axios';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import StudentAttCard from './StudentAttCard';
+import check from "../assets/check.svg"
 
 const RollCall = () => {
   
@@ -11,6 +12,9 @@ const RollCall = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [currentCohort, setCurrentCohort] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
+  const [activeSort, setActiveSort] = useState("Name")
+  const checkSize = { width: "16px", height: "16px" };
   
   const token = localStorage.getItem('token');
   const config = {
@@ -26,6 +30,14 @@ const RollCall = () => {
   const handleDropdownSelect = async (name) => {
     setSelectedOption(name);
   };
+
+  const toggleSortDropdown = () => {
+    setSortDropdownOpen(prevState => !prevState);
+  };
+
+  // const handleDropdownSelect = async (name) => {
+  //   setSelectedOption(name);
+  // };
 
   useEffect(() => {
     const fetchCohorts = async () => {
@@ -49,6 +61,7 @@ const RollCall = () => {
           const response = await axios.get(`https://127.0.0.1:8000/accountability/retrieve/?cohort_name=${selectedOption}`, config);
           const sortedData = response.data.sort((a, b) => a.last_name.localeCompare(b.last_name));
           setCurrentCohort(sortedData);
+          setActiveSort("Name")
           console.log(currentCohort)
         } catch (error) {
           console.error('Error fetching attendance', error);
@@ -58,10 +71,29 @@ const RollCall = () => {
     fetchAttendance();
   }, [selectedOption]);
 
+  const nameSortCohort = () => {
+    const sortedData = currentCohort
+      .sort((a, b) => a.last_name.localeCompare(b.last_name)) 
+    setCurrentCohort(sortedData);
+    setActiveSort("Name")
+    console.log(currentCohort);
+  };
+
+  const statusSortCohort = () => {
+    const sortedData = currentCohort
+      .sort((a, b) => a.last_name.localeCompare(b.last_name)) 
+      .sort((a, b) => a.accountability_status - b.accountability_status); 
+    setCurrentCohort(sortedData);
+    setActiveSort("Status")
+    console.log(currentCohort);
+  };
+
+
   return (
     <div>
       <h3 className="tertiaryH3">Daily Attendance {currentDate}</h3>
-      <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown} style={{marginTop: "20px", marginBottom: "20px"}}>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown} style={{marginTop: "20px", marginRight: "10px", marginBottom: "20px"}}>
         <DropdownToggle caret>
           {selectedOption !== null ? `${selectedOption}` : 'Select Cohort'}
         </DropdownToggle>
@@ -73,6 +105,21 @@ const RollCall = () => {
           ))}
         </DropdownMenu>
       </Dropdown>
+
+      <Dropdown isOpen={sortDropdownOpen} toggle={toggleSortDropdown} style={{marginTop: "20px", marginBottom: "20px"}}>
+        <DropdownToggle caret>
+          {selectedOption !== null ? `${selectedOption}` : 'Sort By'}
+        </DropdownToggle>
+        <DropdownMenu>
+            <DropdownItem  onClick={nameSortCohort}>
+              Name {activeSort === "Name" && <img src={check} alt="Selected" style={checkSize} />}
+            </DropdownItem>
+            <DropdownItem  onClick={statusSortCohort}>
+              Status {activeSort === "Status" && <img src={check} alt="Selected" style={checkSize} />}
+            </DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+      </div>
       <ul>
       {/* <div> */}
       <div className="card-container" style={{ marginTop: "2rem", display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
@@ -84,6 +131,7 @@ const RollCall = () => {
           first_name={student.first_name} 
           last_name={student.last_name}
           accountability_status={student.accountability_status}
+          absence_reason={student.absence_reason}
           excused_status={student.excused_status}
           pair_status={student.pair_status}
           />
