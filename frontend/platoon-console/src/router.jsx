@@ -8,6 +8,7 @@ import Homepage from './pages/Homepage';
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import VideoGallery from "./pages/VideoGallery";
+import RollCallPage from "./pages/RollCallPage";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "groups/",
         element: <GroupProgramming />,
+      },
+      {
+        path: "rollcall/",
+        element: <RollCallPage />,
       },
     ],
   },
