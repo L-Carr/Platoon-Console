@@ -24,7 +24,6 @@ const Demo = () => {
           'Content-Type': 'application/json'
         }
       });
-      console.log(response)
       setDemos(response.data)
       setNextStudent(response.data)
       if (response.data.length > 0) {
@@ -51,10 +50,8 @@ const Demo = () => {
   const getDemoStatus = async (studentId, newStatus) => {
     try {
       const token = localStorage.getItem("token")
-      console.log(nextStudent)
       if (demos.length > 0) {
         setStudentId(demos[0].student)
-        console.log(studentId)
       }
       const response = await axios.get(`https://127.0.0.1:8000/demo/student/${studentId}/`, {}, {
         headers: {
