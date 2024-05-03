@@ -70,16 +70,23 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserDetail
         fields = ['phone_number', 'user'] 
-        
+
     def create(self, validated_data):
-        return UserDetail.objects.create(**validated_data)
+        # Use context to get the user (if needed)
+        user = self.context['request'].user
+        # Check if a UserDetail already exists for the user and raise an error if it does
+        if UserDetail.objects.filter(user=user).exists():
+            raise serializers.ValidationError("User details already exist.")
+        # Create new UserDetail instance
+        user_detail = UserDetail.objects.create(user=user, **validated_data)
+        return user_detail
 
     def update(self, instance, validated_data):
-        instance.phone_number = validated_data.get('phone_number', instance.phone_number)
-        instance.slack_handle = validated_data.get('slack_handle', instance.slack_handle)
-        instance.github_handle = validated_data.get('github_handle', instance.github_handle)
+        # Assign new values from validated_data to the instance
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
         instance.save()
-        return instance # Add other fields if necessary
+        return instance
 
 class UserAccountSerializer(serializers.ModelSerializer):
     cohort_name = serializers.SlugRelatedField(

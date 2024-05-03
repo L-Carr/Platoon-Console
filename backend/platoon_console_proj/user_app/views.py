@@ -195,42 +195,35 @@ class UserLogout(GenericAuthPermissions):
         request.user.auth_token.delete()  # Delete the user's token.
         logout(request)  # Log out the user.
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-class UserDetailView(APIView):
-    permission_classes = [IsAuthenticated]  # Ensure only authenticated users can access this view
+    
+class UserDetails(GenericAuthPermissions):
 
     def get(self, request):
-        user_detail, created = UserDetail.objects.get_or_create(user=request.user)
-        serializer = UserDetailSerializer(user_detail)
+        try:
+            user_detail = UserDetail.objects.get(user=request.user)
+        except UserDetail.DoesNotExist:
+            return Response({"message": "User details not found"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = UserDetailSerializer(user_detail, context={'request': request})
         return Response(serializer.data)
 
     def post(self, request):
-        # Since we're creating or ensuring existence in get, POST may not be necessary
-        # If needed, use POST only to create new details explicitly
-        user_detail, created = UserDetail.objects.get_or_create(user=request.user, defaults=request.data)
-        if not created:
-            return Response({'message': 'User details already exist'}, status=status.HTTP_409_Conflict)
-        serializer = UserDetailSerializer(user_detail)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        serializer = UserDetailSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            user_detail = serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request):
-        user_detail, created = UserDetail.objects.update_or_create(
-            user=request.user, 
-            defaults=request.data
-        )
-        serializer = UserDetailSerializer(user_detail)
-        return Response(serializer.data)
+        try:
+            user_detail = UserDetail.objects.get(user=request.user)
+        except UserDetail.DoesNotExist:
+            return Response({"message": "User details not found"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = UserDetailSerializer(user_detail, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request):
-        user_detail, _ = UserDetail.objects.update_or_create(
-            user=request.user, 
-            defaults=request.data
-        )
-        serializer = UserDetailSerializer(user_detail)
-        return Response(serializer.data)
-
-
-
-
-
+        return self.put(request)  # Handle PATCH via PUT for simplicity
 
