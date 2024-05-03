@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardBody, CardTitle, Modal, ModalBody, ModalHeader, Button } from 'reactstrap';
-import Demo from "../components/Demo";
+import { Button, Card, CardBody, CardTitle, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import Accountability from '../components/Accountability';
+import Demo from "../components/Demo";
 
 const Homepage = () => {
   const [accountabilityModalOpen, setAccountabilityModalOpen] = useState(false);
@@ -85,7 +85,7 @@ const Homepage = () => {
               <Demo />
           </CardBody>
         </Card>
-        
+
 
         <Card className="consoleCard">
           <CardBody>
@@ -100,6 +100,19 @@ const Homepage = () => {
           </CardBody>
         </Card>
 
+
+        <Card className="consoleCard">
+          <CardBody>
+            <CardTitle style={{marginBottom: "0"}}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
+                <h3>Resources</h3>
+              </div>
+            </CardTitle>
+            <ul className="consoleCardUl">
+            <li><Link to="videos/">YouTube Playlist</Link></li>
+            </ul>
+          </CardBody>
+        </Card>
 
       </div>
 
@@ -123,14 +136,14 @@ const Homepage = () => {
           <iframe title="Calendar" src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=America%2FNew_York&bgcolor=%23ffffff&mode=AGENDA&showNav=0&showPrint=0&showTabs=0&showCalendars=0&showTitle=0&showTz=0&showDate=0&src=Y184NDY4MjI3MDQ0YzQ1MGEyYTZlN2YwNDdkMzEwZTcwYWU3YTA5NGJlMzg4ZjJhYTY1Y2M4NzJkOTRhNDcyYTgxQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%238E24AA" style={{ width: '100%', height: '250px', border: 'none' }} />
         </ModalBody>
       </Modal>
-      
+
       <Modal isOpen={monthlyModalOpen} toggle={toggleMonthlyModal} size="xl">
       <ModalHeader toggle={toggleMonthlyModal} />
         <ModalBody>
           <iframe title="Calendar" src="https://calendar.google.com/calendar/embed?src=c_8468227044c450a2a6e7f047d310e70ae7a094be388f2aa65cc872d94a472a81%40group.calendar.google.com&ctz=America%2FNew_York" style={{ width: '100%', height: '500px', border: 'none' }} />
         </ModalBody>
       </Modal>
-      
+
     </>
   );
 };
