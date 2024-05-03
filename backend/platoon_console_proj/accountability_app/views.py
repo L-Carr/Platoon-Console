@@ -1,5 +1,5 @@
 from django.utils import timezone
-from rest_framework.views import APIView
+
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
@@ -7,9 +7,11 @@ from cohort.models import Cohort
 from .models import AttendanceRecord, User
 from .serializers import AttendanceRecordsSerializer,AttendanceOverrideSerializer
 from rest_framework.permissions import AllowAny
+from user_app.views import InstructorPermissions, StudentPermissions,AttendanceRecordPermissions
+from rest_framework.views import APIView
 
-class AttendanceRecordCreateOrUpdate(APIView):
-    permission_classes = [AllowAny]
+class AttendanceRecordCreateOrUpdate(AttendanceRecordPermissions):
+   # permission_classes = [AllowAny]
     def post(self, request):
         # Get the Current Date
         today = timezone.localdate()
@@ -84,7 +86,7 @@ class AttendanceRecordCreateOrUpdate(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class AttendanceRecordList(APIView):
+class AttendanceRecordList(InstructorPermissions):
     def get(self, request):
         # Fetch the cohort by name from query parameters
         cohort_name = request.query_params.get('cohort_name')
@@ -103,7 +105,7 @@ class AttendanceRecordList(APIView):
             return Response({"message": "No attendance records found for this cohort."}, status=status.HTTP_404_NOT_FOUND)
 
 
-class AdminAttendanceOverride(APIView):
+class AdminAttendanceOverride(InstructorPermissions):
     """
     Updates an attendance record.
     """
