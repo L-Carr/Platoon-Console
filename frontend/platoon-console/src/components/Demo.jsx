@@ -7,9 +7,10 @@ const Demo = () => {
   const [selectedStatus, setSelectedStatus] = useState("");
   const [demos, setDemos] = useState([])
   const [nextStudent, setNextStudent] = useState("")
-  const [studentId, setStudentId] = useState("")
+  const [studentId, setStudentId] = useState(0)
   const [newStatus, setNewStatus] = useState("")
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [status, setStatus] = useState('Online');
 
   // const showme = ""
 
@@ -139,12 +140,43 @@ const Demo = () => {
   updateDemos()
  }, [])
 
- const toggleDropDown = () => {
+ const toggleDropDown = ({ status }) => {
   setDropdownOpen(!dropdownOpen)
  }
 
- const handleStatusChange = (newStatus) => {
-  setSelectedStatus(newStatus)
+ const handleStatusChange = async ({ studentId, newStatus }) => {
+  // const selectedStatus = e.target.value
+  // setNewStatus(selectedStatus)
+  // console.log(newStatus)
+  console.log("Status updated to: " + selectedStatus);
+  // setSelectedStatus(newStatus)
+  try {
+    const token = localStorage.getItem("token");
+    // Update the status of each student in demos array
+    const response = await axios.put(
+        `https://127.0.0.1:8000/demo/student/${studentId}/`,
+        { status: newStatus },
+        {
+          headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      const updatedDemos = demos.map(demo => {
+        if (demo.id === studentId) {
+          return { ...demo, status: newStatus };
+        }
+        return demo;
+      });
+      setDemos(updatedDemos)
+      setSelectedStatus(newStatus)
+      console.log(demos)
+      console.log("Status updated successfully: ", response.data);
+    }
+   catch (error) {
+    console.error("Error updating status: ", error);
+  }
  }
 
   return (
@@ -162,20 +194,25 @@ const Demo = () => {
       <Button onClick={resetDemoList}className='resetButton'>Reset</Button>
       
     </div>
+      
+    <div className='p-5'>
+    <p>Status: {status}</p>
       {demos.map((demo, index) => (<li key={index}>
-        {demo.first_name} {demo.last_name} - {demo.status} 
-        <Dropdown isOpen={dropdownOpen} toggle={toggleDropDown}>
+        {demo.first_name} {demo.last_name} - 
+        {demo.status} 
+        <Dropdown isOpen={dropdownOpen} toggle={toggleDropDown} className='p-5'>
         <DropdownToggle caret>
           {selectedStatus ? selectedStatus : 'Select Status'}
         </DropdownToggle>
         <DropdownMenu>
-          <DropdownItem onClick={() => handleStatusChange('to do')}>To Do</DropdownItem>
-          <DropdownItem onClick={() => handleStatusChange('on deck')}>On Deck</DropdownItem>
-          <DropdownItem onClick={() => handleStatusChange('complete')}>Complete</DropdownItem>
+          <DropdownItem onClick={() => handleStatusChange(studentId,'to do')}>To Do</DropdownItem>
+          <DropdownItem onClick={() => handleStatusChange(studentId,'on deck')}>On Deck</DropdownItem>
+          <DropdownItem onClick={() => handleStatusChange(studentId,'complete')}>Complete</DropdownItem>
         </DropdownMenu>
-      </Dropdown>
+        </Dropdown>
         </li>
       ))}
+      </div>
     </ul>
     
     </>
