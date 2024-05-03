@@ -57,14 +57,13 @@ class IsAttendanceRecords(permissions.BasePermission):
 
     def has_permission(self, request, view):
         print(Group.objects.filter(name='Students', user=request.user).exists())
-        
+
         if not Group.objects.filter(name='Students', user=request.user).exists():
             print("User is not part of the 'Students' group.")
             return False
 
         # Check if the request is a POST request to create attendance records
         if request.method == 'POST':
-            # cohort_name = request.data.get('cohort_name')
            
             cohort_name = request.data.get('cohort_name', '').strip()
 
