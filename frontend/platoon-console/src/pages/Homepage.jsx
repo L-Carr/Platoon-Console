@@ -82,7 +82,9 @@ const Homepage = () => {
                 <h3>Demos</h3>
               </div>
             </CardTitle>
-              <Demo />
+            <ul className="consoleCardUl">
+              <li><Link to="demo/">Generate Demo List</Link></li>
+            </ul>
           </CardBody>
         </Card>
         
