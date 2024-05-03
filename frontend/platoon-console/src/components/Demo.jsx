@@ -5,6 +5,10 @@ import { Button } from 'reactstrap';
 const Demo = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [demos, setDemos] = useState([])
+  const [nextStudent, setNextStudent] = useState("")
+  const [studentId, setStudentId] = useState("")
+  const [newStatus, setNewStatus] = useState("")
+
   // const showme = ""
 
   // How is cohort being tracked here?
@@ -25,7 +29,13 @@ const Demo = () => {
       });
       console.log(response)
       setDemos(response.data)
-      showme = demos
+      setNextStudent(response.data)
+      // setStudentId(response.data[0])
+      if (response.data.length > 0) {
+        setStudentId(response.data[0])
+      } else {
+        setNextStudent("")
+      }
     } catch (error) {
       if (error.response) {
         const errorMessage = error.response.data;
@@ -40,6 +50,29 @@ const Demo = () => {
 
   }, []);
 
+
+  //get request to list one student status
+  const getDemoStatus = async (studentId) => {
+    try {
+      const token = localStorage.getItem("token")
+      console.log(nextStudent)
+      if (demos.length > 0) {
+        setStudentId(demos[0].student)
+        console.log(studentId)
+      }
+      const response = await axios.get(`https://127.0.0.1:8000/demo/student/${studentId}/`, {}, {
+        headers: {
+          'Authorization': `Token ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      console.log("Status updated successfully: ", response.data)
+    } catch (error){
+      console.error("Error ")
+    }
+    
+  }
+
   /*
   onClick method to hit endpoint: 
   https://127.0.0.1:8000/demo/student/<student_id>/
@@ -49,6 +82,30 @@ const Demo = () => {
   options: "on deck", "complete"
   display text with current status or button to update?
   */
+  // console.log(studentId)
+  const updateDemoStatus = async (studentId, newStatus) => {
+    try {
+      const token = localStorage.getItem("token")
+      console.log(nextStudent)
+      if (demos.length > 0) {
+        setStudentId(demos[0].student)
+        console.log(studentId)
+      }
+      // const studentId = 1
+      const response = await axios.put(`https://127.0.0.1:8000/demo/student/${studentId}/`, {status: newStatus}, {
+        headers: {
+          'Authorization': `Token ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      updateDemos()
+      setNewStatus("")
+      console.log("Status updated successfully: ", response.data)
+    } catch (error){
+      console.error("Error ")
+    }
+    
+  }
 
   /*
   Instructor button:
@@ -68,23 +125,41 @@ const Demo = () => {
         'Content-Type': 'application/json'
       }
     })
-    updateDemos("")
+    updateDemos()
   } catch (error){
     console.error("Error resetting demo list:", error)
   }
  }
 
+ useEffect(() => {
+  updateDemos()
+ }, [])
+
   return (
+    <>
     <ul className="consoleCardUl">
+    {nextStudent && (
+      <div className='p-3'>
+        <h1>Next Student Up for Demo</h1>
+        <p>{nextStudent.first_name} {nextStudent.last_name}</p>
+      </div>
+    )}
+    <div className='p-4'>
+
       <li>Student - Status</li>
-      <Button onClick={resetDemoList}className='resetButton'>Reset</Button>
-      <hr />
+        <Button onClick={() => setNewStatus('to do')} className='statusButton'>To Do</Button>
+        <Button onClick={() => setNewStatus('on deck')} className='statusButton'>On Deck</Button>
+        <Button onClick={() => setNewStatus('complete')} className='statusButton'>Complete</Button>
+        <Button onClick={resetDemoList}className='resetButton'>Reset</Button>
+    </div>
       {demos.map((demo, index) => (<li key={index}>
-        {demo.first_name} {demo.last_name} - {demo.status} ({demo.status === "On Deck" ? "On Deck" : "Complete"}) 
-        {/* On Deck - Complete) */}
+        {demo.first_name} {demo.last_name} - {demo.status} ({demo.status === "On Deck" ? "On Deck" : "Complete"})
+        <Button onClick={() => updateDemoStatus(demo.id, newStatus)}>Update Status</Button>
         </li>
       ))}
     </ul>
+    
+    </>
   )
 }
 
