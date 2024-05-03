@@ -29,6 +29,9 @@ const StudentAttCard = ({ id, first_name, last_name, accountability_status, excu
         setAccountabilityStatus(value);
         if (value === 2) {
             setExcusedStatus(false);
+            setPairStatus(true);
+        } else if (value === 1) {
+            setPairStatus(false);
         }
     };
 
@@ -41,6 +44,7 @@ const StudentAttCard = ({ id, first_name, last_name, accountability_status, excu
     };
 
     const handleSubmit = () => {
+        toggleDone();
         // Make API call to send data to backend
         const data = {
             id: id,
@@ -50,20 +54,20 @@ const StudentAttCard = ({ id, first_name, last_name, accountability_status, excu
             pair_status: pairStatus
         };
         console.log(data);
-
-        // Example API call
-        // axios.post('your-backend-api-url', data, {
-        //   headers: {
-        //     Authorization: `Token ${token}`
-        //   }
-        // })
-        // .then(response => {
-        //   console.log(response.data);
-        // })
-        // .catch(error => {
-        //   console.error('Error:', error);
-        // });
+    
+        axios.patch(`https://127.0.0.1:8000/accountability/alter/${id}/`, data, {
+            headers: {
+                Authorization: `Token ${token}`
+            }
+        })
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     };
+    
 
     const toggleDone = () => {
         setChecked(!checked);
@@ -80,7 +84,7 @@ const StudentAttCard = ({ id, first_name, last_name, accountability_status, excu
 
                 <div style={{ marginTop: "10px" }}>
                     <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
-                        <DropdownToggle caret>
+                        <DropdownToggle className="attendanceDropdown" caret>
                             Status:
                         </DropdownToggle>
                         <DropdownMenu container="body">
@@ -98,7 +102,7 @@ const StudentAttCard = ({ id, first_name, last_name, accountability_status, excu
                     <>
                         <div style={{ marginTop: "10px" }}>
                             <Dropdown isOpen={excusedDropdownOpen} toggle={toggleExcusedDropdown}>
-                                <DropdownToggle caret>
+                                <DropdownToggle className="attendanceDropdown" caret>
                                     Excused?
                                 </DropdownToggle>
                                 <DropdownMenu container="body">
@@ -114,6 +118,7 @@ const StudentAttCard = ({ id, first_name, last_name, accountability_status, excu
                         <div style={{ marginTop: "10px" }}>
                             {/* Excuse: {absenceReason} */}
                             <Input
+                                
                                 name="absenceReason"
                                 type="textarea"
                                 id="absenceReason"
@@ -127,7 +132,7 @@ const StudentAttCard = ({ id, first_name, last_name, accountability_status, excu
 
                 <div style={{ marginTop: "10px" }}>
                     <Dropdown isOpen={pairDropdownOpen} toggle={togglePairDropdown}>
-                        <DropdownToggle caret>
+                        <DropdownToggle className="attendanceDropdown" caret>
                             Pair:
                         </DropdownToggle>
                         <DropdownMenu container="body">
@@ -141,7 +146,7 @@ const StudentAttCard = ({ id, first_name, last_name, accountability_status, excu
                     </Dropdown>
                 </div>
 
-                <Button style={{ marginTop: "10px" }} onClick={handleSubmit}>Submit</Button>
+                <Button className="attendanceDropdown" style={{ marginTop: "10px" }} onClick={handleSubmit}>Submit</Button>
             </CardBody>
         </Card>
     );
