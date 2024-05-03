@@ -53,6 +53,7 @@ You have requested a password reset. Please click the link below to reset your p
 ## CREATE A CONFIG RECORD
 - **ENDPOINT** : `https://127.0.0.1:800/gh/`
 - **Type** : POST
+- **Permissions** : Instructor
 - **Body** :
     ```json
         {
@@ -80,6 +81,7 @@ You have requested a password reset. Please click the link below to reset your p
 - NOTE: This endpoint is only functional in DEBUG mode
 - **ENDPOINT** : `https://127.0.0.1:8000/gh/<record id>/`
 - **Type** : DELETE
+- **Permissions** : Instructor
 - **Response** :
     - Success: HTTP 204
 
@@ -103,6 +105,7 @@ You have requested a password reset. Please click the link below to reset your p
 - NOTE: There should be only 1 record
 - **ENDPOINT** : `https://127.0.0.1:8000/gh/<record id>/`
 - **Type** : GET
+- **Permissions** : Instructor
 - **Response** :
     - Success: HTTP 200
     ```json
@@ -117,6 +120,7 @@ You have requested a password reset. Please click the link below to reset your p
 - NOTE: There should be only 1 record
 - **ENDPOINT** : `https://127.0.0.1:8000/gh/all/`
 - **Type** : GET
+- **Permissions** : Instructor
 - **Response** :
     ```json
         [
@@ -131,6 +135,7 @@ You have requested a password reset. Please click the link below to reset your p
 ## GET CURRICULUM URL
 - **ENDPOINT** : `https://127.0.0.1:8000/gh/main/`
 - **Type** : GET
+- **Permissions** : Student
 - **Response** :
     - Success: HTTP 200
     ```json
@@ -144,6 +149,7 @@ You have requested a password reset. Please click the link below to reset your p
 - NOTE: Keep it simple - use the week number to search
 - **ENDPOINT** : `https://127.0.0.1:8000/gh/<week str>/`
 - **Type** : GET
+- **Permissions** : Student
 - **Response** :
     - Success: HTTP 200
     ```json
@@ -208,6 +214,7 @@ You have requested a password reset. Please click the link below to reset your p
 ## UPDATE A CONFIG RECORD
 - **ENDPOINT** : `https://127.0.0.1:8000/gh/<record id>/`
 - **Type** : PUT
+- **Permissions** : Instructor
 - **Body** :
     ```json
         {
@@ -231,6 +238,7 @@ You have requested a password reset. Please click the link below to reset your p
 - NOTE: This changes the status to 'to do' for all records in the cohort
 - **ENDPOINT** : `https://127.0.0.1:8000/demo/reset/<cohort_name>/`
 - **Type** : PUT
+- **Permissions** : Instructor
 - **Response** :
     - Success: 201
     ```json
@@ -245,8 +253,10 @@ You have requested a password reset. Please click the link below to reset your p
     ```
 
 ## VIEW ALL COHORT DEMO RECORDS
+- NOTE: This endpoint is obsolete.  Use the POST Method to the same endpoint to ensure records are updated.  The POST method returns all of the cohort records after update.
 - **ENDPOINT** : `https://127.0.0.1:8000/demo/all/<cohort_name>/`
 - **Type** : GET
+- **Permissions** : Student
 - **Response** :
     - Success: 200
     ```json
@@ -263,6 +273,7 @@ You have requested a password reset. Please click the link below to reset your p
 ## VIEW ALL DEMO RECORDS
 - **ENDPOINT** : `https://127.0.0.1:8000/demo/all/`
 - **Type** : GET
+- **Permissions** : Instructor
 - **Response** :
     - Success: 200
     ```json
@@ -277,8 +288,10 @@ You have requested a password reset. Please click the link below to reset your p
     ```
 
 ## VIEW STUDENT DEMO RECORD
+- NOTE: This endpoint is currently not used.  This will be marked as obsolete if no use-case is identified.
 - **ENDPOINT** : `https://127.0.0.1:8000/demo/student/<student_id>/`
 - **Type** : GET
+- **Permissions** : Instructor
 - **Response** :
     - Success: 200
     ```json
@@ -291,9 +304,10 @@ You have requested a password reset. Please click the link below to reset your p
     ```
 
 ## UPDATE ALL COHORT DEMO RECORDS
-- NOTE: This endpoint only creates records for students in a cohort who do not have a demo record
+- NOTE: This endpoint only creates records for students in a cohort who do not have a demo record.  This method returns all demo records in the cohort (after creation).
 - **ENDPOINT** : `https://127.0.0.1:8000/demo/all/<cohort_name>/`
 - **Type** : POST
+- **Permissions** : Student
 - **Response** :
     - Success: 201
     ```json
@@ -313,6 +327,7 @@ You have requested a password reset. Please click the link below to reset your p
 - NOTE: Valid options: 'to do', 'on deck', 'complete'
 - **ENDPOINT** : `https://127.0.0.1:8000/demo/student/<student_id>/`
 - **Type** : PUT
+- **Permissions** : Instructor
 - **Body** :
     ```json
         {

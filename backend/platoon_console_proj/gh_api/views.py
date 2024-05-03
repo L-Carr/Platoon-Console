@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from .serializers import GhApiConfigSerializer, GhApiConfig
+from user_app.views import InstructorPermissions,StudentPermissions
 from ghapi.all import GhApi
 from dotenv import load_dotenv
 import os
@@ -41,9 +42,7 @@ def get_active_repo():
     except Exception as error:
         print(f'GhApi get_active_repo error: {error}')
 
-class GhApiConfigInfo(APIView):
-    #TODO: Change this to instructor only, this is set to AllowAny just for testing purposes
-    permission_classes = [AllowAny]
+class GhApiConfigInfo(InstructorPermissions):
 
     def get(self, request, id):
         # This method handles GET requests to display ghapi config values
@@ -74,9 +73,7 @@ class GhApiConfigInfo(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response({"message":"delete method only allowed in debug mode."}, status=status.HTTP_400_BAD_REQUEST)
 
-class GhApiConfigCreate(APIView):
-    #TODO: Change this to instructor only, this is set to AllowAny just for testing purposes
-    permission_classes = [AllowAny]
+class GhApiConfigCreate(InstructorPermissions):
 
     def post(self, request):
         # This method handles POST requests to create a ghapi config
@@ -97,9 +94,7 @@ class GhApiConfigCreate(APIView):
             return Response(new_config.data, status=status.HTTP_201_CREATED)
         return Response(new_config.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class GhApiConfigViewAll(APIView):
-    #TODO: Change this to instructor only, this is set to AllowAny just for testing purposes
-    permission_classes = [AllowAny]
+class GhApiConfigViewAll(InstructorPermissions):
 
     def get(self, request):
         # This method handles GET requests to view all config records
@@ -108,12 +103,10 @@ class GhApiConfigViewAll(APIView):
 
         return Response(ser_config.data)
 
-class GhApiMainReadme(APIView):
-    #TODO: Change this to only allow logged in students and instrurctors
-    permission_classes = [AllowAny]
+class GhApiMainRepo(StudentPermissions):
 
     def get(self, request):
-        # This method handles GET requests to view the main readme
+        # This method handles GET requests to view the main curriculum
         api = get_active_repo()
         if api :
             cp_repos = api.repos
@@ -127,8 +120,7 @@ class GhApiMainReadme(APIView):
             return Response(result)
         return Response({"message":"There is no config record."}, status=status.HTTP_400_BAD_REQUEST)
     
-class GhApiWeekReadme(APIView):
-    #TODO: Change this to only allow logged in students and instructors
+class GhApiWeekDir(StudentPermissions):
 
     def get(self, request, week):
         # This method handles GET requests to view the week readme
