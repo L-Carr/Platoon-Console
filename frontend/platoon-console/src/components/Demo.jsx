@@ -101,14 +101,23 @@ const Demos = () => {
   
     if (onDeckStudent) {
       // Avoid flickering when clicking Random On Deck
-      await handleStatusChange(demos.findIndex(demo => demo.student === onDeckStudent.student), 'to do', true);
-    }
-  
-    if (todoStudents.length > 0) {
-      const randomIndex = Math.floor(Math.random() * todoStudents.length);
-      await handleStatusChange(demos.findIndex(demo => demo.student === todoStudents[randomIndex].student), 'on deck', true);
+      handleStatusChange(demos.findIndex(demo => demo.student === onDeckStudent.student), 'to do', true)
+        .then(() => {
+          if (todoStudents.length > 0) {
+            const randomIndex = Math.floor(Math.random() * todoStudents.length);
+            handleStatusChange(demos.findIndex(demo => demo.student === todoStudents[randomIndex].student), 'on deck', true)
+              .then(() => updateDemos());
+          }
+        });
+    } else {
+      if (todoStudents.length > 0) {
+        const randomIndex = Math.floor(Math.random() * todoStudents.length);
+        handleStatusChange(demos.findIndex(demo => demo.student === todoStudents[randomIndex].student), 'on deck', true)
+          .then(() => updateDemos());
+      }
     }
   };
+  
   
   const resetDemoList = async () => {
     try {
