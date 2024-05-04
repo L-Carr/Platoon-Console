@@ -13,7 +13,7 @@ class AttendanceRecord(models.Model):
     first_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100, blank=True)
     def __str__(self):
-        return f"{self.accountability_date} | {self.user.username} | {self.cohort}"
+        return f"{self.accountability_date} |  | {self.cohort}"
 
 
 

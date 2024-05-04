@@ -22,6 +22,10 @@ const navigate = useNavigate()
 const handleLogout = () => {
   //delete token and update auth status
   localStorage.removeItem('token')
+  localStorage.removeItem('user_first_name');
+  localStorage.removeItem('user_last_name');
+  localStorage.removeItem('user_cohort');
+  localStorage.removeItem('user_groups');
   setIsLoggedIn(false)
   navigate('/login')
 }

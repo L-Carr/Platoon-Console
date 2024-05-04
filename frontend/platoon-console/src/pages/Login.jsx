@@ -9,6 +9,7 @@ const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
     const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
@@ -25,15 +26,25 @@ const Login = () => {
                     'Content-Type': 'application/json'
                 }
             });
-            const { token } = response.data;
+            console.log(response.data)
+            const { token, user_cohort, user_first_name, user_last_name, user_groups } = response.data;
             
             localStorage.setItem('token', token);
+            localStorage.setItem('user_cohort', user_cohort);
+            localStorage.setItem('user_first_name', user_first_name);
+            localStorage.setItem('user_last_name', user_last_name);
+            localStorage.setItem('user_groups', user_groups)
+
             
             setErrorMessage("");
             setEmail("");
             setPassword("");
+            setSuccessMessage("Login successful");
             
-            window.location.href = '/';
+            setTimeout(() => {
+                navigate("/");
+            }, 2000);
+            // window.location.href = '/';
             
         } catch (error) {
             if (error.response) {
@@ -86,6 +97,7 @@ const Login = () => {
                 <Button type="Submit">Submit</Button>
             </Form>
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
             <p>Don't have an account?  <Link tag="link" to="/register">Register</Link></p>
             <p><Link tag="link" to="/forgot-password">Forgot password?</Link></p>
             </div>

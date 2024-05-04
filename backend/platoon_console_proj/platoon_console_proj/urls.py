@@ -20,10 +20,11 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('user_app.urls')),
-    path('calendar/', include('calendar_integration.urls')),
     path('gh/', include('gh_api.urls')),
     path('demo/', include('demo.urls')),
-    path('accountability/', include('accountability_app.urls'))
+    path('teams/', include('teams.urls')),
+    path('accountability/', include('accountability_app.urls')),
+    path('cohort/', include('cohort.urls')),
 ]
 
 
