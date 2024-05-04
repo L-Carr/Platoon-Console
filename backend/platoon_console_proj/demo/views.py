@@ -2,9 +2,15 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import Group
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import DemoStudentSerializer, DemoStudent
+from .serializers import (
+    DemoStudentSerializer, 
+    DemoStudent, 
+    DemoTeamSerializer, 
+    DemoTeam
+)
 from cohort.models import Cohort
 from user_app.models import UserAccount, User
+from teams.models import Team
 
 from user_app.views import InstructorPermissions, GenericAuthPermissions, APIView
 # Create your views here.
@@ -13,7 +19,6 @@ class AllStudentDemoInfo(InstructorPermissions):
 
     def get(self, request):
         # This method handles GET requests to view all demo records
-        # This method is obsolete - to be removed
         student_demos = DemoStudent.objects.all()
         ser_demos = DemoStudentSerializer(student_demos, many=True)
 
@@ -23,6 +28,7 @@ class AllCohortDemoInfo(GenericAuthPermissions):
 
     def get(self, request, cohort_name):
         # This method handles GET requests to view all demo records for a cohort
+        # This method is obsolete - to be removed
         cohort = get_object_or_404(Cohort, cohort_name=cohort_name)
         cohort_demos = DemoStudent.objects.filter(cohort=cohort)
         ser_demos = DemoStudentSerializer(cohort_demos, many=True)
@@ -122,3 +128,37 @@ class ResetCohortDemoInfo(InstructorPermissions):
         ser_updated_demos = DemoStudentSerializer(updated_demos, many=True)
 
         return Response(ser_updated_demos.data, status=status.HTTP_201_CREATED)
+
+class AllCohortTeamDemoInfo(APIView):
+
+    def post(self, request, cohort_name):
+        # This method handles POST requests to create records for all teams in a cohort where no record is present
+        cohort = get_object_or_404(Cohort, cohort_name=cohort_name)
+        teams = Team.objects.filter(cohort=cohort)
+
+        adding_teams = False
+
+        for team in teams:
+            demo = DemoTeam.objects.filter(team=team)
+
+            if not demo.exists():
+                new_demo = DemoTeam.objects.create(
+                    team=team,
+                    cohort=cohort
+                )
+                new_demo.full_clean()
+                adding_teams = True
+
+        cohort_demos = DemoTeam.objects.filter(cohort=cohort)
+        ser_demos = DemoTeamSerializer(cohort_demos, many=True)
+
+        response = ser_demos.data
+
+        for demo in response:
+            team = get_object_or_404(Team, id=demo["team"])
+
+            demo['team_name'] = team.name
+
+        if adding_teams:
+            return Response(response, status=status.HTTP_201_CREATED)
+        return Response(response, status=status.HTTP_200_OK)
