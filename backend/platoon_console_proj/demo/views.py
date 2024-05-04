@@ -117,7 +117,6 @@ class ResetCohortDemoInfo(InstructorPermissions):
         }
 
         for demo in demos:
-            print(demo)
             ser_demo = DemoStudentSerializer(demo, data=data, partial=True)
             if ser_demo.is_valid():
                 ser_demo.save()
@@ -128,6 +127,28 @@ class ResetCohortDemoInfo(InstructorPermissions):
         ser_updated_demos = DemoStudentSerializer(updated_demos, many=True)
 
         return Response(ser_updated_demos.data, status=status.HTTP_201_CREATED)
+    
+class TeamDemoInfo(APIView):
+    def get(self, request, id):
+        # This method handles GET requests to view a team demo record
+        demo = get_object_or_404(DemoTeam, team=id)
+
+        ser_demo = DemoTeamSerializer(demo)
+
+        return Response(ser_demo.data)
+    
+    def put(self, request, id):
+        # This method handles PUT requests to update a team demo record
+        demo = get_object_or_404(DemoTeam, team=id)
+
+        data = request.data.copy()
+
+        ser_demo = DemoTeamSerializer(demo, data=data, partial=True)
+
+        if ser_demo.is_valid():
+            ser_demo.save()
+            return Response(ser_demo.data, status=status.HTTP_201_CREATED)
+        return Response(ser_demo.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class AllCohortTeamDemoInfo(APIView):
 
@@ -162,3 +183,26 @@ class AllCohortTeamDemoInfo(APIView):
         if adding_teams:
             return Response(response, status=status.HTTP_201_CREATED)
         return Response(response, status=status.HTTP_200_OK)
+    
+class ResetCohortTeamDemoInfo(APIView):
+
+    def put(self, request, cohort_name):
+        # This method handles PUT requests to reset a cohorts team demo records
+        cohort = get_object_or_404(Cohort, cohort_name=cohort_name)
+
+        demos = DemoTeam.objects.filter(cohort=cohort)
+        data = {
+            'status':'to do'
+        }
+
+        for demo in demos:
+            ser_demo = DemoTeamSerializer(demo, data=data, partial=True)
+            if ser_demo.is_valid():
+                ser_demo.save()
+            else:
+                print(f'ResetCohortTeamDemoInfo Error: {ser_demo.errors}')
+
+        updated_demos = DemoTeam.objects.filter(cohort=cohort)
+        ser_updated_demos = DemoTeamSerializer(updated_demos, many=True)
+
+        return Response(ser_updated_demos.data, status=status.HTTP_201_CREATED)
