@@ -1,196 +1,190 @@
 import axios from 'axios';
-import {useState, useEffect} from 'react';
-import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { useState, useEffect } from 'react';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Card, CardBody, Button } from 'reactstrap';
+import caretRight from "../assets/caret-right.svg"
+import caretDown from "../assets/caret-down.svg"
+import check from "../assets/check.svg"
 
-const Demo = () => {
-  const [errorMessage, setErrorMessage] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState(null);
-  const [demos, setDemos] = useState([])
-  const [nextStudent, setNextStudent] = useState("")
-  const [studentId, setStudentId] = useState(0)
-  const [newStatus, setNewStatus] = useState("")
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [status, setStatus] = useState(null);
-
-  const updateDemos = async () => {
-    // Uses a post request to check with backend and create records for any student who does not have a demo record, gets current updated list of all demo records
-    try {
-      const userCohort = "Whiskey"
-      const token = localStorage.getItem("token")
-
-      const response = await axios.post(`https://127.0.0.1:8000/demo/all/${userCohort}/`, {}, {
-        headers: {
-          'Authorization': `Token ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-      setDemos(response.data)
-      setNextStudent(response.data)
-      if (response.data.length > 0) {
-        setStudentId(response.data[0])
-      } else {
-        setNextStudent("")
-      }
-    } catch (error) {
-      if (error.response) {
-        const errorMessage = error.response.data;
-        setErrorMessage(errorMessage);
-        console.log('Error', errorMessage);
-      }
-    }
-  }
+const Demos = () => {
+  const [cohorts, setCohorts] = useState([]);
+  const [selectedCohort, setSelectedCohort] = useState(null);
+  const [demos, setDemos] = useState([]);
+  const [cohortDropdownOpen, setCohortDropdownOpen] = useState(false);
 
   useEffect(() => {
-    updateDemos();
+    const fetchCohorts = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('https://127.0.0.1:8000/cohort/', {
+          headers: {
+            Authorization: `Token ${token}`
+          }
+        });
 
+        setCohorts(response.data.map(cohort => cohort.cohort_name));
+      } catch (error) {
+        console.error('Error fetching cohorts', error);
+      }
+    };
+    fetchCohorts();
   }, []);
 
+  useEffect(() => {
+    if (selectedCohort) {
+      updateDemos(selectedCohort);
+    }
+  }, [selectedCohort]);
 
-  //get request to list one student status
-  const getDemoStatus = async (studentId, newStatus) => {
+  const toggleCohortDropdown = () => setCohortDropdownOpen(prevState => !prevState);
+
+  const handleCohortSelect = async (name) => {
+    setSelectedCohort(name);
+    setCohortDropdownOpen(false);
+  };
+
+  const updateDemos = async () => {
     try {
       const token = localStorage.getItem("token")
-      if (demos.length > 0) {
-        setStudentId(demos[0].student)
-      }
-      const response = await axios.get(`https://127.0.0.1:8000/demo/student/${studentId}/`, {}, {
+      const response = await axios.post(`https://127.0.0.1:8000/demo/all/${selectedCohort}/`, {}, {
         headers: {
           'Authorization': `Token ${token}`,
           'Content-Type': 'application/json'
         }
-      })
-      console.log("Status updated successfully: ", response.data)
-    } catch (error){
-      console.error("Error ")
-    }
-    
-  }
-
-  /*
-  onClick method to hit endpoint: 
-  https://127.0.0.1:8000/demo/student/<student_id>/
-  use demo.student for id
-  put request
-  body: {"status":"update"}
-  options: "on deck", "complete"
-  display text with current status or button to update?
-  */
-  const updateDemoStatus = async (studentId, newStatus) => {
-    try {
-      const token = localStorage.getItem("token")
-      const response = await axios.put(`https://127.0.0.1:8000/demo/student/${studentId}/`, {status: newStatus}, {
-        headers: {
-          'Authorization': `Token ${token}`,
-          'Content-Type': 'application/json'
-        }
-      })
-      updateDemos()
-      console.log("Status updated successfully: ", response.data)
-    } catch (error){
-      console.error("Error ")
-    }
-    
-  }
-
-  /*
-  Instructor button:
-  Reset all cohort demos:
-  https://127.0.0.1:8000/demo/reset/<cohort_name>/
-  use demo.cohort or whatever method is used to identify cohort
-  will return a list of all students with updated statuses
-  - does not include first names and last names
-  */
-
-  //this reset function sets all statuses back to to do
- const resetDemoList = async () => {
-  try {
-    const userCohort = "Whiskey"
-    const token = localStorage.getItem("token")
-    const response = await axios.put(`https://127.0.0.1:8000/demo/reset/${userCohort}/`, {}, {
-      headers: {
-        'Authorization': `Token ${token}`,
-        'Content-Type': 'application/json'
-      }
-    })
-    updateDemos()
-  } catch (error){
-    console.error("Error resetting demo list:", error)
-  }
- }
-
- useEffect(() => {
-  updateDemos()
- }, [])
-
- const toggleDropDown = (demoId) => {
-  setDropdownOpen((prevId) => (prevId === demoId ? null : demoId))
- }
-
- const handleStatusChange = async (studentId, newStatus) => {
-  console.log(`Status updated for student ${studentId} to ${newStatus}: ` + selectedStatus);
-  try {
-    const token = localStorage.getItem("token");
-    // Update the status of each student in demos array
-    const response = await axios.put(
-        `https://127.0.0.1:8000/demo/student/${studentId}/`,
-        { status: newStatus },
-        {
-          headers: {
-            'Authorization': `Token ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-      const updatedDemos = demos.map(demo => {
-        if (demo.id === studentId) {
-          return { ...demo, status: newStatus };
-        }
-        return demo;
       });
-      setDemos(updatedDemos)
-      setSelectedStatus(newStatus)
-      console.log(demos)
-      console.log("Status updated successfully: ", response.data);
+      const sortedDemos = response.data.sort((a, b) => {
+        const statusOrder = { 'on deck': 1, 'to do': 2, 'complete': 3 };
+        return statusOrder[a.status] - statusOrder[b.status];
+      });
+      setDemos(sortedDemos.map(demo => ({ ...demo, isOpen: false, dropdownOpen: false })));
+    } catch (error) {
+      console.error('Error fetching demos', error);
     }
-   catch (error) {
-    console.error("Error updating status: ", error);
-  }
- }
+  };
+
+  const toggleDemoDropdown = (index) => {
+    setDemos(demos.map((item, i) => index === i ? { ...item, dropdownOpen: !item.dropdownOpen } : item));
+  };
+
+  const toggleDemoCard = (index) => {
+    setDemos(demos.map((item, i) => index === i ? { ...item, isOpen: !item.isOpen } : item));
+  };
+
+  const handleStatusChange = async (index, status, fromRandom = false) => {
+    const demoId = demos[index].student;
+    try {
+      const token = localStorage.getItem("token")
+      
+      // Check if any other student already has 'on deck' status
+      const onDeckStudentIndex = demos.findIndex(demo => demo.status === 'on deck');
+      if (status === 'on deck' && onDeckStudentIndex !== -1 && onDeckStudentIndex !== index) {
+        await handleStatusChange(onDeckStudentIndex, 'to do');
+      }
+      
+      const response = await axios.put(`https://127.0.0.1:8000/demo/student/${demoId}/`, { status: status }, {
+        headers: {
+          'Authorization': `Token ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log("Status updated successfully: ", response.data);
+      if (!fromRandom) {
+        updateDemos(selectedCohort);
+      }
+    } catch (error) {
+      console.error("Error updating status: ", error);
+    }
+  };
+  
+  const handleRandomOnDeck = async () => {
+    const todoStudents = demos.filter(demo => demo.status === 'to do');
+    const onDeckStudent = demos.find(demo => demo.status === 'on deck');
+  
+    if (onDeckStudent) {
+      // Avoid flickering when clicking Random On Deck
+      handleStatusChange(demos.findIndex(demo => demo.student === onDeckStudent.student), 'to do', true)
+        .then(() => {
+          if (todoStudents.length > 0) {
+            const randomIndex = Math.floor(Math.random() * todoStudents.length);
+            handleStatusChange(demos.findIndex(demo => demo.student === todoStudents[randomIndex].student), 'on deck', true)
+              .then(() => updateDemos());
+          }
+        });
+    } else {
+      if (todoStudents.length > 0) {
+        const randomIndex = Math.floor(Math.random() * todoStudents.length);
+        handleStatusChange(demos.findIndex(demo => demo.student === todoStudents[randomIndex].student), 'on deck', true)
+          .then(() => updateDemos());
+      }
+    }
+  };
+  
+  
+  const resetDemoList = async () => {
+    try {
+      const token = localStorage.getItem("token")
+      await axios.put(`https://127.0.0.1:8000/demo/reset/${selectedCohort}/`, {}, {
+        headers: {
+          'Authorization': `Token ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      updateDemos();
+    } catch (error) {
+      console.error("Error resetting demo list:", error);
+    }
+  };
 
   return (
     <>
-    <ul className="consoleCardUl">
-    {nextStudent && (
-      <div className='p-3'>
-        <h1>Next Student Up for Demo</h1>
-        <p>{nextStudent[0].first_name} {nextStudent[0].last_name}</p>
-      </div>
-    )}
-    <div className='p-4'>
-
-      <li>Student - Status</li>
-      <Button onClick={resetDemoList}className='resetButton'>Reset</Button>
-      
-    </div>
-    <div className='p-5'>
-      {demos.map((demo, index) => (<li key={index}>
-        {demo.first_name} {demo.last_name} - {demo.status} 
-        <Dropdown isOpen={dropdownOpen === demo.id} toggle={() => toggleDropDown(demo.id)} className='p-5'>
-        <DropdownToggle caret>
-          Select Status
-        </DropdownToggle>
-        <DropdownMenu>
-          <DropdownItem onClick={() => handleStatusChange(demo.id,'to do')}>To Do</DropdownItem>
-          <DropdownItem onClick={() => handleStatusChange(demo.id,'on deck')}>On Deck</DropdownItem>
-          <DropdownItem onClick={() => handleStatusChange(demo.id,'complete')}>Complete</DropdownItem>
-        </DropdownMenu>
+      <h3 className="tertiaryH3">Demo Tracking</h3>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <Dropdown isOpen={cohortDropdownOpen} toggle={toggleCohortDropdown} style={{ marginTop: "20px", marginRight: "10px", marginBottom: "20px" }}>
+          <DropdownToggle className="attendanceDropdown" caret>
+            {selectedCohort !== null ? `${selectedCohort}` : 'Select Cohort'}
+          </DropdownToggle>
+          <DropdownMenu>
+            {cohorts.map(name => (
+              <DropdownItem key={name} onClick={() => { handleCohortSelect(name); toggleCohortDropdown(); }}>
+                {name}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
         </Dropdown>
-        </li>
-      ))}
-    </div>
-    </ul>
+        <Button color="secondary" onClick={handleRandomOnDeck} style={{ marginTop: "20px", marginBottom: "20px", marginRight: "10px" }}>Random On Deck</Button>
+        <Button color="secondary" onClick={resetDemoList} style={{ marginTop: "20px", marginBottom: "20px" }}>Reset All</Button>
+      </div>
+      <div className="card-container" style={{ marginTop: "2rem", display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
+        {demos.map((demo, index) => (
+          <Card key={index} style={{ borderRadius: "5px", backgroundColor: demo.status === 'to do' ? "grey" : demo.status === 'on deck' ? "#f05a1b" : "#3b7f82" }} className={demo.isOpen ? "demoCardOpen" : "demoCardClosed"}>
+            <CardBody>
+              <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                <img src={demo.isOpen ? caretDown : caretRight} style={{ width: "32px", height: "32px", borderRadius: "50%" }} onClick={() => toggleDemoCard(index)} />
+                <span>{demo.first_name} {demo.last_name}</span>
+              </div>
+              <div style={{ marginTop: "10px" }}>
+                <Dropdown isOpen={demo.dropdownOpen} toggle={() => toggleDemoDropdown(index)}>
+                  <DropdownToggle className="attendanceDropdown" caret>
+                    Status:
+                  </DropdownToggle>
+                  <DropdownMenu container="body">
+                    <DropdownItem onClick={() => handleStatusChange(index, 'to do')}>
+                      To Do {demo.status === 'to do' && <img src={check} alt="Selected" style={{ width: "16px", height: "16px" }} />}
+                    </DropdownItem>
+                    <DropdownItem onClick={() => handleStatusChange(index, 'on deck')}>
+                      On Deck {demo.status === 'on deck' && <img src={check} alt="Selected" style={{ width: "16px", height: "16px" }} />}
+                    </DropdownItem>
+                    <DropdownItem onClick={() => handleStatusChange(index, 'complete')}>
+                      Complete {demo.status === 'complete' && <img src={check} alt="Selected" style={{ width: "16px", height: "16px" }} />}
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+            </CardBody>
+          </Card>
+        ))}
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default Demo
+export default Demos;
