@@ -128,7 +128,7 @@ class ResetCohortDemoInfo(InstructorPermissions):
 
         return Response(ser_updated_demos.data, status=status.HTTP_201_CREATED)
     
-class TeamDemoInfo(APIView):
+class TeamDemoInfo(InstructorPermissions):
     def get(self, request, id):
         # This method handles GET requests to view a team demo record
         demo = get_object_or_404(DemoTeam, team=id)
@@ -150,7 +150,7 @@ class TeamDemoInfo(APIView):
             return Response(ser_demo.data, status=status.HTTP_201_CREATED)
         return Response(ser_demo.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class AllCohortTeamDemoInfo(APIView):
+class AllCohortTeamDemoInfo(GenericAuthPermissions):
 
     def post(self, request, cohort_name):
         # This method handles POST requests to create records for all teams in a cohort where no record is present
@@ -184,7 +184,7 @@ class AllCohortTeamDemoInfo(APIView):
             return Response(response, status=status.HTTP_201_CREATED)
         return Response(response, status=status.HTTP_200_OK)
     
-class ResetCohortTeamDemoInfo(APIView):
+class ResetCohortTeamDemoInfo(InstructorPermissions):
 
     def put(self, request, cohort_name):
         # This method handles PUT requests to reset a cohorts team demo records
