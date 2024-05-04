@@ -69,10 +69,17 @@ const Demos = () => {
     setDemos(demos.map((item, i) => index === i ? { ...item, isOpen: !item.isOpen } : item));
   };
 
-  const handleStatusChange = async (index, status) => {
+  const handleStatusChange = async (index, status, fromRandom = false) => {
     const demoId = demos[index].student;
     try {
       const token = localStorage.getItem("token")
+      
+      // Check if any other student already has 'on deck' status
+      const onDeckStudentIndex = demos.findIndex(demo => demo.status === 'on deck');
+      if (status === 'on deck' && onDeckStudentIndex !== -1 && onDeckStudentIndex !== index) {
+        await handleStatusChange(onDeckStudentIndex, 'to do');
+      }
+      
       const response = await axios.put(`https://127.0.0.1:8000/demo/student/${demoId}/`, { status: status }, {
         headers: {
           'Authorization': `Token ${token}`,
@@ -80,26 +87,29 @@ const Demos = () => {
         }
       });
       console.log("Status updated successfully: ", response.data);
-      updateDemos(selectedCohort);
+      if (!fromRandom) {
+        updateDemos(selectedCohort);
+      }
     } catch (error) {
       console.error("Error updating status: ", error);
     }
   };
-
+  
   const handleRandomOnDeck = async () => {
     const todoStudents = demos.filter(demo => demo.status === 'to do');
     const onDeckStudent = demos.find(demo => demo.status === 'on deck');
-
+  
     if (onDeckStudent) {
-      await handleStatusChange(demos.findIndex(demo => demo.student === onDeckStudent.student), 'to do');
+      // Avoid flickering when clicking Random On Deck
+      await handleStatusChange(demos.findIndex(demo => demo.student === onDeckStudent.student), 'to do', true);
     }
-
+  
     if (todoStudents.length > 0) {
       const randomIndex = Math.floor(Math.random() * todoStudents.length);
-      await handleStatusChange(demos.findIndex(demo => demo.student === todoStudents[randomIndex].student), 'on deck');
+      await handleStatusChange(demos.findIndex(demo => demo.student === todoStudents[randomIndex].student), 'on deck', true);
     }
   };
-
+  
   const resetDemoList = async () => {
     try {
       const token = localStorage.getItem("token")
