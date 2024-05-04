@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Card, CardBody, CardTitle, Modal, ModalBody, ModalHeader } from 'reactstrap';
+import { Button, Card, CardBody, CardTitle, Modal, ModalBody, ModalHeader, CardText } from 'reactstrap';
 import Accountability from '../components/Accountability';
 import Demo from "../components/Demo";
 
@@ -76,18 +76,7 @@ const Homepage = () => {
             </ul>
           </CardBody>
         </Card>
-
-        <Card className="consoleCard">
-          <CardBody>
-            <CardTitle style={{marginBottom: "0"}}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
-                <h3>Demos</h3>
-              </div>
-            </CardTitle>
-              <Demo />
-          </CardBody>
-        </Card>
-
+        
 
         <Card className="consoleCard">
           <CardBody>
@@ -98,6 +87,7 @@ const Homepage = () => {
             </CardTitle>
             <ul className="consoleCardUl">
             <li><Link to="groups/">Generate Pairs</Link></li>
+            <li><Link to="demo/">Generate Demo List</Link></li>
             </ul>
           </CardBody>
         </Card>
