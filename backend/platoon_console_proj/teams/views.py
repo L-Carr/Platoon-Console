@@ -81,3 +81,18 @@ class ModifyTeamMembership(InstructorPermissions):
         membership = Membership.objects.filter(team_id=team_id)
         membership.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class CreateTeamIfNotExistsView(InstructorPermissions):
+
+    def post(self, request):
+        team_name = request.data.get('name')
+        team = Team.objects.filter(name=team_name).first()
+
+        if team:
+            return Response({'message': 'Team already exists.'}, status=status.HTTP_409_CONFLICT)
+        else:
+            serializer = TeamSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

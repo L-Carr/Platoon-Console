@@ -1,11 +1,13 @@
 from rest_framework import serializers
 from .models import Membership, Team
 from django.contrib.auth.models import User
+from cohort.models import Cohort
 
 class TeamSerializer(serializers.ModelSerializer):
+    cohort = serializers.PrimaryKeyRelatedField(queryset=Cohort.objects.all())
     class Meta:
         model = Team
-        fields = ['id', 'name', 'description']
+        fields = ['id', 'name', 'description', 'cohort']
 
 class MembershipSerializer(serializers.ModelSerializer):
     # Include user's email and names as read-only fields
