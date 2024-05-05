@@ -8,7 +8,7 @@ from django.db import models
 class Team(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
-    cohort = models.ForeignKey(Cohort, on_delete=models.CASCADE, related_name='teams')
+    cohort = models.ForeignKey(Cohort, on_delete=models.CASCADE, related_name='teams', default=1)
     
     
 
