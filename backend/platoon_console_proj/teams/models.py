@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from cohort.models import Cohort
+from cohort.models import Cohort
 
 # Create your models here.
 from django.db import models
