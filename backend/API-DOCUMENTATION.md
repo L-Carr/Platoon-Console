@@ -478,7 +478,7 @@ You have requested a password reset. Please click the link below to reset your p
 
     Allows instructors to add students to a particular team
 
-## Add Member to Team
+## Modify Team Memberships
 - **ENDPOINT**: https://127.0.0.1:8000/teams/memberships/modify/<int:team_id>/
 - **TYPE** POST, PUT, DELETE
 - - **RESPONSE**: 
