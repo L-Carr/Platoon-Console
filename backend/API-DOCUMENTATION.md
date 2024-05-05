@@ -86,21 +86,6 @@ You have requested a password reset. Please click the link below to reset your p
     - Success: HTTP 204
 
 
-## GET A LIST OF COHORTS
-- NOTE: There should be only 1 record
-- **ENDPOINT** : "https://127.0.0.1:8000/cohort/"
-- **Type** : GET
-- **Response** :
-    - Success: HTTP 200
-    ```json
-        {
-            "cohort_code": 1,
-            "cohort_name": "Whiskey",
-            "start_date": "2021-01-09",
-            "end_date": "2021-05-10"
-        }
-    ```
-
 ## GET A CONFIG RECORD
 - NOTE: There should be only 1 record
 - **ENDPOINT** : `https://127.0.0.1:8000/gh/<record id>/`
@@ -178,39 +163,6 @@ You have requested a password reset. Please click the link below to reset your p
             "resources_url": "https://github.com/Code-Platoon-Curriculum/curriculum/tree/main/7-Django/Resources"
         }
 
-
-## GET TEAMS
-- **ENDPOINT** : 'https://127.0.0.1:8000/teams/'
-- **TYPE**: GET 
-- **RESPONSE**: 
-    -SUCCESS HTTP 200 
-    ```json 
-
-    {
-        "id": 1,
-        "name": "Purple Cobras",
-        "description": "Team 2"
-    }
-
-    ``` 
-
-## GET TEAM Members 
-- **ENDPOINT** : 'https://127.0.0.1:8000/teams/<int:team_id>/memberships/'
-- **TYPE**: GET 
-- **RESPONSE**: 
-    -SUCCESS HTTP 200 
-    ```json 
-    {
-        "team": 1,
-        "user_email": "testuser@fakemail.com",
-        "cohort_name": null,
-        "first_name": "Test",
-        "last_name": "User"
-    }
-
-    Returns all members of Team based on Team ID
-
-    ``` 
 ## UPDATE A CONFIG RECORD
 - **ENDPOINT** : `https://127.0.0.1:8000/gh/<record id>/`
 - **Type** : PUT
@@ -250,6 +202,24 @@ You have requested a password reset. Please click the link below to reset your p
                 "status": "to do"
             }
         ] 
+    ```
+
+## RESET COHORT TEAM DEMO RECORDS
+- NOTE: This changes the status to 'to do' for all records in the cohort
+- **ENDPOINT** : `https://127.0.0.1:8000/demo/resetteams/<cohort_name>/`
+- **Type** : PUT
+- **Permissions** : Instructor
+- **Response** :
+    - Success: 201
+    ```json
+        [
+            {
+                "id": 1,
+                "cohort": "Whiskey",
+                "status": "to do",
+                "team": 1
+            }
+        ]
     ```
 
 ## VIEW ALL COHORT DEMO RECORDS
@@ -303,7 +273,22 @@ You have requested a password reset. Please click the link below to reset your p
         }
     ```
 
-## UPDATE ALL COHORT DEMO RECORDS
+## VIEW TEAM DEMO RECORD
+- **ENDPOINT** : `https://127.0.0.1:8000/demo/team/<team_id>`
+- **Type** : GET
+- **Permission** : Instructor
+- **Response** : 
+    - Success: 200
+    ```json
+        {
+            "id": 1,
+            "cohort": "Whiskey",
+            "status": "to do",
+            "team": 1
+        }
+    ```
+
+## UPDATE ALL COHORT STUDENT DEMO RECORDS
 - NOTE: This endpoint only creates records for students in a cohort who do not have a demo record.  This method returns all demo records in the cohort (after creation).
 - **ENDPOINT** : `https://127.0.0.1:8000/demo/all/<cohort_name>/`
 - **Type** : POST
@@ -319,6 +304,25 @@ You have requested a password reset. Please click the link below to reset your p
                 "status": "on deck",
                 "first_name": "Boba",
                 "last_name": "Fett"
+            }
+        ]
+    ```
+
+## UPDATE ALL COHORT TEAM DEMO RECORDS
+- NOTE: This endpoint only creates records for teams in a cohort who do not have a demo record.  This method returns all demo records in the cohort (after creation).
+- **ENDPOINT** : `https://127.0.0.1:8000/demo/teams/<cohort_name>/`
+- **Type** : POST
+- **Permissions** : Student
+- **Response** :
+    - Success: 201
+    ```json
+        [
+            {
+                "id": 1,
+                "cohort": "Whiskey",
+                "status": "to do",
+                "team": 1,
+                "team_name": "Platoon Console"
             }
         ]
     ```
@@ -339,7 +343,7 @@ You have requested a password reset. Please click the link below to reset your p
     ```json
         {
             "id": 1,
-            "student": "user@email.com",
+            "student": 1,
             "cohort": "Whiskey",
             "status": "on deck"
         }
@@ -353,8 +357,92 @@ You have requested a password reset. Please click the link below to reset your p
             ]
         }
     ```
+## UPDATE A TEAM DEMO RECORD
+- NOTE: Valid options: 'to do', 'on deck', 'complete'
+- **ENDPOINT** : `https://127.0.0.1:8000/demo/team/<student_id>/`
+- **Type** : PUT
+- **Permissions** : Instructor
+- **Body** :
+    ```json
+        {
+            "status":"on deck"
+        }
+    ```
+- **Response** :
+    - Success: HTTP 201
+    ```json
+        {
+            "id": 1,
+            "cohort": "Whiskey",
+            "status": "on deck",
+            "team": 1
+        }
+    ```
+    - Error: HTTP 400
+    ```json
+        {
+            "status": [
+                "Value must be 'to do', 'on deck', or 'complete'.",
+                "Ensure this field has no more than 10 characters."
+            ]
+        }
+    ```
+
+# Cohort
+
+## GET A LIST OF COHORTS
+- NOTE: There should be only 1 record
+- **ENDPOINT** : "https://127.0.0.1:8000/cohort/"
+- **Type** : GET
+- **Response** :
+    - Success: HTTP 200
+    ```json
+        {
+            "cohort_code": 1,
+            "cohort_name": "Whiskey",
+            "start_date": "2021-01-09",
+            "end_date": "2021-05-10"
+        }
+    ```
 
 
+# Team
+
+## GET TEAMS
+- **ENDPOINT** : 'https://127.0.0.1:8000/teams/'
+- **TYPE**: GET 
+- **RESPONSE**: 
+    -SUCCESS HTTP 200 
+    ```json 
+
+    {
+        "id": 1,
+        "name": "Purple Cobras",
+        "description": "Team 2"
+    }
+
+    ``` 
+
+## GET TEAM Members 
+- **ENDPOINT** : 'https://127.0.0.1:8000/teams/<int:team_id>/memberships/'
+- **TYPE**: GET 
+- **RESPONSE**: 
+    -SUCCESS HTTP 200 
+    ```json 
+    {
+        "team": 1,
+        "user_email": "testuser@fakemail.com",
+        "cohort_name": null,
+        "first_name": "Test",
+        "last_name": "User"
+    }
+
+    Returns all members of Team based on Team ID
+
+    ``` 
+
+
+# Attendance
 
 ## CREATE OR UPDATE USERS ATTENDANCE 
 - **ENDPOINT** : `https://127.0.0.1:8000/accountability/record/`
