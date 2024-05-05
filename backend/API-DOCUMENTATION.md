@@ -440,6 +440,64 @@ You have requested a password reset. Please click the link below to reset your p
     Returns all members of Team based on Team ID
 
     ``` 
+## CREATE TEAM 
+- **ENDPOINT**: https://127.0.0.1:8000/teams/create/
+- **TYPE** POST
+- - **RESPONSE**: 
+    -SUCCESS HTTP 200 
+    ```json 
+    {
+        "id": 1,
+        "name": "Purple Cobras",
+        "description": "Description of the Team",
+        "cohort": 1
+       
+    }
+
+    Allows instructors to create Teams
+
+
+## Add Member to Team
+- **ENDPOINT**: https://127.0.0.1:8000/teams/add/<int:user_id>/<int:team_id>/
+- **TYPE** POST
+- - **RESPONSE**: 
+    -SUCCESS HTTP 200 
+    ```json 
+    
+      {
+            "id": 12,
+            "team": 1,
+            "user": 3,
+            "user_email": "",
+            "cohort_name": null,
+            "first_name": "",
+            "last_name": "",
+            "role": "Member"
+    }
+    
+
+    Allows instructors to add students to a particular team
+
+## Add Member to Team
+- **ENDPOINT**: https://127.0.0.1:8000/teams/memberships/modify/<int:team_id>/
+- **TYPE** POST, PUT, DELETE
+- - **RESPONSE**: 
+    -SUCCESS HTTP 200 
+    ```json 
+    
+      {
+            "id": 12,
+            "team": 1,
+            "user": 3,
+            "user_email": "",
+            "cohort_name": null,
+            "first_name": "",
+            "last_name": "",
+            "role": "Member"
+    }
+    
+
+    Allows instructors to change information related to particular student's team membership, update, or delete
 
 
 # Attendance
