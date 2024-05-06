@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'calendar_integration',
     'django_extensions',
     'anymail',
     'gh_api',
