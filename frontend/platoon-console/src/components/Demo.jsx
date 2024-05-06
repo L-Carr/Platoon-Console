@@ -271,7 +271,7 @@ const Demos = () => {
                   {isInstructor ? (
                     <Dropdown isOpen={demo.dropdownOpen} toggle={() => toggleDemoDropdown(index)}>
                       <DropdownToggle className="attendanceDropdown" caret>
-                        Status:
+                        {demo.status}
                       </DropdownToggle>
                       <DropdownMenu container="body">
                         <DropdownItem onClick={() => handleStatusChange(index, 'to do')}>
@@ -286,7 +286,7 @@ const Demos = () => {
                       </DropdownMenu>
                     </Dropdown>
                   ) : (
-                    <Button disabled color="secondary" style={{ width: "180px" }}>
+                    <Button color="secondary" style={{ width: "180px", pointerEvents: "none" }}>
                       {demo.status}
                     </Button>
                   )}
@@ -310,7 +310,7 @@ const Demos = () => {
                   {isInstructor ? (
                     <Dropdown isOpen={demo.dropdownOpen} toggle={() => toggleTeamDemoDropdown(index)}>
                       <DropdownToggle className="attendanceDropdown" caret>
-                        Status:
+                        demo.status
                       </DropdownToggle>
                       <DropdownMenu container="body">
                         <DropdownItem onClick={() => handleTeamStatusChange(index, 'to do')}>
@@ -325,7 +325,7 @@ const Demos = () => {
                       </DropdownMenu>
                     </Dropdown>
                   ) : (
-                    <Button disabled color="secondary" style={{ width: "180px" }}>
+                    <Button color="secondary" style={{ width: "180px", pointerEvents: "none" }}>
                       {demo.status}
                     </Button>
                   )}
