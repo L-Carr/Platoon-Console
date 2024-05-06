@@ -115,6 +115,30 @@ const Demos = () => {
       console.error("Error updating status: ", error);
     }
   };
+
+  const handleTeamStatusChange = async (index, status) => {
+    const demoId = teamDemos[index].team;
+    try {
+      const token = localStorage.getItem("token")
+
+      // Check if any other team already has an 'on deck' status
+      const onDeckTeamIndex = teamDemos.findIndex(demo => demo.status === 'on deck');
+      if (status === 'on deck' && onDeckTeamIndex !== -1 && onDeckTeamIndex !== index) {
+        await handleTeamStatusChange(onDeckTeamIndex, 'to do');
+      }
+
+      const reponse = await axios.put(`https://127.0.0.1:8000/demo/team/${demoId}/`, {status: status}, {
+        headers: {
+          'Authorization': `Token ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log("Team status updated successfully: ", response.data);
+      updateTeamDemos(selectedCohort);
+    } catch (error) {
+      console.error("Error updating team status: ", error);
+    }
+  }
   
   const handleRandomOnDeck = async () => {
     const todoStudents = demos.filter(demo => demo.status === 'to do');
