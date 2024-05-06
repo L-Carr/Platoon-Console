@@ -749,3 +749,273 @@ You have requested a password reset. Please click the link below to reset your p
     ]
     ```
 
+## (INSTRUCTOR- GET ALL USERS CONTACT INFO)
+- NOTE: Valid options: 'to do', 'on deck', 'complete'
+- **ENDPOINT** : `https://127.0.0.1:8000/user/user-all/`
+- **Type** : GET
+- **Permissions** : Instructor
+
+- **Response** :
+    - Success: HTTP 200
+    ```json
+        [
+    {
+        "userdetail": null,
+        "profile": null,
+        "first_name": "",
+        "last_name": "",
+        "email": "landon.c.carr@gmail.com",
+        "id": 1,
+        "groups": [],
+        "last_login": "2024-04-26T18:01:36.230918Z"
+    },
+    {
+        "userdetail": {
+        "phone_number": "1111111111",
+        "user": 12,
+        "slack_handle": null,
+        "github_handle": null
+        },
+        "profile": {
+        "cohort_name": "XRay",
+        "user": 12
+        },
+        "first_name": "Emma",
+        "last_name": "Ralph",
+        "email": "dev-account-17@platoon-console.com",
+        "id": 12,
+        "groups": [
+        "Students"
+        ],
+        "last_login": null
+    },
+    {
+        "userdetail": null,
+        "profile": null,
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "id": 13,
+        "groups": [],
+        "last_login": null
+    },
+    {
+        "userdetail": {
+        "phone_number": "9517968963",
+        "user": 4,
+        "slack_handle": null,
+        "github_handle": null
+        },
+        "profile": {
+        "cohort_name": "Whiskey",
+        "user": 4
+        },
+        "first_name": "Carr",
+        "last_name": "Landon",
+        "email": "1@gmail.com",
+        "id": 4,
+        "groups": [
+        "Students"
+        ],
+        "last_login": null
+    },
+    {
+        "userdetail": {
+        "phone_number": "1111111111",
+        "user": 5,
+        "slack_handle": null,
+        "github_handle": null
+        },
+        "profile": {
+        "cohort_name": "Whiskey",
+        "user": 5
+        },
+        "first_name": "Carr",
+        "last_name": "Jane",
+        "email": "1@devcodeplatoonconsole.com",
+        "id": 5,
+        "groups": [
+        "Students"
+        ],
+        "last_login": null
+    },
+    {
+        "userdetail": {
+        "phone_number": "1111111111",
+        "user": 6,
+        "slack_handle": null,
+        "github_handle": null
+        },
+        "profile": {
+        "cohort_name": "Whiskey",
+        "user": 6
+        },
+        "first_name": "Carr",
+        "last_name": "Jane",
+        "email": "2@devcodeplatoonconsole.com",
+        "id": 6,
+        "groups": [
+        "Students"
+        ],
+        "last_login": null
+    },
+    {
+        "userdetail": {
+        "phone_number": "1111111111",
+        "user": 7,
+        "slack_handle": null,
+        "github_handle": null
+        },
+        "profile": {
+        "cohort_name": "Whiskey",
+        "user": 7
+        },
+        "first_name": "Carr",
+        "last_name": "Jane",
+        "email": "3@devcodeplatoonconsole.com",
+        "id": 7,
+        "groups": [
+        "Students"
+        ],
+        "last_login": null
+    },
+    {
+        "userdetail": {
+        "phone_number": "1111111111",
+        "user": 8,
+        "slack_handle": null,
+        "github_handle": null
+        },
+        "profile": {
+        "cohort_name": "Whiskey",
+        "user": 8
+        },
+        "first_name": "Carr",
+        "last_name": "Jane",
+        "email": "4@devcodeplatoonconsole.com",
+        "id": 8,
+        "groups": [
+        "Students"
+        ],
+        "last_login": null
+    },
+    {
+        "userdetail": {
+        "phone_number": "1111111111",
+        "user": 9,
+        "slack_handle": null,
+        "github_handle": null
+        },
+        "profile": {
+        "cohort_name": "Whiskey",
+        "user": 9
+        },
+        "first_name": "",
+        "last_name": "Jane",
+        "email": "dev-account-1-@platoon-console.com",
+        "id": 9,
+        "groups": [
+        "Students"
+        ],
+        "last_login": null
+    },
+    {
+        "userdetail": {
+        "phone_number": "1111111111",
+        "user": 10,
+        "slack_handle": null,
+        "github_handle": null
+        },
+        "profile": {
+        "cohort_name": "XRay",
+        "user": 10
+        },
+        "first_name": "Doe",
+        "last_name": "Jane",
+        "email": "dev-account-15@platoon-console.com",
+        "id": 10,
+        "groups": [
+        "Students"
+        ],
+        "last_login": null
+    },
+    {
+        "userdetail": {
+        "phone_number": "1111111111",
+        "user": 11,
+        "slack_handle": null,
+        "github_handle": null
+        },
+        "profile": {
+        "cohort_name": "XRay",
+        "user": 11
+        },
+        "first_name": "Johnson",
+        "last_name": "Ralph",
+        "email": "dev-account-16@platoon-console.com",
+        "id": 11,
+        "groups": [
+        "Students"
+        ],
+        "last_login": null
+    },
+    {
+        "userdetail": {
+        "phone_number": "951653911",
+        "user": 3,
+        "slack_handle": "Blackmagk",
+        "github_handle": "test"
+        },
+        "profile": {
+        "cohort_name": "Whiskey",
+        "user": 3
+        },
+        "first_name": "Jane",
+        "last_name": "Doe",
+        "email": "angelfan5741@gmail.com",
+        "id": 3,
+        "groups": [
+        "Students"
+        ],
+        "last_login": "2024-05-03T20:48:11.612929Z"
+    },
+    {
+        "userdetail": null,
+        "profile": null,
+        "first_name": "",
+        "last_name": "",
+        "email": "ImaTeacher@platoon-console.com",
+        "id": 14,
+        "groups": [
+        "Instructors"
+        ],
+        "last_login": null
+    }
+    ]
+    ```    
+## CREATE/READ/UPDATE USER DETAILS - 
+- **ENDPOINT** : `https://127.0.0.1:8000/user/user-details/`
+
+- **Type** : GET,POST, PUT, PATCH
+- **Permissions** : Student
+
+- **Body** :
+
+    ```json
+         {
+  "phone_number": "951653911",
+  "user": 3,
+  "slack_handle": "Blackmagk",
+  "github_handle": "test"
+    }
+    ```
+- **Response** :
+    - Success: 200,201
+    ```json
+   {
+  "phone_number": "951653911",
+  "user": 3,
+  "slack_handle": "Blackmagk",
+  "github_handle": "test"
+    }
+    ```
