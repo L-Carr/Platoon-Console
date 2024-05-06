@@ -8,7 +8,7 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.urls import reverse
-from .serializers import UserSerializer, LoginSerializer,UserDetailSerializer,UserAccountSerializer
+from .serializers import UserSerializer, LoginSerializer,UserDetailSerializer,UserAccountSerializer,UserRelatedSerializer
 from .utils import single_email_distro
 from .models import UserAccount,UserDetail
 from rest_framework.authentication import TokenAuthentication
@@ -16,7 +16,7 @@ from rest_framework.authentication import TokenAuthentication
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 
-
+from django.contrib.auth.models import User
 
 from user_app.permissions import IsInstructor, IsStudent,IsAttendanceRecords
 
@@ -239,3 +239,17 @@ class UserDetails(StudentPermissions):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class AdminAllUsers(InstructorPermissions):
+    """
+    API view to retrieve all users with detailed information including their accounts and user details.
+    """
+ 
+    def get(self, request):
+        """
+        Retrieve and serialize all users.
+        """
+        users = User.objects.all()
+        serializer = UserRelatedSerializer(users, many=True)
+        return Response(serializer.data)

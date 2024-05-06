@@ -55,6 +55,9 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 class LoginSerializer(serializers.Serializer):
+    '''
+    Login Serializer
+    '''
     username = serializers.CharField()
     password = serializers.CharField()
 
@@ -98,3 +101,24 @@ class UserAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAccount
         fields = ['cohort_name', 'user']
+
+
+
+  # Assuming this exists
+
+class UserRelatedSerializer(serializers.ModelSerializer):
+    profile = UserAccountSerializer(read_only=True)  # One-to-one field
+    userdetail = UserDetailSerializer(read_only=True)
+    groups = serializers.SerializerMethodField()  # Add this line
+ # One-to-one field
+    def get_cohort(self, instance):
+        return instance.cohort.cohort_name
+        # return cohort
+    def get_groups(self, obj):
+        """
+        This method returns a list of group names for the user.
+        """
+        return [group.name for group in obj.groups.all()]
+    class Meta:
+            model = User
+            fields = ('userdetail', 'profile', 'first_name','last_name','email','id','groups','last_login')
