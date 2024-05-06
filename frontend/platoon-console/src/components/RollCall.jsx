@@ -3,6 +3,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import axios from 'axios';
 import StudentAttCard from './StudentAttCard';
 import check from "../assets/check.svg";
+import { useNavigate } from 'react-router-dom';
 
 const RollCall = () => {
   
@@ -20,6 +21,20 @@ const RollCall = () => {
   const [activeSort, setActiveSort] = useState("Name");
   const [errorMessage, setErrorMessage] = useState("");
   const checkSize = { width: "16px", height: "16px" };
+  const [isInstructor, setIsInstructor] = useState(false)
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkInstructor = () => {
+      const userGroup = localStorage.getItem('user_groups')
+      if (userGroup.includes('Instructors')) {
+        setIsInstructor(true)
+      } else (
+        navigate('/')
+      )
+    };
+    checkInstructor();
+  }, []);
   
   const token = localStorage.getItem('token');
   const config = {
