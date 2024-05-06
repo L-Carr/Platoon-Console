@@ -9,6 +9,7 @@ const Demos = () => {
   const [cohorts, setCohorts] = useState([]);
   const [selectedCohort, setSelectedCohort] = useState(null);
   const [demos, setDemos] = useState([]);
+  const [teamDemos, setTeamDemos] = useState([]);
   const [cohortDropdownOpen, setCohortDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -32,6 +33,7 @@ const Demos = () => {
   useEffect(() => {
     if (selectedCohort) {
       updateDemos(selectedCohort);
+      updateTeamDemos(selectedCohort);
     }
   }, [selectedCohort]);
 
@@ -60,6 +62,25 @@ const Demos = () => {
       console.error('Error fetching demos', error);
     }
   };
+
+  const updateTeamDemos = async () => {
+    try {
+      const token = localStorage.getItem("token")
+      const response = await axios.post(`https://127.0.0.1:8000/demo/teams/${selectedCohort}/`, {}, {
+        headers: {
+          'Authorization': `Token ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      const sortedDemos = response.data.sort((a,b) => {
+        const statusOrder = { 'on deck': 1, 'to do': 2, 'complete': 3};
+        return statusOrder[a.status] - statusOrder[b.status];
+      });
+      setTeamDemos(sortedDemos.map(demo => ({ ...demo, isOpen: false, dropdownOpen: false })));
+    } catch (error) {
+      console.error('Error fetching team demos', error);
+    }
+  } 
 
   const toggleDemoDropdown = (index) => {
     setDemos(demos.map((item, i) => index === i ? { ...item, dropdownOpen: !item.dropdownOpen } : item));
@@ -134,6 +155,21 @@ const Demos = () => {
     }
   };
 
+  const resetTeamDemoList = async () => {
+    try {
+      const token = localStorage.getItem("token")
+      await axios.put(`https://127.0.0.1:8000/demo/resetteams/${selectedCohort}/`, {}, {
+        headers : {
+          'Authorization': `Token ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      updateTeamDemos();
+    } catch (error) {
+      console.error("Error resetting team demo list:", error);
+    }
+  }
+
   return (
     <>
       <h3 className="tertiaryH3">Demo Tracking</h3>
@@ -150,8 +186,9 @@ const Demos = () => {
             ))}
           </DropdownMenu>
         </Dropdown>
-        <Button color="secondary" onClick={handleRandomOnDeck} style={{ marginTop: "20px", marginBottom: "20px", marginRight: "10px" }}>Random On Deck</Button>
-        <Button color="secondary" onClick={resetDemoList} style={{ marginTop: "20px", marginBottom: "20px" }}>Reset All</Button>
+        <Button color="secondary" onClick={handleRandomOnDeck} style={{ marginTop: "20px", marginBottom: "20px", marginRight: "10px" }}>Random Student On Deck</Button>
+        <Button color="secondary" onClick={resetDemoList} style={{ marginTop: "20px", marginBottom: "20px", marginRight: "10px" }}>Reset All Students</Button>
+        <Button color="secondary" onClick={resetTeamDemoList} style={{marginTop: "20px", marginBottom: "20px"}}>Reset All Teams</Button>
       </div>
       <div className="card-container" style={{ marginTop: "2rem", display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         {demos.map((demo, index) => (
