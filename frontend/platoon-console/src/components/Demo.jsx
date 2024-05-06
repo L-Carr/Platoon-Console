@@ -99,6 +99,14 @@ const Demos = () => {
     setDemos(demos.map((item, i) => index === i ? { ...item, isOpen: !item.isOpen } : item));
   };
 
+  const toggleTeamDemoDropdown = (index) => {
+    setTeamDemos(teamDemos.map((item, i) => index === i ? { ...item, dropdownOpen: !item.dropdownOpen} : item));
+  }
+
+  const toggleTeamDemoCard = (index) => {
+    setTeamDemos(teamDemos.map((item, i) => index === i ? { ...item, isOpen: !item.isOpen } : item ));
+  }
+
   const handleStatusChange = async (index, status, fromRandom = false) => {
     const demoId = demos[index].student;
     try {
@@ -136,7 +144,7 @@ const Demos = () => {
         await handleTeamStatusChange(onDeckTeamIndex, 'to do');
       }
 
-      const reponse = await axios.put(`https://127.0.0.1:8000/demo/team/${demoId}/`, {status: status}, {
+      const response = await axios.put(`https://127.0.0.1:8000/demo/team/${demoId}/`, {status: status}, {
         headers: {
           'Authorization': `Token ${token}`,
           'Content-Type': 'application/json'
@@ -228,10 +236,16 @@ const Demos = () => {
             <DropdownItem onClick={() => { handleDemoSelect('Teams'); toggleSelectionDropdown(); }}>Teams</DropdownItem>
           </DropdownMenu>
         </Dropdown>
+        {selectedDemo === "Students" ? 
+        <>
         <Button color="secondary" onClick={handleRandomOnDeck} style={{ marginTop: "20px", marginBottom: "20px", marginRight: "10px" }}>Random Student On Deck</Button>
         <Button color="secondary" onClick={resetDemoList} style={{ marginTop: "20px", marginBottom: "20px", marginRight: "10px" }}>Reset All Students</Button>
+        </>
+        : 
         <Button color="secondary" onClick={resetTeamDemoList} style={{marginTop: "20px", marginBottom: "20px"}}>Reset All Teams</Button>
+          }
       </div>
+      { selectedDemo === "Students" ? 
       <div className="card-container" style={{ marginTop: "2rem", display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         {demos.map((demo, index) => (
           <Card key={index} style={{ borderRadius: "5px", backgroundColor: demo.status === 'to do' ? "grey" : demo.status === 'on deck' ? "#f05a1b" : "#3b7f82" }} className={demo.isOpen ? "demoCardOpen" : "demoCardClosed"}>
@@ -240,6 +254,7 @@ const Demos = () => {
                 <img src={demo.isOpen ? caretDown : caretRight} style={{ width: "32px", height: "32px", borderRadius: "50%" }} onClick={() => toggleDemoCard(index)} />
                 <span>{demo.first_name} {demo.last_name}</span>
               </div>
+
               <div style={{ marginTop: "10px" }}>
                 <Dropdown isOpen={demo.dropdownOpen} toggle={() => toggleDemoDropdown(index)}>
                   <DropdownToggle className="attendanceDropdown" caret>
@@ -258,10 +273,44 @@ const Demos = () => {
                   </DropdownMenu>
                 </Dropdown>
               </div>
+
             </CardBody>
           </Card>
         ))}
       </div>
+      :
+      <div className="card-container" style={{ marginTop: "2rem", display:"flex", flexWrap:"wrap", justifyContent:"center"}}>
+        {teamDemos.map((demo, index) => (
+          <Card key={index} style={{ borderRadius: "5px", backgroundColor:demo.status === 'to do' ? "grey" : demo.status === 'on deck' ? "#f05a1b" : "#3b7f82"}} className={demo.isOpen ? "demoCardOpen" : "demoCardClosed"}>
+            <CardBody>
+              <div style={{ display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-between" }}>
+                <img src={demo.isOpen ? caretDown : caretRight} style={{ width:"32px", height: "32px", borderRadius:"50%"}} onClick={() => toggleTeamDemoCard(index)} />
+                <span>{demo.team_name}</span>
+              </div>
+
+              <div style={{ marginTop: "10px" }}>
+                <Dropdown isOpen={demo.dropdownOpen} toggle={() => toggleTeamDemoDropdown(index)}>
+                  <DropdownToggle className="attendanceDropdown" caret>
+                    Status:
+                  </DropdownToggle>
+                  <DropdownMenu container="body">
+                    <DropdownItem onClick={() => handleTeamStatusChange(index, 'to do')}>
+                      To Do {demo.status === 'to do' && <img src={check} alt="Selected" style={{ width:"16px", height:"16px"}} />}
+                    </DropdownItem>
+                    <DropdownItem onClick={() => handleTeamStatusChange(index, 'on deck')}>
+                      On Deck {demo.status === 'on deck' && <img src={check} alt="Selected" style={{wiedth: "16px", height:"16px"}} />}
+                    </DropdownItem>
+                    <DropdownItem onClick={() => handleTeamStatusChange(index, 'complete')}>
+                      Complete {demo.status === 'complete' && <img src={check} alt="Selected" style={{ width: "16px", height:"16px"}} />}
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+            </CardBody>
+          </Card>
+        ))}
+      </div>
+      }
       <div>
 
       </div>
