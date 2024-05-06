@@ -9,7 +9,10 @@ const Demos = () => {
   const [cohorts, setCohorts] = useState([]);
   const [selectedCohort, setSelectedCohort] = useState(null);
   const [demos, setDemos] = useState([]);
+  const [teamDemos, setTeamDemos] = useState([]);
   const [cohortDropdownOpen, setCohortDropdownOpen] = useState(false);
+  const [selectedDemo, setSelectedDemo] = useState('Students');  // 'Students' or 'Teams'
+  const [selectionDropdownOpen, setSelectionDropdownOpen] = useState(false);
 
   useEffect(() => {
     const fetchCohorts = async () => {
@@ -32,15 +35,23 @@ const Demos = () => {
   useEffect(() => {
     if (selectedCohort) {
       updateDemos(selectedCohort);
+      updateTeamDemos(selectedCohort);
     }
   }, [selectedCohort]);
 
   const toggleCohortDropdown = () => setCohortDropdownOpen(prevState => !prevState);
 
+  const toggleSelectionDropdown = () => setSelectionDropdownOpen(prevState => !prevState);
+
   const handleCohortSelect = async (name) => {
     setSelectedCohort(name);
     setCohortDropdownOpen(false);
   };
+
+  const handleDemoSelect = async (name) => {
+    setSelectedDemo(name);
+    setSelectionDropdownOpen(false);
+  }
 
   const updateDemos = async () => {
     try {
@@ -61,6 +72,25 @@ const Demos = () => {
     }
   };
 
+  const updateTeamDemos = async () => {
+    try {
+      const token = localStorage.getItem("token")
+      const response = await axios.post(`https://127.0.0.1:8000/demo/teams/${selectedCohort}/`, {}, {
+        headers: {
+          'Authorization': `Token ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      const sortedDemos = response.data.sort((a,b) => {
+        const statusOrder = { 'on deck': 1, 'to do': 2, 'complete': 3};
+        return statusOrder[a.status] - statusOrder[b.status];
+      });
+      setTeamDemos(sortedDemos.map(demo => ({ ...demo, isOpen: false, dropdownOpen: false })));
+    } catch (error) {
+      console.error('Error fetching team demos', error);
+    }
+  } 
+
   const toggleDemoDropdown = (index) => {
     setDemos(demos.map((item, i) => index === i ? { ...item, dropdownOpen: !item.dropdownOpen } : item));
   };
@@ -68,6 +98,14 @@ const Demos = () => {
   const toggleDemoCard = (index) => {
     setDemos(demos.map((item, i) => index === i ? { ...item, isOpen: !item.isOpen } : item));
   };
+
+  const toggleTeamDemoDropdown = (index) => {
+    setTeamDemos(teamDemos.map((item, i) => index === i ? { ...item, dropdownOpen: !item.dropdownOpen} : item));
+  }
+
+  const toggleTeamDemoCard = (index) => {
+    setTeamDemos(teamDemos.map((item, i) => index === i ? { ...item, isOpen: !item.isOpen } : item ));
+  }
 
   const handleStatusChange = async (index, status, fromRandom = false) => {
     const demoId = demos[index].student;
@@ -94,6 +132,30 @@ const Demos = () => {
       console.error("Error updating status: ", error);
     }
   };
+
+  const handleTeamStatusChange = async (index, status) => {
+    const demoId = teamDemos[index].team;
+    try {
+      const token = localStorage.getItem("token")
+
+      // Check if any other team already has an 'on deck' status
+      const onDeckTeamIndex = teamDemos.findIndex(demo => demo.status === 'on deck');
+      if (status === 'on deck' && onDeckTeamIndex !== -1 && onDeckTeamIndex !== index) {
+        await handleTeamStatusChange(onDeckTeamIndex, 'to do');
+      }
+
+      const response = await axios.put(`https://127.0.0.1:8000/demo/team/${demoId}/`, {status: status}, {
+        headers: {
+          'Authorization': `Token ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log("Team status updated successfully: ", response.data);
+      updateTeamDemos(selectedCohort);
+    } catch (error) {
+      console.error("Error updating team status: ", error);
+    }
+  }
   
   const handleRandomOnDeck = async () => {
     const todoStudents = demos.filter(demo => demo.status === 'to do');
@@ -134,6 +196,21 @@ const Demos = () => {
     }
   };
 
+  const resetTeamDemoList = async () => {
+    try {
+      const token = localStorage.getItem("token")
+      await axios.put(`https://127.0.0.1:8000/demo/resetteams/${selectedCohort}/`, {}, {
+        headers : {
+          'Authorization': `Token ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      updateTeamDemos();
+    } catch (error) {
+      console.error("Error resetting team demo list:", error);
+    }
+  }
+
   return (
     <>
       <h3 className="tertiaryH3">Demo Tracking</h3>
@@ -150,9 +227,25 @@ const Demos = () => {
             ))}
           </DropdownMenu>
         </Dropdown>
-        <Button color="secondary" onClick={handleRandomOnDeck} style={{ marginTop: "20px", marginBottom: "20px", marginRight: "10px" }}>Random On Deck</Button>
-        <Button color="secondary" onClick={resetDemoList} style={{ marginTop: "20px", marginBottom: "20px" }}>Reset All</Button>
+        <Dropdown isOpen={selectionDropdownOpen} toggle={toggleSelectionDropdown} style={{ marginTop: "20px", marginRight:"10px", marginBottom:"20px"}}>
+          <DropdownToggle className="attendanceDropdown" caret>
+            {selectedDemo !== null ? `${selectedDemo}` : 'Select Demo'}
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem onClick={() => { handleDemoSelect('Students'); toggleSelectionDropdown(); }}>Students</DropdownItem>
+            <DropdownItem onClick={() => { handleDemoSelect('Teams'); toggleSelectionDropdown(); }}>Teams</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+        {selectedDemo === "Students" ? 
+        <>
+        <Button color="secondary" onClick={handleRandomOnDeck} style={{ marginTop: "20px", marginBottom: "20px", marginRight: "10px" }}>Random Student On Deck</Button>
+        <Button color="secondary" onClick={resetDemoList} style={{ marginTop: "20px", marginBottom: "20px", marginRight: "10px" }}>Reset All Students</Button>
+        </>
+        : 
+        <Button color="secondary" onClick={resetTeamDemoList} style={{marginTop: "20px", marginBottom: "20px"}}>Reset All Teams</Button>
+          }
       </div>
+      { selectedDemo === "Students" ? 
       <div className="card-container" style={{ marginTop: "2rem", display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         {demos.map((demo, index) => (
           <Card key={index} style={{ borderRadius: "5px", backgroundColor: demo.status === 'to do' ? "grey" : demo.status === 'on deck' ? "#f05a1b" : "#3b7f82" }} className={demo.isOpen ? "demoCardOpen" : "demoCardClosed"}>
@@ -161,6 +254,7 @@ const Demos = () => {
                 <img src={demo.isOpen ? caretDown : caretRight} style={{ width: "32px", height: "32px", borderRadius: "50%" }} onClick={() => toggleDemoCard(index)} />
                 <span>{demo.first_name} {demo.last_name}</span>
               </div>
+
               <div style={{ marginTop: "10px" }}>
                 <Dropdown isOpen={demo.dropdownOpen} toggle={() => toggleDemoDropdown(index)}>
                   <DropdownToggle className="attendanceDropdown" caret>
@@ -179,9 +273,46 @@ const Demos = () => {
                   </DropdownMenu>
                 </Dropdown>
               </div>
+
             </CardBody>
           </Card>
         ))}
+      </div>
+      :
+      <div className="card-container" style={{ marginTop: "2rem", display:"flex", flexWrap:"wrap", justifyContent:"center"}}>
+        {teamDemos.map((demo, index) => (
+          <Card key={index} style={{ borderRadius: "5px", backgroundColor:demo.status === 'to do' ? "grey" : demo.status === 'on deck' ? "#f05a1b" : "#3b7f82"}} className={demo.isOpen ? "demoCardOpen" : "demoCardClosed"}>
+            <CardBody>
+              <div style={{ display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-between" }}>
+                <img src={demo.isOpen ? caretDown : caretRight} style={{ width:"32px", height: "32px", borderRadius:"50%"}} onClick={() => toggleTeamDemoCard(index)} />
+                <span>{demo.team_name}</span>
+              </div>
+
+              <div style={{ marginTop: "10px" }}>
+                <Dropdown isOpen={demo.dropdownOpen} toggle={() => toggleTeamDemoDropdown(index)}>
+                  <DropdownToggle className="attendanceDropdown" caret>
+                    Status:
+                  </DropdownToggle>
+                  <DropdownMenu container="body">
+                    <DropdownItem onClick={() => handleTeamStatusChange(index, 'to do')}>
+                      To Do {demo.status === 'to do' && <img src={check} alt="Selected" style={{ width:"16px", height:"16px"}} />}
+                    </DropdownItem>
+                    <DropdownItem onClick={() => handleTeamStatusChange(index, 'on deck')}>
+                      On Deck {demo.status === 'on deck' && <img src={check} alt="Selected" style={{wiedth: "16px", height:"16px"}} />}
+                    </DropdownItem>
+                    <DropdownItem onClick={() => handleTeamStatusChange(index, 'complete')}>
+                      Complete {demo.status === 'complete' && <img src={check} alt="Selected" style={{ width: "16px", height:"16px"}} />}
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+            </CardBody>
+          </Card>
+        ))}
+      </div>
+      }
+      <div>
+
       </div>
     </>
   );
