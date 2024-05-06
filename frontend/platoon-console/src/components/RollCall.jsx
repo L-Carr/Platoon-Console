@@ -6,10 +6,11 @@ import check from "../assets/check.svg";
 
 const RollCall = () => {
   
-  const currentDate = new Date().toLocaleString("en-US", {
+  // const currentDate = new Date().toISOString().split('T')[0];
+  const currentDate = new Date().toISOString("en-US", {
     timeZone: "America/Chicago",
-  }).split(",")[0].split('/').join('-');
-  
+  }).split('T')[0];
+
   const [fetchDate, setFetchDate] = useState(currentDate);
   const [cohortNames, setCohortNames] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
