@@ -11,6 +11,8 @@ const Demos = () => {
   const [demos, setDemos] = useState([]);
   const [teamDemos, setTeamDemos] = useState([]);
   const [cohortDropdownOpen, setCohortDropdownOpen] = useState(false);
+  const [selectedDemo, setSelectedDemo] = useState('Students');  // 'Students' or 'Teams'
+  const [selectionDropdownOpen, setSelectionDropdownOpen] = useState(false);
 
   useEffect(() => {
     const fetchCohorts = async () => {
@@ -39,10 +41,17 @@ const Demos = () => {
 
   const toggleCohortDropdown = () => setCohortDropdownOpen(prevState => !prevState);
 
+  const toggleSelectionDropdown = () => setSelectionDropdownOpen(prevState => !prevState);
+
   const handleCohortSelect = async (name) => {
     setSelectedCohort(name);
     setCohortDropdownOpen(false);
   };
+
+  const handleDemoSelect = async (name) => {
+    setSelectedDemo(name);
+    setSelectionDropdownOpen(false);
+  }
 
   const updateDemos = async () => {
     try {
@@ -210,6 +219,15 @@ const Demos = () => {
             ))}
           </DropdownMenu>
         </Dropdown>
+        <Dropdown isOpen={selectionDropdownOpen} toggle={toggleSelectionDropdown} style={{ marginTop: "20px", marginRight:"10px", marginBottom:"20px"}}>
+          <DropdownToggle className="attendanceDropdown" caret>
+            {selectedDemo !== null ? `${selectedDemo}` : 'Select Demo'}
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem onClick={() => { handleDemoSelect('Students'); toggleSelectionDropdown(); }}>Students</DropdownItem>
+            <DropdownItem onClick={() => { handleDemoSelect('Teams'); toggleSelectionDropdown(); }}>Teams</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
         <Button color="secondary" onClick={handleRandomOnDeck} style={{ marginTop: "20px", marginBottom: "20px", marginRight: "10px" }}>Random Student On Deck</Button>
         <Button color="secondary" onClick={resetDemoList} style={{ marginTop: "20px", marginBottom: "20px", marginRight: "10px" }}>Reset All Students</Button>
         <Button color="secondary" onClick={resetTeamDemoList} style={{marginTop: "20px", marginBottom: "20px"}}>Reset All Teams</Button>
@@ -243,6 +261,9 @@ const Demos = () => {
             </CardBody>
           </Card>
         ))}
+      </div>
+      <div>
+
       </div>
     </>
   );
