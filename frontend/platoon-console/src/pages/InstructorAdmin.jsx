@@ -10,6 +10,8 @@ const InstructorAdmin = () => {
   const token = localStorage.getItem("token");
   const handleFormSubmit = async (e) => {
     // If Configured once, and changes needed, it will call the PUT Method
+    e.preventDefault();
+    
     if (ghConfigID) {
       console.log("Already Configured");
       /// gh/ID
@@ -45,7 +47,7 @@ const InstructorAdmin = () => {
       return "Already Configured";
     }
 
-    e.preventDefault();
+   
 
     try {
       const configData = {
@@ -75,6 +77,47 @@ const InstructorAdmin = () => {
       }
     }
   };
+
+  useEffect(() => {
+
+    const initialConfigFetch = async () => {
+
+
+      try {
+
+        let response = await axios.get(
+          "https://127.0.0.1:8000/gh/all/", 
+          {
+        
+        
+            headers: {
+              "Content-Type": "application/json",
+              'Authorization': `Token ${token}`,
+            }
+          }
+        )
+  
+        if (response.data[0].id) {
+
+          console.log(`ID on inital fetch ${response.data[0].id}`)
+          setGhConfigID(response.data[0].id)
+          setRepoName(response.data[0].repo_name)
+          setRepoOwner(response.data[0].repo_owner)
+          console.log(response.data[0].id)
+        } else {
+
+          console.log('No Config File Found')
+        }
+      } catch (error) {
+
+        console.log("Error", error);
+      }
+    }
+
+    initialConfigFetch();
+
+  }, []
+  )
   return (
     <div className="">
       <h1>Instructor Page</h1>
