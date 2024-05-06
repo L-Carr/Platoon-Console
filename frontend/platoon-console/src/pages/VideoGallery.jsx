@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import { Button } from "reactstrap";
 import YouTube from "react-youtube"; // Import YouTube component to display YouTube videos
 
 const VideoGallery = () => {

@@ -122,7 +122,7 @@ const Homepage = () => {
         </ModalBody>
       </Modal>
 
-      <Modal isOpen={agendaModalOpen} toggle={toggleAgendaModal} size="xl">
+      <Modal isOpen={agendaModalOpen} toggle={toggleAgendaModal} size="md">
       <ModalHeader toggle={toggleAgendaModal} />
         <ModalBody>
           <iframe title="Calendar" src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=America%2FNew_York&bgcolor=%23ffffff&mode=AGENDA&showNav=0&showPrint=0&showTabs=0&showCalendars=0&showTitle=0&showTz=0&showDate=0&src=Y184NDY4MjI3MDQ0YzQ1MGEyYTZlN2YwNDdkMzEwZTcwYWU3YTA5NGJlMzg4ZjJhYTY1Y2M4NzJkOTRhNDcyYTgxQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%238E24AA" style={{ width: '100%', height: '250px', border: 'none' }} />

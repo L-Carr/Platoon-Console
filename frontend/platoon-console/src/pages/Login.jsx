@@ -15,6 +15,17 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrorMessage("");
+        
+        if (!email) {
+            setErrorMessage("Please enter your email address.");
+            return; 
+        }
+
+        if (!password) {
+            setErrorMessage("Please enter your password.");
+            return; 
+        }
+
         try {
             const userData = {
                 "username": email,
@@ -40,15 +51,15 @@ const Login = () => {
             setEmail("");
             setPassword("");
             setSuccessMessage("Login successful");
-            
-            setTimeout(() => {
-                navigate("/");
-            }, 2000);
+            navigate("/");
+            // setTimeout(() => {
+            //     navigate("/");
+            // }, 2000);
             // window.location.href = '/';
             
         } catch (error) {
             if (error.response) {
-                const errorMessage = error.response.data;
+                const errorMessage = error.response.data.error;
                 setErrorMessage(errorMessage);
                 console.log('Error', errorMessage);
                 } 
