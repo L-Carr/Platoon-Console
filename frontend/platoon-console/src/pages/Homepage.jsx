@@ -109,29 +109,29 @@ const Homepage = () => {
      </div>
 
       <Modal isOpen={accountabilityModalOpen} toggle={toggleAccountabilityModal} size="xl" style={{maxWidth: "500px"}}>
-      <ModalHeader toggle={toggleAccountabilityModal} />
+      <ModalHeader toggle={toggleAccountabilityModal} style={{backgroundColor: "#3b7f82"}}/>
         <ModalBody style={{backgroundColor: "#2f2f2f"}}>
           <Accountability />
         </ModalBody>
       </Modal>
 
       <Modal isOpen={feedbackModalOpen} toggle={toggleFeedbackModal} size="xl">
-      <ModalHeader toggle={toggleFeedbackModal} />
-        <ModalBody>
+      <ModalHeader toggle={toggleFeedbackModal} style={{backgroundColor: "#3b7f82"}}/>
+        <ModalBody style={{backgroundColor: "#2f2f2f"}}>
           <iframe title="Daily Feedback" src="https://share.hsforms.com/1I02qHVEvRlOEs5ggeJPU8Ap8bb6" style={{ width: '100%', height: '100vw', border: 'none' }} />
         </ModalBody>
       </Modal>
 
-      <Modal isOpen={agendaModalOpen} toggle={toggleAgendaModal} size="xl">
-      <ModalHeader toggle={toggleAgendaModal} />
-        <ModalBody>
+      <Modal isOpen={agendaModalOpen} toggle={toggleAgendaModal} size="md">
+      <ModalHeader toggle={toggleAgendaModal} style={{backgroundColor: "#3b7f82"}}/>
+        <ModalBody style={{backgroundColor: "#2f2f2f"}}>
           <iframe title="Calendar" src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=America%2FNew_York&bgcolor=%23ffffff&mode=AGENDA&showNav=0&showPrint=0&showTabs=0&showCalendars=0&showTitle=0&showTz=0&showDate=0&src=Y184NDY4MjI3MDQ0YzQ1MGEyYTZlN2YwNDdkMzEwZTcwYWU3YTA5NGJlMzg4ZjJhYTY1Y2M4NzJkOTRhNDcyYTgxQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%238E24AA" style={{ width: '100%', height: '250px', border: 'none' }} />
         </ModalBody>
       </Modal>
 
       <Modal isOpen={monthlyModalOpen} toggle={toggleMonthlyModal} size="xl">
-      <ModalHeader toggle={toggleMonthlyModal} />
-        <ModalBody>
+      <ModalHeader toggle={toggleMonthlyModal} style={{backgroundColor: "#3b7f82"}}/>
+        <ModalBody style={{backgroundColor: "#2f2f2f"}}>
           <iframe title="Calendar" src="https://calendar.google.com/calendar/embed?src=c_8468227044c450a2a6e7f047d310e70ae7a094be388f2aa65cc872d94a472a81%40group.calendar.google.com&ctz=America%2FNew_York" style={{ width: '100%', height: '500px', border: 'none' }} />
         </ModalBody>
       </Modal>

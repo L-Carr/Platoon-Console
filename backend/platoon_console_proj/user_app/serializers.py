@@ -25,10 +25,15 @@ class UserSerializer(serializers.ModelSerializer):
         except ValidationError as e:
             raise serializers.ValidationError(str(e))
         return value
+
     def create(self, validated_data):
         # Retrieve cohort_code from the validated data, defaulting to None if not found.
         cohort_code = validated_data.get('cohort_code', None)
-       
+        user_email = validated_data.get('email', None)
+
+        if User.objects.filter(email=user_email).exists():
+            raise serializers.ValidationError("User Email already exists.")
+    
         phone_number = validated_data.get('phone_number', None)
         # Initialize cohort to None, will hold the Cohort object if found.
         cohort = None
@@ -40,7 +45,7 @@ class UserSerializer(serializers.ModelSerializer):
                 # If no Cohort matches the provided cohort_code, raise a validation error.
                 raise serializers.ValidationError(
                     {'cohort_code': 'This cohort code is invalid.'}) from exc
-
+        
         # Create a new user in the database from the validated data.
         user = User.objects.create_user(
             username=validated_data['email'],
