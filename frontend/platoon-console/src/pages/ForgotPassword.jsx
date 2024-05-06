@@ -12,6 +12,12 @@ const ForgotPassword = () => {
         e.preventDefault();
         setSuccessMessage("");
         setErrorMessage("");
+
+        if (!email) {
+            setErrorMessage("Please enter your email address.");
+            return; // Prevent further execution of the function
+        }
+
         try {
             const userData = {
                 "email": email,
@@ -24,7 +30,7 @@ const ForgotPassword = () => {
             });
 
             setErrorMessage("");
-            setSuccessMessage("An email has been sent with password reset instructions");
+            setSuccessMessage(response.data.message);
             setEmail("");
             
 
@@ -32,8 +38,9 @@ const ForgotPassword = () => {
 
         } catch (error) {
             if (error.response) {
-                const errorMessage = error.response.data;
-                setErrorMessage(errorMessage.message);
+                console.log(error.response)
+                const errorMessage = error.response.data.error;
+                setErrorMessage(errorMessage);
                 } else {
                     console.log('Error', errorMessage);
                 }

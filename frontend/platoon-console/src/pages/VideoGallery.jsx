@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import { Button } from "reactstrap";
 import YouTube from "react-youtube"; // Import YouTube component to display YouTube videos
 
 const VideoGallery = () => {
@@ -152,12 +153,12 @@ const VideoGallery = () => {
       >
         {/* Display the selected video title in the modal header, Body, and video */}
         <div className="mainH4">
-          <Modal.Header closeButton>
-            <Modal.Title>
+          <Modal.Header closeButton style={{backgroundColor: "#3b7f82"}}>
+            <Modal.Title style={{color: "#ffffff"}}>
               {selectedVideo ? selectedVideo.title : "Loading..."}
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body style={{backgroundColor: "#2f2f2f"}}>
             {selectedVideo && (
               <YouTube videoId={selectedVideo.id} opts={opts} />
             )}

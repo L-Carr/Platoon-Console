@@ -21,6 +21,12 @@ const ChangePassword = () => {
         e.preventDefault();
         setSuccessMessage("");
         setErrorMessage("");
+
+        if (!newPassword) {
+            setErrorMessage("Please enter a valid password.")
+            return;
+        }
+
         try {
             const userData = {
                 "new_password": newPassword
@@ -53,8 +59,9 @@ const ChangePassword = () => {
 
         } catch (error) {
             if (error.response) {
-                const errorMessage = error.response.data;
-                setErrorMessage(errorMessage.message);
+                console.log(error.response.data)
+                const errorMessage = error.response.data.error;
+                setErrorMessage(errorMessage);
                 } else {
                     console.log('Error', errorMessage);
                 }
@@ -73,7 +80,7 @@ const ChangePassword = () => {
                             placeholder="New Password"
                             type="password"
                             value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
+                            onChange={(e) => {setErrorMessage(""), setNewPassword(e.target.value)}}
                         />
                     </FormGroup>
                     {' '}
