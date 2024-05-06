@@ -4,7 +4,7 @@
 - **ENDPOINT** : http://127.0.0.1:8000/user/login/
 - **Type**: POST
 - **Body** : 
-```python
+```json
 {
   "username": "user@email.com",
   "password" : "10932ALKJ"
@@ -15,7 +15,7 @@
 - **ENDPOINT** : http://127.0.0.1:8000/user/password-reset/
 - **Type**: POST
 - **Body** : 
-```python
+```json
 {
   "email":"user@email.com"
 }
@@ -26,7 +26,7 @@
 - **ENDPOINT** : http://127.0.0.1:8000/user/password-reset/MjM/c623t0-66fd36f4754acb32921bb30bde934438/
 - **Type**: PUT
 - **Body** : 
-```python
+```json
 {"new_password": "10932ALKJ"}
 ```
 
@@ -34,7 +34,7 @@
 - **ENDPOINT** : http://127.0.0.1:8000/user/register/
 - **Type**: PUT
 - **Body** : 
-```python
+```json
 {"email" : "user@email.com",
 "cohort_code": "TYZIAI",
  "password" : "123456",
@@ -548,90 +548,6 @@ You have requested a password reset. Please click the link below to reset your p
     ```json
         [
   {
-    "id": 211,
-    "cohort": "Whiskey",
-    "accountability_date": "2024-05-01",
-    "accountability_status": 0,
-    "pair_status": false,
-    "absence_reason": "",
-    "excused_status": false,
-    "first_name": "Carr",
-    "last_name": "Landon",
-    "user": 4
-  },
-  {
-    "id": 212,
-    "cohort": "Whiskey",
-    "accountability_date": "2024-05-01",
-    "accountability_status": 0,
-    "pair_status": false,
-    "absence_reason": "",
-    "excused_status": false,
-    "first_name": "Carr",
-    "last_name": "Jane",
-    "user": 5
-  },
-  {
-    "id": 213,
-    "cohort": "Whiskey",
-    "accountability_date": "2024-05-01",
-    "accountability_status": 0,
-    "pair_status": false,
-    "absence_reason": "",
-    "excused_status": false,
-    "first_name": "Carr",
-    "last_name": "Jane",
-    "user": 6
-  },
-  {
-    "id": 214,
-    "cohort": "Whiskey",
-    "accountability_date": "2024-05-01",
-    "accountability_status": 0,
-    "pair_status": false,
-    "absence_reason": "",
-    "excused_status": false,
-    "first_name": "Carr",
-    "last_name": "Jane",
-    "user": 7
-  },
-  {
-    "id": 215,
-    "cohort": "Whiskey",
-    "accountability_date": "2024-05-01",
-    "accountability_status": 0,
-    "pair_status": false,
-    "absence_reason": "",
-    "excused_status": false,
-    "first_name": "Carr",
-    "last_name": "Jane",
-    "user": 8
-  },
-  {
-    "id": 216,
-    "cohort": "Whiskey",
-    "accountability_date": "2024-05-01",
-    "accountability_status": 0,
-    "pair_status": false,
-    "absence_reason": "",
-    "excused_status": false,
-    "first_name": "",
-    "last_name": "Jane",
-    "user": 9
-  },
-  {
-    "id": 210,
-    "cohort": "Whiskey",
-    "accountability_date": "2024-05-01",
-    "accountability_status": 4,
-    "pair_status": false,
-    "absence_reason": "",
-    "excused_status": false,
-    "first_name": "Jane",
-    "last_name": "Doe",
-    "user": 3
-  },
-  {
     "id": 221,
     "cohort": "Whiskey",
     "accountability_date": "2024-05-02",
@@ -702,18 +618,6 @@ You have requested a password reset. Please click the link below to reset your p
     "first_name": "",
     "last_name": "Jane",
     "user": 9
-  },
-  {
-    "id": 220,
-    "cohort": "Whiskey",
-    "accountability_date": "2024-05-02",
-    "accountability_status": 1,
-    "pair_status": false,
-    "absence_reason": "Failure To launch 2",
-    "excused_status": false,
-    "first_name": "Jane",
-    "last_name": "Doe",
-    "user": 3
   }
         ]
     ```
@@ -749,274 +653,99 @@ You have requested a password reset. Please click the link below to reset your p
   "cohort": 1
         }
     ```
-
-## (INSTRUCTOR- GET ALL USERS CONTACT INFO)
-- NOTE: Valid options: 'to do', 'on deck', 'complete'
-- **ENDPOINT** : `https://127.0.0.1:8000/user/user-all/`
+## GET ATTENDANCE RECORDS FOR A GIVEN COHORT AND DATE
+- **ENDPOINT** : `https://127.0.0.1:8000/accountability/retrieve-filtered/?cohort_name=Whiskey&accountability_date=2024-05-06`
+- **Query Paramater**: cohort_name,accountability_date
 - **Type** : GET
 - **Permissions** : Instructor
-
 - **Response** :
-    - Success: HTTP 200
+    - Success: 200
     ```json
         [
     {
-        "userdetail": null,
-        "profile": null,
-        "first_name": "",
-        "last_name": "",
-        "email": "landon.c.carr@gmail.com",
-        "id": 1,
-        "groups": [],
-        "last_login": "2024-04-26T18:01:36.230918Z"
-    },
-    {
-        "userdetail": {
-        "phone_number": "1111111111",
-        "user": 12,
-        "slack_handle": null,
-        "github_handle": null
-        },
-        "profile": {
-        "cohort_name": "XRay",
-        "user": 12
-        },
-        "first_name": "Emma",
-        "last_name": "Ralph",
-        "email": "dev-account-17@platoon-console.com",
-        "id": 12,
-        "groups": [
-        "Students"
-        ],
-        "last_login": null
-    },
-    {
-        "userdetail": null,
-        "profile": null,
-        "first_name": "",
-        "last_name": "",
-        "email": "",
-        "id": 13,
-        "groups": [],
-        "last_login": null
-    },
-    {
-        "userdetail": {
-        "phone_number": "9517968963",
-        "user": 4,
-        "slack_handle": null,
-        "github_handle": null
-        },
-        "profile": {
-        "cohort_name": "Whiskey",
-        "user": 4
-        },
+        "id": 251,
+        "cohort": "Whiskey",
+        "accountability_date": "2024-05-06",
+        "accountability_status": 0,
+        "pair_status": false,
+        "absence_reason": "",
+        "excused_status": false,
         "first_name": "Carr",
         "last_name": "Landon",
-        "email": "1@gmail.com",
-        "id": 4,
-        "groups": [
-        "Students"
-        ],
-        "last_login": null
+        "user": 4
     },
     {
-        "userdetail": {
-        "phone_number": "1111111111",
-        "user": 5,
-        "slack_handle": null,
-        "github_handle": null
-        },
-        "profile": {
-        "cohort_name": "Whiskey",
+        "id": 252,
+        "cohort": "Whiskey",
+        "accountability_date": "2024-05-06",
+        "accountability_status": 0,
+        "pair_status": false,
+        "absence_reason": "",
+        "excused_status": false,
+        "first_name": "Carr",
+        "last_name": "Jane",
         "user": 5
-        },
-        "first_name": "Carr",
-        "last_name": "Jane",
-        "email": "1@devcodeplatoonconsole.com",
-        "id": 5,
-        "groups": [
-        "Students"
-        ],
-        "last_login": null
     },
     {
-        "userdetail": {
-        "phone_number": "1111111111",
-        "user": 6,
-        "slack_handle": null,
-        "github_handle": null
-        },
-        "profile": {
-        "cohort_name": "Whiskey",
+        "id": 253,
+        "cohort": "Whiskey",
+        "accountability_date": "2024-05-06",
+        "accountability_status": 0,
+        "pair_status": false,
+        "absence_reason": "",
+        "excused_status": false,
+        "first_name": "Carr",
+        "last_name": "Jane",
         "user": 6
-        },
-        "first_name": "Carr",
-        "last_name": "Jane",
-        "email": "2@devcodeplatoonconsole.com",
-        "id": 6,
-        "groups": [
-        "Students"
-        ],
-        "last_login": null
     },
     {
-        "userdetail": {
-        "phone_number": "1111111111",
-        "user": 7,
-        "slack_handle": null,
-        "github_handle": null
-        },
-        "profile": {
-        "cohort_name": "Whiskey",
+        "id": 254,
+        "cohort": "Whiskey",
+        "accountability_date": "2024-05-06",
+        "accountability_status": 0,
+        "pair_status": false,
+        "absence_reason": "",
+        "excused_status": false,
+        "first_name": "Carr",
+        "last_name": "Jane",
         "user": 7
-        },
-        "first_name": "Carr",
-        "last_name": "Jane",
-        "email": "3@devcodeplatoonconsole.com",
-        "id": 7,
-        "groups": [
-        "Students"
-        ],
-        "last_login": null
     },
     {
-        "userdetail": {
-        "phone_number": "1111111111",
-        "user": 8,
-        "slack_handle": null,
-        "github_handle": null
-        },
-        "profile": {
-        "cohort_name": "Whiskey",
+        "id": 255,
+        "cohort": "Whiskey",
+        "accountability_date": "2024-05-06",
+        "accountability_status": 0,
+        "pair_status": false,
+        "absence_reason": "",
+        "excused_status": false,
+        "first_name": "Carr",
+        "last_name": "Jane",
         "user": 8
-        },
-        "first_name": "Carr",
-        "last_name": "Jane",
-        "email": "4@devcodeplatoonconsole.com",
-        "id": 8,
-        "groups": [
-        "Students"
-        ],
-        "last_login": null
     },
     {
-        "userdetail": {
-        "phone_number": "1111111111",
-        "user": 9,
-        "slack_handle": null,
-        "github_handle": null
-        },
-        "profile": {
-        "cohort_name": "Whiskey",
-        "user": 9
-        },
+        "id": 256,
+        "cohort": "Whiskey",
+        "accountability_date": "2024-05-06",
+        "accountability_status": 0,
+        "pair_status": false,
+        "absence_reason": "",
+        "excused_status": false,
         "first_name": "",
         "last_name": "Jane",
-        "email": "dev-account-1-@platoon-console.com",
-        "id": 9,
-        "groups": [
-        "Students"
-        ],
-        "last_login": null
+        "user": 9
     },
     {
-        "userdetail": {
-        "phone_number": "1111111111",
-        "user": 10,
-        "slack_handle": null,
-        "github_handle": null
-        },
-        "profile": {
-        "cohort_name": "XRay",
-        "user": 10
-        },
-        "first_name": "Doe",
-        "last_name": "Jane",
-        "email": "dev-account-15@platoon-console.com",
-        "id": 10,
-        "groups": [
-        "Students"
-        ],
-        "last_login": null
-    },
-    {
-        "userdetail": {
-        "phone_number": "1111111111",
-        "user": 11,
-        "slack_handle": null,
-        "github_handle": null
-        },
-        "profile": {
-        "cohort_name": "XRay",
-        "user": 11
-        },
-        "first_name": "Johnson",
-        "last_name": "Ralph",
-        "email": "dev-account-16@platoon-console.com",
-        "id": 11,
-        "groups": [
-        "Students"
-        ],
-        "last_login": null
-    },
-    {
-        "userdetail": {
-        "phone_number": "951653911",
-        "user": 3,
-        "slack_handle": "Blackmagk",
-        "github_handle": "test"
-        },
-        "profile": {
-        "cohort_name": "Whiskey",
-        "user": 3
-        },
+        "id": 250,
+        "cohort": "Whiskey",
+        "accountability_date": "2024-05-06",
+        "accountability_status": 1,
+        "pair_status": false,
+        "absence_reason": "",
+        "excused_status": false,
         "first_name": "Jane",
         "last_name": "Doe",
-        "email": "angelfan5741@gmail.com",
-        "id": 3,
-        "groups": [
-        "Students"
-        ],
-        "last_login": "2024-05-03T20:48:11.612929Z"
-    },
-    {
-        "userdetail": null,
-        "profile": null,
-        "first_name": "",
-        "last_name": "",
-        "email": "ImaTeacher@platoon-console.com",
-        "id": 14,
-        "groups": [
-        "Instructors"
-        ],
-        "last_login": null
+        "user": 3
     }
     ]
-    ```    
-## CREATE/READ/UPDATE USER DETAILS - 
-- **ENDPOINT** : `https://127.0.0.1:8000/user/user-details/`
-
-- **Type** : GET,POST, PUT, PATCH
-- **Permissions** : Student
-
-- **Body** :
-
-    ```json
-         {
-  "phone_number": "951653911",
-  "user": 3,
-  "slack_handle": "Blackmagk",
-  "github_handle": "test"
-    }
     ```
-- **Response** :
-    - Success: 200,201
-    ```json
-   {
-  "phone_number": "951653911",
-  "user": 3,
-  "slack_handle": "Blackmagk",
-  "github_handle": "test"
-    }
-    ```
+
