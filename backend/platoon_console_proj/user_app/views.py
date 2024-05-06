@@ -12,7 +12,7 @@ from .serializers import UserSerializer, LoginSerializer,UserDetailSerializer,Us
 from .utils import single_email_distro
 from .models import UserAccount,UserDetail
 from rest_framework.authentication import TokenAuthentication
-
+from django.contrib.auth.password_validation import validate_password
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 
@@ -107,9 +107,12 @@ class UserPasswordReset(APIView):
             return Response({'error': 'Invalid link'}, status=status.HTTP_400_BAD_REQUEST)
 
         if user is not None and default_token_generator.check_token(user, token):
-            new_password = request.data.get('new_password')  # Get the new password from request data.
-            user.set_password(new_password)  # Set and hash the new password.
-            user.save()  # Save the user object with the updated password.
+            new_password = request.data.get('new_password')
+            validate_password(new_password, user)
+            user.set_password(new_password)  # Set and hash the new password
+            user.save()  # Get the new password from request data.
+            # user.set_password(new_password)  # Set and hash the new password.
+            # user.save()  # Save the user object with the updated password.
             return Response({'message': 'Password has been reset.'}, status=status.HTTP_200_OK)
         return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -144,16 +147,7 @@ class UserLogin(APIView):
             user_account_serializer = UserAccountSerializer(user_account)
             group_names = user.groups.values_list('name', flat=True)
             
-            # Construct the response data
-            # response_data = {
-            #     'user_token': token.key,
-            #     'User_detail': user_detail_serializer.data,
-            #     'user_account': user_account_serializer.data,
-            #     'Name': user.last_name,
-            #     'User First Name': user.first_name,
-            #     'User Groups': list(group_names)
-              
-            # }
+      
             response_data = {
                 'token': token.key,
                 'user_groups': list(group_names),
@@ -165,24 +159,7 @@ class UserLogin(APIView):
                
             }
 
-#             {
-#   "UserReturned": {
-#     "token": "08dee1dd28a48dfec3079de4febc233c20420c32",
-#     "User Information": {
-#       "phone_number": "951653911",
-#       "user": 3
-#     },
-#     "User Account": {
-#       "cohort_name": "Whiskey",
-#       "user": 3
-#     },
-#     "User Last Name": "Doe",
-#     "User First Name": "Jane",
-#     "User Groups": [
-#       "Students"
-#     ]
-#   }
-# }
+
             return Response(response_data, status=status.HTTP_200_OK)
         except UserAccount.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)

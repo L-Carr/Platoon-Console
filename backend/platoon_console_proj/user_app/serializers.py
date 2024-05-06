@@ -18,7 +18,13 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'email', 'password', 'cohort_code','first_name','last_name','phone_number']
         # Set password to write_only to ensure it's not readable or retrievable via the API.
         extra_kwargs = {'password': {'write_only': True}}
-
+        
+    def validate_password(self, value):
+        try:
+            validate_password(value)
+        except ValidationError as e:
+            raise serializers.ValidationError(str(e))
+        return value
     def create(self, validated_data):
         # Retrieve cohort_code from the validated data, defaulting to None if not found.
         cohort_code = validated_data.get('cohort_code', None)
@@ -61,12 +67,7 @@ class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
 
-    def validate_password(self, value):
-        try:
-            validate_password(value)
-        except ValidationError as e:
-            raise serializers.ValidationError(str(e))
-        return value
+    
     
 
 class UserDetailSerializer(serializers.ModelSerializer):
