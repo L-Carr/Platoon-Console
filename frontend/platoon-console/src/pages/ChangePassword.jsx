@@ -51,8 +51,6 @@ const ChangePassword = () => {
                 navigate("/login");
             }, 2000);
 
-            console.log(response)
-
         } catch (error) {
             if (error.response) {
                 const errorMessage = error.response.data;

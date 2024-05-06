@@ -1,13 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from './App';
+import VideoGallery from "./pages/VideoGallery";
 import ChangePassword from "./pages/ChangePassword";
 import ErrorPage from "./pages/Errorpage";
 import ForgotPassword from "./pages/ForgotPassword";
-import GroupProgramming from "./pages/GroupProgramming";
 import Homepage from './pages/Homepage';
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import VideoGallery from "./pages/VideoGallery";
+import GroupProgramming from "./pages/GroupProgramming";
+import DemoPage from "./pages/DemoPage";
+import RollCallPage from "./pages/RollCallPage";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +43,14 @@ const router = createBrowserRouter([
       {
         path: "groups/",
         element: <GroupProgramming />,
+      },
+      {
+        path: "demo/",
+        element: <DemoPage />,
+      },
+      {
+        path: "rollcall/",
+        element: <RollCallPage />,
       },
     ],
   },

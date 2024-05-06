@@ -19,7 +19,7 @@ class AttendanceRecordsSerializer(serializers.ModelSerializer):
         model = AttendanceRecord
         fields = '__all__'
         # Set `cohort` as read-only since it will be derived
-        read_only_fields = ('first_name', 'last_name', 'cohort')
+        read_only_fields = ('first_name', 'last_name' )
 
     def get_cohort(self, instance):
         return instance.cohort.cohort_name
@@ -28,14 +28,12 @@ class AttendanceRecordsSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Assign the user from the request context
         user = self.context['user']
-
+        
         validated_data['first_name'] = user.first_name
         validated_data['last_name'] = user.last_name
         print(f"Validated Data CREATE {validated_data}")
-        # Fetch the cohort from the UserAccount linked to the user
-        user_account = UserAccount.objects.filter(user=user).first()
-        if user_account:
-            validated_data['cohort'] = user_account.cohort_name
+      
+        validated_data['cohort'] = user.profile.cohort_name
 
         return super().create(validated_data)
 
@@ -57,7 +55,7 @@ class AttendanceRecordsSerializer(serializers.ModelSerializer):
         # Apply updates for other fields as necessary
         for attr, value in validated_data.items():
             # Ensure these are not updated via API
-            if attr not in ['user', 'cohort', 'first_name', 'last_name']:
+            if attr not in ['user',  'first_name', 'last_name']:
                 setattr(instance, attr, value)
 
         instance.save()
