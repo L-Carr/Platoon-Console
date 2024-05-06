@@ -111,11 +111,11 @@ const Demos = () => {
   };
 
   const toggleTeamDemoDropdown = (index) => {
-    setTeamDemos(teamDemos.map((item, i) => index === i ? { ...item, dropdownOpen: !item.dropdownOpen } : item));
+    setTeamDemos(teamDemos.map((item, i) => index === i ? { ...item, dropdownOpen: !item.dropdownOpen} : item));
   }
 
   const toggleTeamDemoCard = (index) => {
-    setTeamDemos(teamDemos.map((item, i) => index === i ? { ...item, isOpen: !item.isOpen } : item));
+    setTeamDemos(teamDemos.map((item, i) => index === i ? { ...item, isOpen: !item.isOpen} : item));
   }
 
   const handleStatusChange = async (index, status, fromRandom = false) => {
@@ -155,7 +155,7 @@ const Demos = () => {
         await handleTeamStatusChange(onDeckTeamIndex, 'to do');
       }
 
-      const response = await axios.put(`https://127.0.0.1:8000/demo/team/${demoId}/`, { status: status }, {
+      const response = await axios.put(`https://127.0.0.1:8000/demo/team/${demoId}/`, {status: status}, {
         headers: {
           'Authorization': `Token ${token}`,
           'Content-Type': 'application/json'
@@ -211,7 +211,7 @@ const Demos = () => {
     try {
       const token = localStorage.getItem("token")
       await axios.put(`https://127.0.0.1:8000/demo/resetteams/${selectedCohort}/`, {}, {
-        headers: {
+        headers : {
           'Authorization': `Token ${token}`,
           'Content-Type': 'application/json'
         }
