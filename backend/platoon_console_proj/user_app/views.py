@@ -8,7 +8,7 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.urls import reverse
-from .serializers import UserSerializer, LoginSerializer,UserDetailSerializer,UserAccountSerializer
+from .serializers import UserSerializer, LoginSerializer,UserDetailSerializer,UserAccountSerializer,UserRelatedSerializer
 from .utils import single_email_distro
 from .models import UserAccount,UserDetail
 from rest_framework.authentication import TokenAuthentication
@@ -16,7 +16,7 @@ from rest_framework.authentication import TokenAuthentication
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 
-
+from django.contrib.auth.models import User
 
 from user_app.permissions import IsInstructor, IsStudent,IsAttendanceRecords
 
@@ -198,11 +198,58 @@ class UserLogout(GenericAuthPermissions):
         request.user.auth_token.delete()  # Delete the user's token.
         logout(request)  # Log out the user.
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class UserDetails(StudentPermissions):
 
+    def get(self, request):
+        try:
+            user_detail = UserDetail.objects.get(user=request.user)
+        except UserDetail.DoesNotExist:
+            return Response({"message": "User details not found"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = UserDetailSerializer(user_detail, context={'request': request})
+        return Response(serializer.data)
 
+    def post(self, request):
+        serializer = UserDetailSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            user_detail = serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def put(self, request):
+        try:
+            user_detail = UserDetail.objects.get(user=request.user)
+        except UserDetail.DoesNotExist:
+            return Response({"message": "User details not found"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = UserDetailSerializer(user_detail, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def patch(self, request):
+        try:
+            user_detail = UserDetail.objects.get(user=request.user)
+        except UserDetail.DoesNotExist:
+            return Response({"message": "User details not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        # Use partial=True to allow partial updates
+        serializer = UserDetailSerializer(user_detail, data=request.data, context={'request': request}, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
-
-
-
+class AdminAllUsers(InstructorPermissions):
+    """
+    API view to retrieve all users with detailed information including their accounts and user details.
+    """
+ 
+    def get(self, request):
+        """
+        Retrieve and serialize all users.
+        """
+        users = User.objects.all()
+        serializer = UserRelatedSerializer(users, many=True)
+        return Response(serializer.data)

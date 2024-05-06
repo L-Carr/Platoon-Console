@@ -55,6 +55,9 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 class LoginSerializer(serializers.Serializer):
+    '''
+    Login Serializer
+    '''
     username = serializers.CharField()
     password = serializers.CharField()
 
@@ -69,7 +72,24 @@ class LoginSerializer(serializers.Serializer):
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserDetail
-        fields = ['phone_number', 'user']  # Add other fields if necessary
+        fields = ['phone_number', 'user','slack_handle','github_handle'] 
+
+    def create(self, validated_data):
+        # Use context to get the user (if needed)
+        user = self.context['request'].user
+        # Check if a UserDetail already exists for the user and raise an error if it does
+        if UserDetail.objects.filter(user=user).exists():
+            raise serializers.ValidationError("User details already exist.")
+        # Create new UserDetail instance
+        user_detail = UserDetail.objects.create(user=user, **validated_data)
+        return user_detail
+
+    def update(self, instance, validated_data):
+        # Assign new values from validated_data to the instance
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
 
 class UserAccountSerializer(serializers.ModelSerializer):
     cohort_name = serializers.SlugRelatedField(
@@ -81,3 +101,24 @@ class UserAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAccount
         fields = ['cohort_name', 'user']
+
+
+
+  # Assuming this exists
+
+class UserRelatedSerializer(serializers.ModelSerializer):
+    profile = UserAccountSerializer(read_only=True)  # One-to-one field
+    userdetail = UserDetailSerializer(read_only=True)
+    groups = serializers.SerializerMethodField()  # Add this line
+ # One-to-one field
+    def get_cohort(self, instance):
+        return instance.cohort.cohort_name
+        # return cohort
+    def get_groups(self, obj):
+        """
+        This method returns a list of group names for the user.
+        """
+        return [group.name for group in obj.groups.all()]
+    class Meta:
+            model = User
+            fields = ('userdetail', 'profile', 'first_name','last_name','email','id','groups','last_login')

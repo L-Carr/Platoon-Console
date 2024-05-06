@@ -8,7 +8,8 @@ class UserDetail(models.Model):
   
     # Stores the phone number of the user; must be provided (null=False, blank=False).
     phone_number = models.CharField(max_length=100, null=False, blank=False)
-
+    slack_handle = models.CharField(max_length=100, null=True, blank=True)
+    github_handle = models.CharField(max_length=100, null=True, blank=True)
     # Creates a one-to-one relationship between UserDetail and Django's User model.
     # 'related_name' allows access to UserDetail from the User instance.
     # 'on_delete=models.CASCADE' specifies that if the User is deleted, the associated UserDetail should also be deleted.
@@ -16,7 +17,7 @@ class UserDetail(models.Model):
 
     def __str__(self):
         # This method provides a string representation of the object, useful for debugging and admin displays.
-        return self.user.email
+        return f'User: {self.user} | {self.phone_number} {self.slack_handle} {self.github_handle}'
     
 # UserAccount Model
 class UserAccount(models.Model):
