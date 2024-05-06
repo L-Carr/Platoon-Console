@@ -103,7 +103,7 @@ class StudentDemoInfo(InstructorPermissions):
         if ser_demo.is_valid():
             ser_demo.save()
             return Response(ser_demo.data, status=status.HTTP_201_CREATED)
-        return Response(ser_demo.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":ser_demo.errors}, status=status.HTTP_400_BAD_REQUEST)
     
 class ResetCohortDemoInfo(InstructorPermissions):
     
@@ -122,6 +122,7 @@ class ResetCohortDemoInfo(InstructorPermissions):
                 ser_demo.save()
             else:
                 print(f'ResetCohortDemoInfo Error: {ser_demo.errors}')
+                return Response({"error":ser_demo.errors}, status=status.HTTP_400_BAD_REQUEST)
 
         updated_demos = DemoStudent.objects.filter(cohort=cohort)
         ser_updated_demos = DemoStudentSerializer(updated_demos, many=True)
@@ -148,7 +149,7 @@ class TeamDemoInfo(InstructorPermissions):
         if ser_demo.is_valid():
             ser_demo.save()
             return Response(ser_demo.data, status=status.HTTP_201_CREATED)
-        return Response(ser_demo.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":ser_demo.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 class AllCohortTeamDemoInfo(GenericAuthPermissions):
 
@@ -201,6 +202,7 @@ class ResetCohortTeamDemoInfo(InstructorPermissions):
                 ser_demo.save()
             else:
                 print(f'ResetCohortTeamDemoInfo Error: {ser_demo.errors}')
+                return Response({"error":ser_demo.errors}, status=status.HTTP_400_BAD_REQUEST)
 
         updated_demos = DemoTeam.objects.filter(cohort=cohort)
         ser_updated_demos = DemoTeamSerializer(updated_demos, many=True)
