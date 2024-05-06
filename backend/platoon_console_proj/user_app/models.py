@@ -17,7 +17,7 @@ class UserDetail(models.Model):
 
     def __str__(self):
         # This method provides a string representation of the object, useful for debugging and admin displays.
-        return f'{self.phone_number}\'s UserDetail'
+        return f'User: {self.user} | {self.phone_number} {self.slack_handle} {self.github_handle}'
     
 # UserAccount Model
 class UserAccount(models.Model):

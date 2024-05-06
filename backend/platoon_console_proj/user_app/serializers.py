@@ -69,7 +69,7 @@ class LoginSerializer(serializers.Serializer):
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserDetail
-        fields = ['phone_number', 'user'] 
+        fields = ['phone_number', 'user','slack_handle','github_handle'] 
 
     def create(self, validated_data):
         # Use context to get the user (if needed)

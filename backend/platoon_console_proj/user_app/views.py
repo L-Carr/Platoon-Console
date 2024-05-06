@@ -196,7 +196,7 @@ class UserLogout(GenericAuthPermissions):
         logout(request)  # Log out the user.
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-class UserDetails(GenericAuthPermissions):
+class UserDetails(StudentPermissions):
 
     def get(self, request):
         try:
@@ -225,5 +225,14 @@ class UserDetails(GenericAuthPermissions):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request):
-        return self.put(request)  # Handle PATCH via PUT for simplicity
-
+        try:
+            user_detail = UserDetail.objects.get(user=request.user)
+        except UserDetail.DoesNotExist:
+            return Response({"message": "User details not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        # Use partial=True to allow partial updates
+        serializer = UserDetailSerializer(user_detail, data=request.data, context={'request': request}, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
