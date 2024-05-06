@@ -97,10 +97,11 @@ class UserPasswordReset(APIView):
             # Send the password reset email.
             link2 = f"http://localhost:5173/change-password/{uidb64}/{token}/"
             single_email_distro(email, "Platoon.Console Password Reset", "You've reached Platoon.Console Support,", f"You have requested a password reset. Please click the link below to reset your password. If you did not request this, please ignore this email. {link2}")
-            return Response('Password reset email sent.', status=status.HTTP_200_OK)
+            
+            return Response({'message': 'Password reset email sent.'}, status=status.HTTP_200_OK)
         except user.DoesNotExist:
             print('User Does not Exist')
-            return Response('User Does Not Exist', status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'User does not exist.'}, status=status.HTTP_404_NOT_FOUND)
             
     def put(self, request, uidb64, token):
         """
@@ -111,7 +112,8 @@ class UserPasswordReset(APIView):
             user = get_user_model().objects.get(pk=uid)  # Retrieve the user by decoded ID.
         except (TypeError, ValueError, OverflowError, user.DoesNotExist):
             print('Invalid Link')
-            return Response('Invalid link', status=status.HTTP_400_BAD_REQUEST)
+            
+            return Response({'error': 'Invalid link.'}, status=status.HTTP_400_BAD_REQUEST)
 
         if user is not None and default_token_generator.check_token(user, token):
             new_password = request.data.get('new_password')
@@ -119,14 +121,17 @@ class UserPasswordReset(APIView):
                 validate_password(new_password, user)
             except ValidationError as e:
                 print(f'Password Does not meet the validation Error: {e}')
-                return Response(f'Password Does not meet the validation Error: {e}' , status=status.HTTP_400_BAD_REQUEST)
+            
+                return Response( {'error': 'Password Does not meet the validation Error.'} , status=status.HTTP_400_BAD_REQUEST)
 
             user.set_password(new_password)  # Set and hash the new password
             user.save()  # Get the new password from request data.
             # user.set_password(new_password)  # Set and hash the new password.
             # user.save()  # Save the user object with the updated password.
+            print('Password has been reset.')
             return Response({'message': 'Password has been reset.'}, status=status.HTTP_200_OK)
-        return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+        print('Invalid token')
+        return Response({'error': 'Invalid Token.'}, status=status.HTTP_400_BAD_REQUEST)
 
 class UserLogin(APIView):
     """
@@ -146,7 +151,9 @@ class UserLogin(APIView):
         password = serializer.validated_data['password']
         user = authenticate(username=username, password=password)  # Authenticate the user.
         if not user:
-            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+            print('Invalid credentials')
+
+            return Response({'error': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
 
         try:
             token, _ = Token.objects.get_or_create(user=user)  # Retrieve or create a token for the user.
@@ -174,6 +181,7 @@ class UserLogin(APIView):
 
             return Response(response_data, status=status.HTTP_200_OK)
         except UserAccount.DoesNotExist:
+            print('User not found')
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
 class UserLogout(GenericAuthPermissions):
@@ -194,7 +202,9 @@ class UserDetails(StudentPermissions):
         try:
             user_detail = UserDetail.objects.get(user=request.user)
         except UserDetail.DoesNotExist:
-            return Response({"message": "User details not found"}, status=status.HTTP_404_NOT_FOUND)
+            print('User details not found')
+
+            return Response({'error': 'User details not found'}, status=status.HTTP_404_NOT_FOUND)
         serializer = UserDetailSerializer(user_detail, context={'request': request})
         return Response(serializer.data)
 
@@ -209,7 +219,8 @@ class UserDetails(StudentPermissions):
         try:
             user_detail = UserDetail.objects.get(user=request.user)
         except UserDetail.DoesNotExist:
-            return Response({"message": "User details not found"}, status=status.HTTP_404_NOT_FOUND)
+            print('User details not found')
+            return Response({'error': 'User details not found'}, status=status.HTTP_404_NOT_FOUND)
         serializer = UserDetailSerializer(user_detail, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
@@ -220,7 +231,8 @@ class UserDetails(StudentPermissions):
         try:
             user_detail = UserDetail.objects.get(user=request.user)
         except UserDetail.DoesNotExist:
-            return Response({"message": "User details not found"}, status=status.HTTP_404_NOT_FOUND)
+            print('User details not found')
+            return Response({'error': 'User details not found'}, status=status.HTTP_404_NOT_FOUND)
         
         # Use partial=True to allow partial updates
         serializer = UserDetailSerializer(user_detail, data=request.data, context={'request': request}, partial=True)
