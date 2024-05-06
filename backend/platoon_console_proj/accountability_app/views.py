@@ -90,6 +90,9 @@ class AttendanceRecordList(InstructorPermissions):
     def get(self, request):
         # Fetch the cohort by name from query parameters
         cohort_name = request.query_params.get('cohort_name')
+
+
+        
         if not cohort_name:
             return Response({"error": "Cohort name is required."}, status=status.HTTP_400_BAD_REQUEST)
 
