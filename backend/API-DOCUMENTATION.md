@@ -4,7 +4,7 @@
 - **ENDPOINT** : http://127.0.0.1:8000/user/login/
 - **Type**: POST
 - **Body** : 
-```python
+```json
 {
   "username": "user@email.com",
   "password" : "10932ALKJ"
@@ -15,7 +15,7 @@
 - **ENDPOINT** : http://127.0.0.1:8000/user/password-reset/
 - **Type**: POST
 - **Body** : 
-```python
+```json
 {
   "email":"user@email.com"
 }
@@ -26,7 +26,7 @@
 - **ENDPOINT** : http://127.0.0.1:8000/user/password-reset/MjM/c623t0-66fd36f4754acb32921bb30bde934438/
 - **Type**: PUT
 - **Body** : 
-```python
+```json
 {"new_password": "10932ALKJ"}
 ```
 
@@ -34,7 +34,7 @@
 - **ENDPOINT** : http://127.0.0.1:8000/user/register/
 - **Type**: PUT
 - **Body** : 
-```python
+```json
 {"email" : "user@email.com",
 "cohort_code": "TYZIAI",
  "password" : "123456",
@@ -402,90 +402,6 @@ You have requested a password reset. Please click the link below to reset your p
     ```json
         [
   {
-    "id": 211,
-    "cohort": "Whiskey",
-    "accountability_date": "2024-05-01",
-    "accountability_status": 0,
-    "pair_status": false,
-    "absence_reason": "",
-    "excused_status": false,
-    "first_name": "Carr",
-    "last_name": "Landon",
-    "user": 4
-  },
-  {
-    "id": 212,
-    "cohort": "Whiskey",
-    "accountability_date": "2024-05-01",
-    "accountability_status": 0,
-    "pair_status": false,
-    "absence_reason": "",
-    "excused_status": false,
-    "first_name": "Carr",
-    "last_name": "Jane",
-    "user": 5
-  },
-  {
-    "id": 213,
-    "cohort": "Whiskey",
-    "accountability_date": "2024-05-01",
-    "accountability_status": 0,
-    "pair_status": false,
-    "absence_reason": "",
-    "excused_status": false,
-    "first_name": "Carr",
-    "last_name": "Jane",
-    "user": 6
-  },
-  {
-    "id": 214,
-    "cohort": "Whiskey",
-    "accountability_date": "2024-05-01",
-    "accountability_status": 0,
-    "pair_status": false,
-    "absence_reason": "",
-    "excused_status": false,
-    "first_name": "Carr",
-    "last_name": "Jane",
-    "user": 7
-  },
-  {
-    "id": 215,
-    "cohort": "Whiskey",
-    "accountability_date": "2024-05-01",
-    "accountability_status": 0,
-    "pair_status": false,
-    "absence_reason": "",
-    "excused_status": false,
-    "first_name": "Carr",
-    "last_name": "Jane",
-    "user": 8
-  },
-  {
-    "id": 216,
-    "cohort": "Whiskey",
-    "accountability_date": "2024-05-01",
-    "accountability_status": 0,
-    "pair_status": false,
-    "absence_reason": "",
-    "excused_status": false,
-    "first_name": "",
-    "last_name": "Jane",
-    "user": 9
-  },
-  {
-    "id": 210,
-    "cohort": "Whiskey",
-    "accountability_date": "2024-05-01",
-    "accountability_status": 4,
-    "pair_status": false,
-    "absence_reason": "",
-    "excused_status": false,
-    "first_name": "Jane",
-    "last_name": "Doe",
-    "user": 3
-  },
-  {
     "id": 221,
     "cohort": "Whiskey",
     "accountability_date": "2024-05-02",
@@ -556,18 +472,6 @@ You have requested a password reset. Please click the link below to reset your p
     "first_name": "",
     "last_name": "Jane",
     "user": 9
-  },
-  {
-    "id": 220,
-    "cohort": "Whiskey",
-    "accountability_date": "2024-05-02",
-    "accountability_status": 1,
-    "pair_status": false,
-    "absence_reason": "Failure To launch 2",
-    "excused_status": false,
-    "first_name": "Jane",
-    "last_name": "Doe",
-    "user": 3
   }
         ]
     ```
@@ -603,3 +507,99 @@ You have requested a password reset. Please click the link below to reset your p
   "cohort": 1
         }
     ```
+## GET ATTENDANCE RECORDS FOR A GIVEN COHORT AND DATE
+- **ENDPOINT** : `https://127.0.0.1:8000/accountability/retrieve-filtered/?cohort_name=Whiskey&accountability_date=2024-05-06`
+- **Query Paramater**: cohort_name,accountability_date
+- **Type** : GET
+- **Permissions** : Instructor
+- **Response** :
+    - Success: 200
+    ```json
+        [
+    {
+        "id": 251,
+        "cohort": "Whiskey",
+        "accountability_date": "2024-05-06",
+        "accountability_status": 0,
+        "pair_status": false,
+        "absence_reason": "",
+        "excused_status": false,
+        "first_name": "Carr",
+        "last_name": "Landon",
+        "user": 4
+    },
+    {
+        "id": 252,
+        "cohort": "Whiskey",
+        "accountability_date": "2024-05-06",
+        "accountability_status": 0,
+        "pair_status": false,
+        "absence_reason": "",
+        "excused_status": false,
+        "first_name": "Carr",
+        "last_name": "Jane",
+        "user": 5
+    },
+    {
+        "id": 253,
+        "cohort": "Whiskey",
+        "accountability_date": "2024-05-06",
+        "accountability_status": 0,
+        "pair_status": false,
+        "absence_reason": "",
+        "excused_status": false,
+        "first_name": "Carr",
+        "last_name": "Jane",
+        "user": 6
+    },
+    {
+        "id": 254,
+        "cohort": "Whiskey",
+        "accountability_date": "2024-05-06",
+        "accountability_status": 0,
+        "pair_status": false,
+        "absence_reason": "",
+        "excused_status": false,
+        "first_name": "Carr",
+        "last_name": "Jane",
+        "user": 7
+    },
+    {
+        "id": 255,
+        "cohort": "Whiskey",
+        "accountability_date": "2024-05-06",
+        "accountability_status": 0,
+        "pair_status": false,
+        "absence_reason": "",
+        "excused_status": false,
+        "first_name": "Carr",
+        "last_name": "Jane",
+        "user": 8
+    },
+    {
+        "id": 256,
+        "cohort": "Whiskey",
+        "accountability_date": "2024-05-06",
+        "accountability_status": 0,
+        "pair_status": false,
+        "absence_reason": "",
+        "excused_status": false,
+        "first_name": "",
+        "last_name": "Jane",
+        "user": 9
+    },
+    {
+        "id": 250,
+        "cohort": "Whiskey",
+        "accountability_date": "2024-05-06",
+        "accountability_status": 1,
+        "pair_status": false,
+        "absence_reason": "",
+        "excused_status": false,
+        "first_name": "Jane",
+        "last_name": "Doe",
+        "user": 3
+    }
+    ]
+    ```
+

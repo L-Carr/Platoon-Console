@@ -121,3 +121,25 @@ class AdminAttendanceOverride(InstructorPermissions):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AttendanceRecordListFiltered(InstructorPermissions):
+    def get(self, request):
+        # Fetch the cohort by name from query parameters
+        cohort_name = request.query_params.get('cohort_name')
+        # Fetch the cohort by name from query parameters
+        accountability_date = request.query_params.get('accountability_date')
+        if not cohort_name:
+            return Response({"error": "Cohort name is required."}, status=status.HTTP_400_BAD_REQUEST)
+        if not accountability_date:
+            return Response({"error": "Accountability date is required."}, status=status.HTTP_400_BAD_REQUEST)
+        # Safely get the Cohort instance by name
+        cohort = get_object_or_404(Cohort, cohort_name=cohort_name)
+
+        # Retrieve all records for this cohort
+        records = AttendanceRecord.objects.filter(cohort=cohort,accountability_date=accountability_date)
+        if records.exists():
+            serializer = AttendanceRecordsSerializer(records, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"message": "No attendance records found for this cohort."}, status=status.HTTP_404_NOT_FOUND)
