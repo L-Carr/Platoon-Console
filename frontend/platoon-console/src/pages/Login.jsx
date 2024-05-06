@@ -39,12 +39,12 @@ const Login = () => {
             setErrorMessage("");
             setEmail("");
             setPassword("");
-            setSuccessMessage("Login successful");
+            // setSuccessMessage("Login successful");
+            navigate('/');
+            // setTimeout(() => {
+            //     navigate("/");
+            // }, 2000);
             
-            setTimeout(() => {
-                navigate("/");
-            }, 2000);
-            // window.location.href = '/';
             
         } catch (error) {
             if (error.response) {
