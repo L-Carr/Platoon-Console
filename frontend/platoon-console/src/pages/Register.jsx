@@ -44,9 +44,9 @@ const Register = () => {
                     'Content-Type': 'application/json'
                 }
             });
-            const { token } = response.data;
+            // const { token } = response.data;
 
-            localStorage.setItem('token', token);
+            // localStorage.setItem('token', token);
 
             setErrorMessage("");
             setSuccessMessage("Registration successful!");
