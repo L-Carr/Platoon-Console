@@ -159,27 +159,47 @@ class UserLogin(APIView):
             token, _ = Token.objects.get_or_create(user=user)  # Retrieve or create a token for the user.
             login(request, user)  # Log the user in.
 
-             # Serialize the user's details and account information
-            user_detail = UserDetail.objects.get(user=user)
-            user_account = UserAccount.objects.get(user=user)
-            user_detail_serializer = UserDetailSerializer(user_detail)
-            user_account_serializer = UserAccountSerializer(user_account)
-            group_names = user.groups.values_list('name', flat=True)
             
-      
-            response_data = {
-                'token': token.key,
-                'user_groups': list(group_names),
-                'user_cohort': user_account_serializer.data.get('cohort_name'),
-                'user_id': user_account_serializer.data.get('user'),
-                'user_first_name': user.first_name,
-                'user_last_name': user.last_name,
-                'user_phone_number': user_detail_serializer.data.get('phone_number')
-               
-            }
+           
+            user = User.objects.get(username=username)  # Replace 'username' with the actual username
 
+            # Getting all groups of which the user is a member
+            students = user.groups.filter(name ='Students')
+            if students:
+                
+             # Serialize the user's details and account information
+                user_detail = UserDetail.objects.get(user=user)
+                user_account = UserAccount.objects.get(user=user)
+                user_detail_serializer = UserDetailSerializer(user_detail)
+                user_account_serializer = UserAccountSerializer(user_account)
+                group_names = user.groups.values_list('name', flat=True)
+                
+            
+                response_data = {
+                    'token': token.key,
+                    'user_groups': list(group_names),
+                    'user_cohort': user_account_serializer.data.get('cohort_name'),
+                    'user_id': user_account_serializer.data.get('user'),
+                    'user_first_name': user.first_name,
+                    'user_last_name': user.last_name,
+                    'user_phone_number': user_detail_serializer.data.get('phone_number')
+                
+                }
+            else:
+                group_names = user.groups.values_list('name', flat=True)
+                
+                response_data = {
+                    'token': token.key,
+                    'user_groups': list(group_names),
+                    'user_id': user.id,
+                    'user_first_name': user.first_name,
+                    'user_last_name': user.last_name
+
+                }
 
             return Response(response_data, status=status.HTTP_200_OK)
+           
+
         except UserAccount.DoesNotExist:
             print('User not found')
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
