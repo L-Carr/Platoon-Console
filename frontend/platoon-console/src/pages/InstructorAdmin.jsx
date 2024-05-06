@@ -63,7 +63,7 @@ const InstructorAdmin = () => {
           },
         }
       );
-
+      console.log(` THIS IS RESPONSE ID: ${response.data.id}`)
       setGhConfigID(response.data.id);
 
       console.log(response.data);
