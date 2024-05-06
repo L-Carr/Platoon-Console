@@ -53,7 +53,7 @@ class AddUserToTeamView(InstructorPermissions):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error" : serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     
 class ModifyTeamMembership(InstructorPermissions):
 
@@ -63,7 +63,7 @@ class ModifyTeamMembership(InstructorPermissions):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error" : serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     
     def post(self, request, team_id):
         # Assuming you are creating a new membership for a specific team
@@ -75,7 +75,7 @@ class ModifyTeamMembership(InstructorPermissions):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error" : serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, team_id):
         membership = Membership.objects.filter(team_id=team_id)
@@ -95,4 +95,4 @@ class CreateTeamIfNotExistsView(InstructorPermissions):
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error" : serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

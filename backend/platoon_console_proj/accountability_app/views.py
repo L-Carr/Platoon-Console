@@ -54,7 +54,7 @@ class AttendanceRecordCreateOrUpdate(AttendanceRecordPermissions):
                 if serializer.is_valid():
                     serializer.save()
                 else:
-                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({"error" : serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
             # Update the current user's record
             record = AttendanceRecord.objects.get(
@@ -64,7 +64,7 @@ class AttendanceRecordCreateOrUpdate(AttendanceRecordPermissions):
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error" : serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         # -------------------------------------------------------------------------------------------------------------------
         # Edge Case. Attempt to get users record for the day even if cohort records already exist
         record = AttendanceRecord.objects.get(
@@ -76,14 +76,14 @@ class AttendanceRecordCreateOrUpdate(AttendanceRecordPermissions):
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error" : serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = AttendanceRecordsSerializer(
             record, data=request.data, partial=True, context={'user': user})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error" : serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AttendanceRecordList(InstructorPermissions):
@@ -120,7 +120,7 @@ class AdminAttendanceOverride(InstructorPermissions):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error" : serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AttendanceRecordListFiltered(InstructorPermissions):
@@ -142,4 +142,4 @@ class AttendanceRecordListFiltered(InstructorPermissions):
             serializer = AttendanceRecordsSerializer(records, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response({"message": "No attendance records found for this cohort."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "No attendance records found for this cohort."}, status=status.HTTP_404_NOT_FOUND)
