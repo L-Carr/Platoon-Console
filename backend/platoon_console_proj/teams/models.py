@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from cohort.models import Cohort
+from cohort.models import Cohort
 
 # Create your models here.
 from django.db import models
@@ -7,6 +9,9 @@ from django.db import models
 class Team(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
+    cohort = models.ForeignKey(Cohort, on_delete=models.CASCADE, related_name='teams', default=1)
+    
+    
 
     def __str__(self):
         return self.name

@@ -62,7 +62,7 @@ class GhApiConfigInfo(InstructorPermissions):
         if update_config.is_valid():
             update_config.save()
             return Response(update_config.data, status=status.HTTP_201_CREATED)
-        return Response(update_config.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":update_config.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, id):
         # This method handles DELETE requests - for testing
@@ -71,7 +71,7 @@ class GhApiConfigInfo(InstructorPermissions):
             ghapi_config = get_object_or_404(GhApiConfig, id=id)
             ghapi_config.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response({"message":"delete method only allowed in debug mode."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":"delete method only allowed in debug mode."}, status=status.HTTP_400_BAD_REQUEST)
 
 class GhApiConfigCreate(InstructorPermissions):
 
@@ -85,14 +85,14 @@ class GhApiConfigCreate(InstructorPermissions):
 
         if record_count > 0:
             # A config already exists
-            return Response({"message":"A config already exists."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error":"A config already exists."}, status=status.HTTP_400_BAD_REQUEST)
         
         new_config = GhApiConfigSerializer(data=data)
 
         if new_config.is_valid():
             new_config.save()
             return Response(new_config.data, status=status.HTTP_201_CREATED)
-        return Response(new_config.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":new_config.errors}, status=status.HTTP_400_BAD_REQUEST)
     
 class GhApiConfigViewAll(InstructorPermissions):
 
@@ -118,7 +118,7 @@ class GhApiMainRepo(StudentPermissions):
             }
 
             return Response(result)
-        return Response({"message":"There is no config record."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":"There is no config record."}, status=status.HTTP_400_BAD_REQUEST)
     
 class GhApiWeekDir(StudentPermissions):
 
@@ -196,6 +196,6 @@ class GhApiWeekDir(StudentPermissions):
                         result['cheatsheets_url'] = topic.html_url
 
                 return Response(result)
-            return Response({"message":"That week does not exist in the curriculum."}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({"message":"There is no config record."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error":"That week does not exist in the curriculum."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":"There is no config record."}, status=status.HTTP_400_BAD_REQUEST)
             
