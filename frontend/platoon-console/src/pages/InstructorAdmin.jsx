@@ -8,6 +8,37 @@ const InstructorAdmin = () => {
   const [repoName, setRepoName] = useState("");
   const [ghConfigID, setGhConfigID] = useState(null);
   const token = localStorage.getItem("token");
+  
+  
+  const configDataPut = async () => {
+    try {
+
+    
+      const configData = {
+        repo_owner: repoOwner,
+        repo_name: repoName,
+      };
+
+      let response = await axios.put(
+        `https://localhost:8000/gh/${ghConfigID}/`,
+        configData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      if (error.response) {
+        const errorMessage = error.response.data.error;
+        // setErrorMessage(errorMessage);
+        console.log("Error", errorMessage);
+      }
+    }
+  };
+  
   const handleFormSubmit = async (e) => {
     // If Configured once, and changes needed, it will call the PUT Method
     e.preventDefault();
@@ -16,32 +47,7 @@ const InstructorAdmin = () => {
       console.log("Already Configured");
       /// gh/ID
 
-      const configDataPut = async () => {
-        try {
-          const configData = {
-            repo_owner: repoOwner,
-            repo_name: repoName,
-          };
-
-          let response = await axios.put(
-            `https://localhost:8000/gh/${ghConfigID}/`,
-            configData,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Token ${token}`,
-              },
-            }
-          );
-          console.log(response.data);
-        } catch (error) {
-          if (error.response) {
-            const errorMessage = error.response.data.error;
-            // setErrorMessage(errorMessage);
-            console.log("Error", errorMessage);
-          }
-        }
-      };
+    
 
       configDataPut();
       return "Already Configured";
