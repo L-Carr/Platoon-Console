@@ -10,12 +10,9 @@ import Register from "./pages/Register";
 import GroupProgramming from "./pages/GroupProgramming";
 import DemoPage from "./pages/DemoPage";
 import RollCallPage from "./pages/RollCallPage";
-<<<<<<< HEAD
 import CreateTeamComponent from "./components/CreateTeams";
 
-=======
 import InstructorAdmin from "./pages/InstructorAdmin";
->>>>>>> origin/131-github-frontend-instructor-configuration-of-github-fields
 const router = createBrowserRouter([
   {
     path: "/",
@@ -58,14 +55,11 @@ const router = createBrowserRouter([
         element: <RollCallPage />,
       },
       {
-<<<<<<< HEAD
-        path: "create-teams/",
-        element: <CreateTeamComponent />,
-=======
         path: "InstructorAdmin/",
         element: <InstructorAdmin />,
->>>>>>> origin/131-github-frontend-instructor-configuration-of-github-fields
       },
+      { path: "create-teams/",
+      element: <CreateTeamComponent />},
     ],
   },
 
