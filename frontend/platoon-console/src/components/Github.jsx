@@ -42,6 +42,7 @@ const Github = () => {
 
 
         } catch (error) {
+            alert('No GitHub repository configured')
             console.error('Error fetching main url', error)
         }
     }
