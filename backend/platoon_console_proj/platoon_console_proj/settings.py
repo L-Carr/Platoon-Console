@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'demo',
     'accountability_app',
     'teams',
-    
+    'resources',
+
 ]
 
 MIDDLEWARE = [
