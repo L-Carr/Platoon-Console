@@ -10,8 +10,12 @@ import Register from "./pages/Register";
 import GroupProgramming from "./pages/GroupProgramming";
 import DemoPage from "./pages/DemoPage";
 import RollCallPage from "./pages/RollCallPage";
+<<<<<<< HEAD
 import CreateTeamComponent from "./components/CreateTeams";
 
+=======
+import InstructorAdmin from "./pages/InstructorAdmin";
+>>>>>>> origin/131-github-frontend-instructor-configuration-of-github-fields
 const router = createBrowserRouter([
   {
     path: "/",
@@ -54,8 +58,13 @@ const router = createBrowserRouter([
         element: <RollCallPage />,
       },
       {
+<<<<<<< HEAD
         path: "create-teams/",
         element: <CreateTeamComponent />,
+=======
+        path: "InstructorAdmin/",
+        element: <InstructorAdmin />,
+>>>>>>> origin/131-github-frontend-instructor-configuration-of-github-fields
       },
     ],
   },
@@ -78,3 +87,9 @@ export default router;
 // Group 8: Daniel Thompson, Sandra Jackson, Anthony Anderson
 // Group 9: Mark Davis, Jennifer Smith, Joseph Gonzalez
 // Group 10: Thomas Robinson, Jessica White, David Ramirez
+
+
+// {
+//   "repo_owner": "Code-Platoon-Curriculum",
+//   "repo_name": "curriculum"
+//   }
