@@ -12,6 +12,7 @@ import {
 } from "reactstrap";
 import Accountability from "../components/Accountability";
 import Demo from "../components/Demo";
+import CreateTeamComponent from "../components/CreateTeams";
 
 const Homepage = () => {
   const [accountabilityModalOpen, setAccountabilityModalOpen] = useState(false);
