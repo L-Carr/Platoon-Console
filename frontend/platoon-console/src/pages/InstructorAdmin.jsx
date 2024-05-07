@@ -217,7 +217,7 @@ const InstructorAdmin = () => {
 
 
   const updateRecord = (id, name, value, index) => {
-    const updatedRecords = localRecords.map((record, idx) => {
+    const updatedRecords = allResources.map((record, idx) => {
       // Determine whether to compare using id or index based on whether id is present
       const isTargetRecord = id ? record.id === id : idx === index;
 
@@ -227,7 +227,7 @@ const InstructorAdmin = () => {
       return record;
     });
     
-    setLocalRecords(updatedRecords); // This should trigger a re-render with updated data
+    setAllResources(updatedRecords); // This should trigger a re-render with updated data
   };
   return (
     <Container>
@@ -346,7 +346,7 @@ const InstructorAdmin = () => {
                
               <Input id="resourceName" name="resourceName" placeholder="Resource Name" type="text" value={resource.resource_name}  onInputChange={(e) =>
                               updateRecord(
-                                record.id,
+                                resource.id,
                                 e.target.name,
                                 e.target.value,
                                 index
