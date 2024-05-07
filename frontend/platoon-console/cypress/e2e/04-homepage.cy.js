@@ -5,7 +5,7 @@ describe('User Login and Homepage Links', () => {
       
       // Fill out login form and submit
       cy.get("#exampleEmail").type('john.doe@example.com')
-      cy.get('#examplePassword').type('password')
+      cy.get('#examplePassword').type('P@sswordMain')
       cy.get('form').submit()
 
       // Verify token in localStorage
@@ -66,5 +66,6 @@ describe('User Login and Homepage Links', () => {
     cy.contains('YouTube Playlist').click();
     // cy.get('[data-test="feedback-modal"]').should('be.visible');
   });
+  
   
 });

@@ -6,8 +6,10 @@ describe('User Login', () => {
 
     it('successfully logs in a user with valid credentials', () => {
         //fill out login form and grab and apply tokens from localStorage
+        // cy.get("#exampleEmail").type('john.doe@example.com')
+        // cy.get('#examplePassword').type('password')
         cy.get("#exampleEmail").type('john.doe@example.com')
-        cy.get('#examplePassword').type('password')
+        cy.get('#examplePassword').type('P@sswordMain')
 
         //submit form
         cy.get('form').submit()
