@@ -10,8 +10,8 @@ import Register from "./pages/Register";
 import GroupProgramming from "./pages/GroupProgramming";
 import DemoPage from "./pages/DemoPage";
 import RollCallPage from "./pages/RollCallPage";
+import CanvasPage from "./pages/CanvasPage";
 import CreateTeamComponent from "./components/CreateTeams";
-
 import InstructorAdmin from "./pages/InstructorAdmin";
 const router = createBrowserRouter([
   {
@@ -55,14 +55,18 @@ const router = createBrowserRouter([
         element: <RollCallPage />,
       },
       {
-        path: "InstructorAdmin/",
-        element: <InstructorAdmin />,
+        path: "canvas/",
+        element: <CanvasPage />,
       },
+      
       { path: "create-teams/",
       element: <CreateTeamComponent />},
     ],
   },
-
+  {
+    path: "InstructorAdmin/",
+    element: <InstructorAdmin />,
+  },
   {
     path: "*",
     element: <ErrorPage />,

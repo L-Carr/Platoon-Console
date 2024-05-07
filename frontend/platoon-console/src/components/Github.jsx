@@ -84,7 +84,7 @@ useEffect(() => {
 
     return (
         <>  
-            <card className="gitHubCard2">
+            <Card className="gitHubCard2">
             <ul className="consoleCardUl">
             {mainCurriculum.name ? 
             <>
@@ -169,7 +169,7 @@ useEffect(() => {
                 </Link>
             </li>
             </ul>
-            </card>
+            </Card>
         </>
     )
 }
