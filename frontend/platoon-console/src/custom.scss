@@ -12,6 +12,15 @@ body {
   color: #ffffff;
 }
 
+::-webkit-scrollbar {
+  width: 10px; /* Set the width of the scrollbar */
+  background-color: #1d1d1d; /* Set the background color of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2f2f2f; /* Set the color of the scrollbar thumb */
+}
+
 a {
   text-decoration: none;
   color: #3b7f82;
@@ -32,7 +41,7 @@ a:hover {
 
   .mainH2 {
     font-family: 'Special Elite';
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin-top: 1rem;
     color: #f05a1b;
     z-index: 50;
@@ -101,9 +110,8 @@ a:hover {
   margin: 10px;
   width: 230px;
 }
-// .mainLogo {
-//     margin-top: 8rem;
-// }
+
+
 
 @keyframes logo-spin {
   from {
@@ -146,16 +154,6 @@ a:hover {
   color: #6ccff6;
 }
 
-// .Permanent Marker-regular {
-//   font-family: "Permanent Marker", system-ui;
-//   font-weight: 400;
-//   font-style: normal;
-// }
-
-.navLink {
-  // color: #f05a1b;
-}
-
 .custom-link {
   color: #f05a1b;
 }
@@ -179,12 +177,12 @@ a:hover {
 }
 
 .dropdown-item:hover {
-  background-color: #6c757d; /* Change to your desired highlight color */
+  background-color: #6c757d;
 }
 
 .scrollable-cards-container {
-  max-height: 400px; /* Set the maximum height */
-  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .buttonContainer {
@@ -208,7 +206,6 @@ a:hover {
   justify-content: center;
   align-items: center;
   margin-right: 10px;
-  // margin-top: 10px;
 }
 
 .exerciseButton:hover {
@@ -252,6 +249,11 @@ a:hover {
   width: 180px;
 }
 
+.gitHubDropdown {
+  margin: 10px;
+
+}
+
 .workoutCardClosed {
   margin: 1rem; 
   width: 220px; 
@@ -291,24 +293,45 @@ a:hover {
   margin-bottom: 20px;
 }
 
-
-
 .consoleCard {
-  // background-color: #2f2f2f;
   background-color: #1d1d1d;
   color: #ffffff;
   margin: 1rem; 
   width: 302px; 
   min-height: 128px;
   border: 0px;
-  // border: 2px solid;
-  // border-color: #4d4d4d;
-  // box-shadow: 0 0 1px #ffffff, 0 0 2px #f05a1b, 0 0 4px #f05a1b, 0 0 8px #f05a1b;
-  // box-shadow: 0 0 1px #2d2d2d, 0 0 2px #2d2d2d, 0 0 4px #000000, 0 0 8px #000000;
+}
+
+.gitHubCard {
+  background-color: #1d1d1d;
+  color: #ffffff;
+  margin: 1rem; 
+  width: 302px; 
+  min-height: 128px;
+  max-height: 200px;
+  // min-width: 80%;
+  width: 302px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  border: 0px;
+  align-items: center;
+}
+
+.gitHubCard2 {
+  background-color: #1d1d1d;
+  color: #ffffff;
+  // margin: 1rem; 
+  width: 302px; 
+  min-height: 128px;
+  max-height: 200px;
+  // width: 500px;
+  padding-bottom: 5px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 0px;
 }
 
 .groupCard {
-  // background-color: #2f2f2f;
   background-color: #1d1d1d;
   color: #ffffff;
   margin: 2rem;
@@ -327,7 +350,6 @@ a:hover {
 .linkCard {
   margin: 2rem auto;
   width: 90%;
-  
 }
 
 .resetButton {
@@ -336,7 +358,7 @@ a:hover {
 
 @media (max-width: 768px) {
   .mainH1 {
-    font-size: 3rem; /* Adjust the font size for mobile devices */
+    font-size: 3rem; 
   }
   .video-container {
     max-width: 100%;
