@@ -3,6 +3,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import axios from 'axios';
 import StudentAttCard from './StudentAttCard';
 import check from "../assets/check.svg";
+import { useNavigate } from 'react-router-dom';
 
 const RollCall = () => {
   
@@ -20,6 +21,20 @@ const RollCall = () => {
   const [activeSort, setActiveSort] = useState("Name");
   const [errorMessage, setErrorMessage] = useState("");
   const checkSize = { width: "16px", height: "16px" };
+  const [isInstructor, setIsInstructor] = useState(false)
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkInstructor = () => {
+      const userGroup = localStorage.getItem('user_groups')
+      if (userGroup.includes('Instructors')) {
+        setIsInstructor(true)
+      } else (
+        navigate('/')
+      )
+    };
+    checkInstructor();
+  }, []);
   
   const token = localStorage.getItem('token');
   const config = {
@@ -43,7 +58,7 @@ const RollCall = () => {
   useEffect(() => {
     const fetchCohorts = async () => {
       try {
-        const response = await axios.get('https://127.0.0.1:8000/cohort/', config);
+        const response = await axios.get('http://127.0.0.1:8000/cohort/', config);
         const cohortData = response.data;
         const names = cohortData.map(cohort => cohort.cohort_name);
         const sortedNames = names.sort((a, b) => a.localeCompare(b));
@@ -59,7 +74,7 @@ const RollCall = () => {
     const fetchAttendance = async () => {
       if (selectedOption) {
         try {
-          const response = await axios.get(`https://127.0.0.1:8000/accountability/retrieve/?cohort_name=${selectedOption}`, config);
+          const response = await axios.get(`http://127.0.0.1:8000/accountability/retrieve/?cohort_name=${selectedOption}`, config);
           let sortedData = response.data.filter(item => item.accountability_date === fetchDate);
 
           if (sortedData.length === 0) {
