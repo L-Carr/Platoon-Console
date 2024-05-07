@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react'
 import rough from 'roughjs'
+import './CanvasPage.css'
 
 const generator = rough.generator()
 
@@ -21,13 +22,12 @@ const CanvasPage = () => {
         const context = canvas.getContext("2d")
         context.clearRect(0, 0, canvas.width, canvas.height)
         const roughCanvas = rough.canvas(canvas)
-        const rect = generator.rectangle(10, 10, 100, 100, {roughness: 0})
-        const line = generator.line(10, 10, 110, 110, {roughness: 0})
-        const circle = generator.circle(480, 50, 80, {roughness: 0});
-        roughCanvas.draw(rect)
-        roughCanvas.draw(line)
-        roughCanvas.draw(circle)
-    }, [])
+
+        elements.forEach(element => roughCanvas.draw(element.roughElement))
+
+
+        // roughCanvas.draw(line)
+    }, [elements])
     
     const handleMouseDown = (event) => {
         setDrawing(true)
@@ -62,8 +62,8 @@ const CanvasPage = () => {
         <canvas 
         id="canvas" 
         style={{backgroundColor: '#fefae0'}} 
-        height={window.innerHeight-250} 
-        width={window.innerWidth-250}
+        height={window.innerHeight} 
+        width={window.innerWidth}
         onMouseDown = {handleMouseDown}
         onMouseMove = {handleMouseMove}
         onMouseUp = {handleMouseUp}
