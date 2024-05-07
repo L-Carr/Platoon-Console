@@ -31,15 +31,15 @@ describe('User Registration', () => {
     cy.get('#exampleLastName').type('Doe');
     cy.get('#exampleEmail').type('existing.user@example.com');
     cy.get('#examplePhoneNumber').type('1234567890');
-    cy.get('#exampleCohortCode').type('DEF456');
-    cy.get('#examplePassword').type('password');
-    cy.get('#exampleVerifyPassword').type('password');
+    cy.get('#exampleCohortCode').type('XYAI-2ADA');
+    cy.get('#examplePassword').type('7qh!*FXw');
+    cy.get('#exampleVerifyPassword').type('7qh!*FXw');
 
     // Submit the form
     cy.get('form').submit();
 
     // Assert that error message is displayed
-    cy.contains('User with this Email already exists.');
+    cy.contains('User Email already exists.');
   });
 
   it('displays error message for mismatched passwords', () => {

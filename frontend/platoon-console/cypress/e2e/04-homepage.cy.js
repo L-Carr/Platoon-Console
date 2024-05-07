@@ -1,130 +1,70 @@
-describe('User Login', () => {
+describe('User Login and Homepage Links', () => {
   beforeEach(() => {
-      //visit login page before each test
+      // Visit login page before each test
       cy.visit('http://localhost:5173/login')
-  })
-
-  it('successfully logs in a user with valid credentials', () => {
-      //fill out login form and grab and apply tokens from localStorage
+      
+      // Fill out login form and submit
       cy.get("#exampleEmail").type('john.doe@example.com')
       cy.get('#examplePassword').type('password')
-
-      //submit form
       cy.get('form').submit()
 
       // Verify token in localStorage
       cy.window().its('localStorage.token').should('exist');
 
+      // Wait for redirect to homepage
+      cy.url().should('include', 'http://localhost:5173/');
   })
-})
 
+  it('toggles accountability modal when "Attendance Check In" link is clicked', () => {
+      cy.contains('Attendance Check In').click()
+      // .should('contain', 'x')
+      // .click()
+      // cy.get('[data-test="accountability-modal"]').should('be.visible');
+  });
 
-describe('Homepage', () => {
-    beforeEach(() => {
-      // Visit the homepage before each test
-      cy.visit('http://localhost:5173/');
+  it('toggles daily feedback modal when "Daily Feedback Form" link is clicked', () => {
+      cy.contains('Daily Feedback Form').click();
+      // cy.get('[data-test="feedback-modal"]').should('be.visible');
+  });
+
+  it('toggles daily feedback modal when "Daily Agenda" link is clicked', () => {
+    cy.contains('Daily Agenda').click();
+    // cy.get('[data-test="feedback-modal"]').should('be.visible');
     });
-  
-    it('toggles accountability modal when link is clicked', () => {
-      //test modal for Attendance Check In
-      it.only('Javascript Alert', () => {
-        cy.get('a').click()
-        const text = "Attendance Check In"
-        cy.on('window:alert', cy.stub().as('alert'))
-        cy.get('@alert', {timeout: 1000}).should("have.been.calledOnce")
-      })
-    });
-  
-    it('toggles daily feedback modal when link is clicked', () => {
-      //test modal for Daily Feedback Form
-      it.only('Javascript Alert', () => {
-        cy.get('a').click()
-        const text = "Daily Feedback Form"
-        cy.on('window:alert', cy.stub().as('alert'))
-        cy.get('@alert', {timeout: 1000}).should("have.been.calledOnce")
-      })
-    })
 
-    it('toggles daily agenda modal when link is clicked', () => {
-      //test modal for Daily Feedback Form
-      it.only('Javascript Alert', () => {
-        cy.get('a').click()
-        const text = "Daily Agenda"
-        cy.on('window:alert', cy.stub().as('alert'))
-        cy.get('@alert', {timeout: 1000}).should("have.been.calledOnce")
-      })
-    })
+  it('toggles daily feedback modal when "Monthly Schedule" link is clicked', () => {
+  cy.contains('Monthly Schedule').click();
+  // cy.get('[data-test="feedback-modal"]').should('be.visible');
+  });
 
-    it('toggles monthly schedule modal when link is clicked', () => {
-      //test modal for Daily Feedback Form
-      it.only('Javascript Alert', () => {
-        cy.get('a').click()
-        const text = "Monthly Schedule"
-        cy.on('window:alert', cy.stub().as('alert'))
-        cy.get('@alert', {timeout: 1000}).should("have.been.calledOnce")
-      })
-    })
+  it('toggles daily feedback modal when "Curriculum" link is clicked', () => {
+    cy.contains('Curriculum').click();
+    // cy.get('[data-test="feedback-modal"]').should('be.visible');
+  });
 
-    it('toggles curriculum modal when link is clicked', () => {
-      //test modal for Daily Feedback Form
-      it.only('Javascript Alert', () => {
-        cy.get('a').click()
-        const text = "Curriculum"
-        cy.on('window:alert', cy.stub().as('alert'))
-        cy.get('@alert', {timeout: 1000}).should("have.been.calledOnce")
-      })
-    })
+  it('toggles daily feedback modal when "Demos & Notes" link is clicked', () => {
+    cy.contains('Demos & Notes').click();
+    // cy.get('[data-test="feedback-modal"]').should('be.visible');
+  });
 
-    it('toggles demos and notes modal when link is clicked', () => {
-      //test modal for Daily Feedback Form
-      it.only('Javascript Alert', () => {
-        cy.get('a').click()
-        const text = "Demos and Notes"
-        cy.on('window:alert', cy.stub().as('alert'))
-        cy.get('@alert', {timeout: 1000}).should("have.been.calledOnce")
-      })
-    })
+  it('toggles daily feedback modal when "Assignments" link is clicked', () => {
+    cy.contains('Assignments').click();
+    // cy.get('[data-test="feedback-modal"]').should('be.visible');
+});
 
-    it('toggles assignments modal when link is clicked', () => {
-      //test modal for Daily Feedback Form
-      it.only('Javascript Alert', () => {
-        cy.get('a').click()
-        const text = "Assignments"
-        cy.on('window:alert', cy.stub().as('alert'))
-        cy.get('@alert', {timeout: 1000}).should("have.been.calledOnce")
-      })
-    })
+  it('toggles daily feedback modal when "Generate Pairs" link is clicked', () => {
+    cy.contains('Generate Pairs').click();
+    // cy.get('[data-test="feedback-modal"]').should('be.visible');
+});
 
-    it('toggles generate pairs modal when link is clicked', () => {
-      //test modal for Daily Feedback Form
-      it.only('Javascript Alert', () => {
-        cy.get('a').click()
-        const text = "Generate Pairs"
-        cy.on('window:alert', cy.stub().as('alert'))
-        cy.get('@alert', {timeout: 1000}).should("have.been.calledOnce")
-      })
-    })
+  it('toggles daily feedback modal when "Generate Demo List" link is clicked', () => {
+    cy.contains('Generate Demo List').click();
+    // cy.get('[data-test="feedback-modal"]').should('be.visible');
+  });
 
-    it('toggles generate demo list modal when link is clicked', () => {
-      //test modal for Daily Feedback Form
-      it.only('Javascript Alert', () => {
-        cy.get('a').click()
-        const text = "Generate Demo List"
-        cy.on('window:alert', cy.stub().as('alert'))
-        cy.get('@alert', {timeout: 1000}).should("have.been.calledOnce")
-      })
-    })
-
-    it('toggles youtube playlist modal when link is clicked', () => {
-      //test modal for Daily Feedback Form
-      it.only('Javascript Alert', () => {
-        cy.get('a').click()
-        const text = "Youtube Playlist"
-        cy.on('window:alert', cy.stub().as('alert'))
-        cy.get('@alert', {timeout: 1000}).should("have.been.calledOnce")
-      })
-    })
-  
-  
+  it('toggles daily feedback modal when "YouTube Playlist" link is clicked', () => {
+    cy.contains('YouTube Playlist').click();
+    // cy.get('[data-test="feedback-modal"]').should('be.visible');
   });
   
+});

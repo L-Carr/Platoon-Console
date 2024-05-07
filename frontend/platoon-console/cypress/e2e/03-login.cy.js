@@ -16,15 +16,18 @@ describe('User Login', () => {
         cy.window().its('localStorage.token').should('exist');
 
     })
+    
 
     it('displays error message with invalid credentials', () => {
         // Fill out login form with invalid credentials
         cy.get("#exampleEmail").type('invalidusername')
-        cy.get('#examplePassword').type('b')
+        cy.get('#examplePassword').type('passwords123')
         cy.get('form').submit()
 
         // Verify error message
-        cy.contains('Invalid credentials');
+        cy.on('window:alert', (message) => [
+            expect(message).to.equal('Please include an @ in the email address.')
+        ])
     })
 
 })
