@@ -152,6 +152,9 @@ const Homepage = () => {
                 <li>
                   <Link to="videos/">YouTube Playlist</Link>
                 </li>
+                <li>
+                  <Link to="canvas/">Platoon Canvas</Link>
+                </li>
               </ul>
             </CardBody>
           </Card>
