@@ -12,6 +12,7 @@ import {
 } from "reactstrap";
 import Accountability from "../components/Accountability";
 import Demo from "../components/Demo";
+import Github from "../components/Github";
 
 const Homepage = () => {
   const [accountabilityModalOpen, setAccountabilityModalOpen] = useState(false);
@@ -119,37 +120,10 @@ const Homepage = () => {
                   }}
                 >
                   <h3>GitHub</h3>
+
                 </div>
               </CardTitle>
-              <ul className="consoleCardUl">
-                <li>
-                  <Link
-                    to="http://github.com/Code-Platoon-Curriculum"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Curriculum
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="http://github.com/Code-Platoon-Curriculum/whiskey-demos-and-notes"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Demos & Notes
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="http://github.com/Code-Platoon-Assignments/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Assignments
-                  </Link>
-                </li>
-              </ul>
+              <Github />     
             </CardBody>
           </Card>
 
