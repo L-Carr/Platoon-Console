@@ -54,6 +54,7 @@ const Homepage = () => {
           className="card-container"
           style={{
             marginTop: "2rem",
+            marginBottom: "2rem",
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "center",
