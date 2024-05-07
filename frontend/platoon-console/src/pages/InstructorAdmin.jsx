@@ -162,18 +162,14 @@ const InstructorAdmin = () => {
     }
   };
 
-  const UpdateExistingLinks = async (record_id,payload) => {
+  const UpdateExistingLinks = async (record_id) => {
 
-   
+    let updatedResource = allResources.find((resource) => resource.id === record_id);
+    console.log(updatedResource)
     try {
-      const configLinkData = {
-        resource_name: payload.resourceName,
-        program_name: payload.resourceProgram,
-        resource_link: payload.esourceLink,
-        cohort_name: payload.resourceCohort
-      };
+    
 
-      let response = await axios.patch(`http://127.0.0.1:8000/resources/update/${record_id}/`, configLinkData, {
+      let response = await axios.patch(`http://127.0.0.1:8000/resources/update/${record_id}/`, updatedResource, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Token ${token}`,
@@ -224,10 +220,14 @@ const InstructorAdmin = () => {
       if (isTargetRecord) {
         return { ...record, [name]: value, isModified: true }; // Correctly updating the specified field
       }
+
+
       return record;
     });
     
-    setAllResources(updatedRecords); // This should trigger a re-render with updated data
+
+    setAllResources(updatedRecords);
+    console.log(allResources)// This should trigger a re-render with updated data
   };
   return (
     <Container>
@@ -344,33 +344,26 @@ const InstructorAdmin = () => {
           <Row key={index}>
             <Col md={3}>
                
-              <Input id="resourceName" name="resourceName" placeholder="Resource Name" type="text" value={resource.resource_name}  onInputChange={(e) =>
-                              updateRecord(
-                                resource.id,
-                                e.target.name,
-                                e.target.value,
-                                index
-                              )
-                            } />
-              
+ 
+              <Input id="resourceName" name="resourceName" placeholder="Resource Name" type="text" value={resource.resource_name}  onChange={(e) => updateRecord(resource.id, 'resource_name', e.target.value, index)}/>
             </Col>
             <Col md={3}>
                
-              <Input id="programName" name="programName" placeholder="Program Name" type="text" value={resource.program_name} />
+              <Input id="programName" name="programName" placeholder="Program Name" type="text" value={resource.program_name} onChange={(e) => updateRecord(resource.id, 'program_name', e.target.value, index)}/>
                
             </Col>
             <Col md={3}>
                
-              <Input id="resourceLink" name="resourceLink" placeholder="Resource Link" type="text" value={resource.resource_link}  />
+              <Input id="resourceLink" name="resourceLink" placeholder="Resource Link" type="text" value={resource.resource_link}  onChange={(e) => updateRecord(resource.id, 'resource_link', e.target.value, index)}/>
               
             </Col>
             <Col md={3}>
                 
-              <Input id="resourceLink" name="CohortName" placeholder="Cohort Name" type="text" value={resource.cohort_name}  />
+              <Input id="resourceLink" name="CohortName" placeholder="Cohort Name" type="text" value={resource.cohort_name} onChange={(e) => updateRecord(resource.id, 'cohort_name', e.target.value, index)} />
                
             </Col>
             <Col md={3}>
-              <Button onClick={UpdateExistingLinks(resource.id, allResources[index])}>Update Link</Button>
+              <Button onClick={() => UpdateExistingLinks(resource.id )}>Update Link</Button>
             </Col>
           </Row>
         ))}
