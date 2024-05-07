@@ -356,6 +356,27 @@ a:hover {
   background: red;
 }
 
+.canvas-btn {
+  background: #f05a1b;
+  padding: 6px 8px;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.canvas-btn:hover {
+  background: #3b7f82;
+}
+
+.canvas-link {
+  color: #f05a1b;
+  padding: 6px 8px;
+  margin: 5px;
+}
+
+.canvas-link:hover {
+  color: #3b7f82;
+}
+
 @media (max-width: 768px) {
   .mainH1 {
     font-size: 3rem; 

@@ -75,22 +75,22 @@ const CanvasPage = () => {
   return (
     <>
     <div>
-        <div style={{ position: "fixed", zIndex: 2 }}>
+        <div className='my-3' style={{ position: "fixed", zIndex: 2 }}>
             <input 
                 type="radio" 
                 id="line" 
                 checked={elementType === "line"} 
                 onChange={() => setElementType("line")} />
-            <label htmlFor="line" style={{color: "black"}}>Line</label>
+            <label htmlFor="line" style={{color: "black"}} className='canvas-link' >Line</label>
             <input
                 type="radio"
                 id="rectangle"
                 checked={elementType === "rectangle"}
                 onChange={() => setElementType("rectangle")}
             />
-            <label htmlFor="rectangle" style={{color: "black"}}>Rectangle</label>
-            <button onClick={handleGoHome}>Home</button>
-            <button onClick={handleSave}>Save</button>
+            <label htmlFor="rectangle" style={{color: "black"}} className='canvas-link' >Rectangle</label>
+            <button onClick={handleGoHome} className="canvas-btn">Home</button>
+            <button onClick={handleSave} className="canvas-btn">Save</button>
         </div>
         <canvas 
         id="canvas" 
