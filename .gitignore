@@ -13,3 +13,4 @@ sslcerts
 migrations
 */migrations/*.py
 !*/migrations/__init__.py
+.DS_Store
