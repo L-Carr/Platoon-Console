@@ -132,7 +132,7 @@ You have requested a password reset. Please click the link below to reset your p
 
 ## GET A WEEK URL
 - NOTE: Keep it simple - use the week number to search
-- **ENDPOINT** : `https://127.0.0.1:8000/gh/<week str>/`
+- **ENDPOINT** : `https://127.0.0.1:8000/gh/week/<week str>/`
 - **Type** : GET
 - **Permissions** : Student
 - **Response** :
