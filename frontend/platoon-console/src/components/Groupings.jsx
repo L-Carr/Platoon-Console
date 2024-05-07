@@ -11,14 +11,11 @@ const Groupings = () => {
   const [groups, setGroups] = useState([]);
   const token = localStorage.getItem("token");
   const now = new Date().toISOString().split("T")[0];
-  const [existingGroups, setExistingGroups] = useState(
-    JSON.parse(localStorage.getItem("existingGroups")) || {}
-  );
 
   // const generateFakeStudents = (num) => {
   //   const fakeStudents = [];
   //   const cohortName = "Whiskey";
-  //   const accountabilityDate = new Date().toISOString().split('T')[0];
+  //   const accountabilityDate = new Date().toISOString().split("T")[0];
 
   //   for (let i = 1; i <= num; i++) {
   //     fakeStudents.push({
@@ -27,7 +24,7 @@ const Groupings = () => {
   //       last_name: `Last${i}`,
   //       cohort_name: cohortName,
   //       accountability_date: accountabilityDate,
-  //       pair_status: true // Randomly assign pairing status
+  //       pair_status: true, // Randomly assign pairing status
   //     });
   //   }
 
@@ -83,13 +80,11 @@ const Groupings = () => {
           (stud) => stud.accountability_date === now && stud.pair_status
         );
 
-        // const filteredStudents = data.filter(
-        //   (stud) =>
-        //     stud.accountability_date === "2024-05-03" && stud.pair_status
-        // );
-
         setStudents(filteredStudents);
       } catch (error) {
+        if (error.response.status === 404) {
+          alert("NO ATTENDANCE RECORDS AVAILABLE FOR THE DAY.");
+        }
         console.error("Failed to fetch students", error);
       }
     };
@@ -107,55 +102,29 @@ const Groupings = () => {
     }
   };
 
-  // const createGroups = () => {
-  //   const shuffleStudents = [...students];
-  //   shuffleArray(shuffleStudents);
-
-  //   const newGroups = [];
-  //   for (let i = 0; i < shuffleStudents.length; i += groupSize) {
-  //     newGroups.push(shuffleStudents.slice(i, i + groupSize));
-  //   }
-  //   setGroups(newGroups);
-  // };
-
-  const doesGroupExist = (group) => {
-    const existingGroupSet = existingGroups[selectedCohort] || [];
-    return existingGroupSet.some(
-      (storedGroup) => JSON.stringify(storedGroup) === JSON.stringify(group)
-    );
-  };
-
   const createGroups = () => {
-    if (groupSize <= 0 || students.length === 0) return;
-
     const shuffleStudents = [...students];
     shuffleArray(shuffleStudents);
 
     const newGroups = [];
     for (let i = 0; i < shuffleStudents.length; i += groupSize) {
-      const newGroup = shuffleStudents.slice(i, i + groupSize);
-      if (doesGroupExist(newGroup)) {
-        alert("Cannot create new groupings without duplicates. Please reset.");
-        return;
-      }
-      newGroups.push(newGroup);
+      newGroups.push(shuffleStudents.slice(i, i + groupSize));
+    }
+
+    const lastGroup = newGroups[newGroups.length - 1];
+    if (lastGroup && lastGroup.length < groupSize) {
+      newGroups.pop();
+      lastGroup.forEach((student) => {
+        for (let i = 0; i < newGroups.length; i++) {
+          if (newGroups[i].length < groupSize + 1) {
+            newGroups[i].push(student);
+            break;
+          }
+        }
+      });
     }
 
     setGroups(newGroups);
-
-    const updatedGroups = { ...existingGroups };
-    updatedGroups[selectedCohort] = [
-      ...(existingGroups[selectedCohort] || []),
-      ...newGroups,
-    ];
-    setExistingGroups(updatedGroups);
-    localStorage.setItem("existingGroups", JSON.stringify(updatedGroups));
-  };
-
-  const resetGroupings = () => {
-    setExistingGroups({});
-    localStorage.removeItem("existingGroups");
-    alert("Group pairings reset!");
   };
 
   const copyToClipboard = () => {
@@ -207,9 +176,6 @@ const Groupings = () => {
         Create Groups
       </Button>
       <Button onClick={copyToClipboard}>Copy Groups</Button>
-      <Button onClick={resetGroupings} style={{ margin: "10px" }}>
-        Reset Groups
-      </Button>
       <div
         className="card-container"
         style={{
