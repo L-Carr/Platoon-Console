@@ -13,6 +13,7 @@ import {
 import Accountability from "../components/Accountability";
 import Demo from "../components/Demo";
 import Github from "../components/Github";
+import CreateTeamComponent from "../components/CreateTeams";
 
 const Homepage = () => {
   const [accountabilityModalOpen, setAccountabilityModalOpen] = useState(false);

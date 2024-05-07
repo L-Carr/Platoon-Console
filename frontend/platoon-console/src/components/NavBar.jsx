@@ -41,7 +41,7 @@ const toggleNavbar = () => {
     <>
       <Navbar className='navbar-expand-sm navbar-dark' style={{ position: 'absolute', width: '100%'}}>
       <NavbarBrand href="/">
-        <img alt="logo" src={logo} style={{ height: 40, width: 40 }} />
+        <img alt="platoon console logo" src={logo} style={{ height: 40, width: 40 }} />
       </NavbarBrand>
       <NavbarToggler onClick={toggleNavbar} className="mr-2" />
       <Collapse isOpen={isOpen} navbar>
