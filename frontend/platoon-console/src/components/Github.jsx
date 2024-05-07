@@ -123,7 +123,7 @@ useEffect(() => {
                     target="_blank"
                     rel="noopener noreferrer"
                     >
-                    {weekCurriculum.week_name}
+                    {`Week: ${weekCurriculum.week_name}`}
                     </Link>
                 </li>
                 {weekCurriculum.topics ?

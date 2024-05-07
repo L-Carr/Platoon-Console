@@ -250,6 +250,12 @@ class GhApiWeekDir(StudentPermissions):
                             'topic_name':topic.name,
                             'html_url':topic.html_url
                         }
+                    
+                    # Prevent duplicates
+                    #TODO: Figure out where this happened
+                    # resources was showing up twice in week 8
+                    if day_topic in topics:
+                        continue
 
                     topics.append(day_topic)
 
