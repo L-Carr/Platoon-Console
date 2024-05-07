@@ -12,7 +12,7 @@ const InstructorAdmin = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const token = localStorage.getItem("token");
-
+  const [successCohort,setSuccessCohort] = useState(false)
   const configDataPut = async () => {
     try {
       const configData = {
@@ -21,7 +21,7 @@ const InstructorAdmin = () => {
       };
 
       let response = await axios.put(
-        `https://localhost:8000/gh/${ghConfigID}/`,
+        `http://localhost:8000/gh/${ghConfigID}/`,
         configData,
         {
           headers: {
@@ -72,12 +72,48 @@ const InstructorAdmin = () => {
       }
     }
   };
+  const handleCohortSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const configCohortData = {
+        cohort_code: cohortCode,
+        cohort_name: cohortName,
+        start_date : startDate,
+        end_date: endDate
+      };
+      
+        let response = await axios.post(
+          "http://127.0.0.1:8000/cohort/",
+          configCohortData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Token ${token}`,
+            },
+          }
+        );
+      if (response.status === 201) {
+        setSuccessCohort(true)
+
+        if (successCohort) {
+         
+          setCohortCode('')
+          setCohortName('')
+          setStartDate('')
+          setEndDate('')
+        }
+      }
+      console.log(response.data)
+    } catch (error) {
+      console.log("Error", error);
+    }
+  }
 
   useEffect(() => {
     const initialConfigFetch = async () => {
       try {
         let response = await axios.get(
-          "https://127.0.0.1:8000/gh/all/", 
+          "http://127.0.0.1:8000/gh/all/", 
           {
             headers: {
               "Content-Type": "application/json",
@@ -102,14 +138,14 @@ const InstructorAdmin = () => {
 
   return (
     <Container>
-      <h1>Instructor Page</h1>
+      <h2 className="mainH2">Instructor Page</h2>
       <Container style={{
       borderRadius: '15px', // Adjust the border radius as needed for roundness
       backgroundColor: 'white', // Sets the background color to white
       padding: '20px', // Adds some padding inside the div
       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' // Optional: adds a subtle shadow
     }}>
-      <h2 className='text-black text-start'>Configure GitHub Account</h2>
+      <h4 className='text-black text-start'>Configure Universal GitHub Resources</h4>
       <Form onSubmit={handleFormSubmit}>
         <Row form>
           <Col md={5}>
@@ -135,8 +171,8 @@ const InstructorAdmin = () => {
       padding: '20px', // Adds some padding inside the div
       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' // Optional: adds a subtle shadow
     }}>
-      <h2 className="text-black text-start">Configure Cohorts</h2>
-      <Form>
+      <h4 className="text-black text-start">Configure Cohorts</h4>
+      <Form onSubmit={handleCohortSubmit}>
         <Row form>
           <Col md={3}>
             <FormGroup>
@@ -159,7 +195,7 @@ const InstructorAdmin = () => {
             </FormGroup>
           </Col>
           <Col md={2}>
-            <Button type="submit">Submit</Button>
+            <Button type="submit">Add</Button>
           </Col>
         </Row>
         </Form>

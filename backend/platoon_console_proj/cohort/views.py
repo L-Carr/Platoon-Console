@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status 
 from .models import Cohort
 from .serializers import CohortSerializer
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST,HTTP_201_CREATED
 
 
 class CohortListView(APIView):
@@ -16,5 +16,5 @@ class CohortListView(APIView):
         serializer = CohortSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=HTTP_200_OK)
+            return Response(serializer.data, status=HTTP_201_CREATED)
         return Response({"error": serializer.errors}, status=HTTP_400_BAD_REQUEST)
