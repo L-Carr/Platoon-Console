@@ -96,7 +96,7 @@ const Login = () => {
                 {' '}
                 <Button type="Submit">Submit</Button>
             </Form>
-            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+            {errorMessage && <p style={{ color: 'red' }}>{errorMessage.error}</p>}
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
             <p>Don't have an account?  <Link tag="link" to="/register">Register</Link></p>
             <p><Link tag="link" to="/forgot-password">Forgot password?</Link></p>
