@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Button,
   Card,
   CardBody,
+  CardText,
   CardTitle,
   Modal,
   ModalBody,
   ModalHeader,
-  CardText,
 } from "reactstrap";
 import Accountability from "../components/Accountability";
 import Demo from "../components/Demo";
@@ -18,6 +19,19 @@ const Homepage = () => {
   const [agendaModalOpen, setAgendaModalOpen] = useState(false);
   const [monthlyModalOpen, setMonthlyModalOpen] = useState(false);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
+  const [resources, setResources] = useState([]);
+
+  // Fetch resources from API
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/resources/")
+      .then((response) => {
+        setResources(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   const toggleAccountabilityModal = () => {
     setAccountabilityModalOpen(!accountabilityModalOpen);
@@ -194,6 +208,18 @@ const Homepage = () => {
                 <li>
                   <Link to="videos/">YouTube Playlist</Link>
                 </li>
+                {/* Map over resources fetched from API */}
+                {resources.map((resource) => (
+                  <li key={resource.resource_name}>
+                    <Link
+                      to={resource.resource_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {resource.resource_name}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </CardBody>
           </Card>
