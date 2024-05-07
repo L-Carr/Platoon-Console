@@ -122,7 +122,7 @@ class UserPasswordReset(APIView):
             except ValidationError as e:
                 print(f'Password Does not meet the validation Error: {e}')
             
-                return Response( {'error': 'Password Does not meet the validation Error.'} , status=status.HTTP_400_BAD_REQUEST)
+                return Response( {'error': e} , status=status.HTTP_400_BAD_REQUEST)
 
             user.set_password(new_password)  # Set and hash the new password
             user.save()  # Get the new password from request data.

@@ -24,6 +24,11 @@ const Register = () => {
         e.preventDefault();
         setSuccessMessage("");
         setErrorMessage("");
+        
+        if (!firstName || !lastName || !email || !phoneNumber || !cohortCode || !password || !verifyPassword) {
+            setErrorMessage("Please fill in all the fields.");
+            return;
+        }
         try {
             const userData = {
                 "first_name": firstName,
@@ -39,9 +44,9 @@ const Register = () => {
                     'Content-Type': 'application/json'
                 }
             });
-            const { token } = response.data;
+            // const { token } = response.data;
 
-            localStorage.setItem('token', token);
+            // localStorage.setItem('token', token);
 
             setErrorMessage("");
             setSuccessMessage("Registration successful!");
@@ -52,21 +57,30 @@ const Register = () => {
             setPassword("");
             
             setTimeout(() => {
-                navigate("/");
+                navigate("/login");
             }, 2000);
 
             console.log(response)
 
         } catch (error) {
-            if (error.response) {
-                const errorMessage = error.response.data;
-                if (errorMessage && errorMessage.message === "User with this Email already exists.") {
-                    setErrorMessage(errorMessage.message);
-                } else {
-                    console.log('Error', errorMessage);
-                }
+            if (error.response && error.response.data) {
+                const keys = Object.keys(error.response.data);
+                let errorMessage = "";
+        
+                keys.forEach((key, index) => {
+                    errorMessage += error.response.data[key];
+                    if (keys.length > 1 && index !== keys.length - 1) {
+                        errorMessage += "<br />";
+                    }
+                });
+        
+                setErrorMessage(errorMessage || "Registration Error");
+                console.log('Error', errorMessage);
             } else {
-                console.log('Error', error.message);
+                console.log(error);
+                const errorMessage = error.message || "Registration Error";
+                setErrorMessage(errorMessage);
+                console.log('Error', errorMessage);
             }
         }
     };
