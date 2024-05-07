@@ -29,7 +29,7 @@ const Demos = () => {
     const fetchCohorts = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('https://127.0.0.1:8000/cohort/', {
+        const response = await axios.get('http://127.0.0.1:8000/cohort/', {
           headers: {
             Authorization: `Token ${token}`
           }
@@ -67,7 +67,7 @@ const Demos = () => {
   const updateDemos = async () => {
     try {
       const token = localStorage.getItem("token")
-      const response = await axios.post(`https://127.0.0.1:8000/demo/all/${selectedCohort}/`, {}, {
+      const response = await axios.post(`http://127.0.0.1:8000/demo/all/${selectedCohort}/`, {}, {
         headers: {
           'Authorization': `Token ${token}`,
           'Content-Type': 'application/json'
@@ -86,7 +86,7 @@ const Demos = () => {
   const updateTeamDemos = async () => {
     try {
       const token = localStorage.getItem("token")
-      const response = await axios.post(`https://127.0.0.1:8000/demo/teams/${selectedCohort}/`, {}, {
+      const response = await axios.post(`http://127.0.0.1:8000/demo/teams/${selectedCohort}/`, {}, {
         headers: {
           'Authorization': `Token ${token}`,
           'Content-Type': 'application/json'
@@ -129,7 +129,7 @@ const Demos = () => {
         await handleStatusChange(onDeckStudentIndex, 'to do');
       }
 
-      const response = await axios.put(`https://127.0.0.1:8000/demo/student/${demoId}/`, { status: status }, {
+      const response = await axios.put(`http://127.0.0.1:8000/demo/student/${demoId}/`, { status: status }, {
         headers: {
           'Authorization': `Token ${token}`,
           'Content-Type': 'application/json'
@@ -155,7 +155,7 @@ const Demos = () => {
         await handleTeamStatusChange(onDeckTeamIndex, 'to do');
       }
 
-      const response = await axios.put(`https://127.0.0.1:8000/demo/team/${demoId}/`, {status: status}, {
+      const response = await axios.put(`http://127.0.0.1:8000/demo/team/${demoId}/`, {status: status}, {
         headers: {
           'Authorization': `Token ${token}`,
           'Content-Type': 'application/json'
@@ -195,7 +195,7 @@ const Demos = () => {
   const resetDemoList = async () => {
     try {
       const token = localStorage.getItem("token")
-      await axios.put(`https://127.0.0.1:8000/demo/reset/${selectedCohort}/`, {}, {
+      await axios.put(`http://127.0.0.1:8000/demo/reset/${selectedCohort}/`, {}, {
         headers: {
           'Authorization': `Token ${token}`,
           'Content-Type': 'application/json'
@@ -210,7 +210,7 @@ const Demos = () => {
   const resetTeamDemoList = async () => {
     try {
       const token = localStorage.getItem("token")
-      await axios.put(`https://127.0.0.1:8000/demo/resetteams/${selectedCohort}/`, {}, {
+      await axios.put(`http://127.0.0.1:8000/demo/resetteams/${selectedCohort}/`, {}, {
         headers : {
           'Authorization': `Token ${token}`,
           'Content-Type': 'application/json'

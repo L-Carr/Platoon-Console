@@ -42,7 +42,7 @@ const Groupings = () => {
   useEffect(() => {
     const fetchCohorts = async () => {
       try {
-        const response = await axios.get("https://127.0.0.1:8000/cohort/", {
+        const response = await axios.get("http://127.0.0.1:8000/cohort/", {
           headers: {
             Authorization: `Token ${token}`,
           },
@@ -68,7 +68,7 @@ const Groupings = () => {
 
       try {
         const response = await axios.get(
-          `https://127.0.0.1:8000/accountability/retrieve/?cohort_name=${selectedCohort}`,
+          `http://127.0.0.1:8000/accountability/retrieve/?cohort_name=${selectedCohort}`,
           {
             headers: {
               Authorization: `Token ${token}`,

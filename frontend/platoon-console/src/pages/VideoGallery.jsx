@@ -178,7 +178,7 @@ const VideoGallery = () => {
         }} // Prevent the modal from being too wide
       >
         {/* Display the selected video title in the modal header, Body, and video */}
-        <div className="modal-mainH4">
+        <div className="mainH4">
           <Modal.Header closeButton style={{ backgroundColor: "#3b7f82" }}>
             <Modal.Title style={{ color: "#ffffff" }}>
               {selectedVideo ? selectedVideo.title : "Loading..."}
