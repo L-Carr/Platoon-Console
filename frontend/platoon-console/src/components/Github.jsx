@@ -9,6 +9,18 @@ const Github = () => {
     const [weekCurriculum, setWeekCurriculum] = useState({});
     const [weekDropdownOpen, setWeekDropdownOpen] = useState(false);
 
+    const WEEKS = [
+        'Week 1',
+        'Week 2',
+        'Week 3',
+        'Week 4',
+        'Week 5',
+        'Week 6',
+        'Week 7',
+        'Week 8',
+        'Week 9',
+    ]
+
     const toTitleCase = (str) => {
         return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
     }
@@ -80,7 +92,13 @@ useEffect(() => {
                         {selectedWeek !== null ? `${selectedWeek}` : 'Select Week'}
                         </DropdownToggle>
                         <DropdownMenu>
-                            <DropdownItem onClick={() => { handleWeekSelect('Week 1'); toggleWeekDropdown(); }}>Week 1</DropdownItem>
+                            {/* <DropdownItem onClick={() => { handleWeekSelect('Week 1'); toggleWeekDropdown(); }}>Week 1</DropdownItem> */}
+                            {WEEKS.map( name => (
+                                <DropdownItem key={name} onClick={() => {
+                                    handleWeekSelect(name); toggleWeekDropdown(); }}>
+                                        {name}
+                                </DropdownItem>
+                            ))}
                         </DropdownMenu>
                     </Dropdown>
                 </li>
@@ -99,13 +117,35 @@ useEffect(() => {
             }
             {selectedWeek !== null ?
             <>
-                <li>week is not null</li>
-                <li>{weekCurriculum.week_name}</li>
-                {/* <li>{weekCurriculum.week_html_url} */}
+                <li>
+                    <Link
+                    to={weekCurriculum.week_html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >
+                    {weekCurriculum.week_name}
+                    </Link>
+                </li>
+                {weekCurriculum.topics > 0 ?
+                <>
+                {weekCurriculum.topics.map((topic, index) => (
+                    <li key={index}>
+                        <Link
+                        to={topic.html_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >
+                        {topic.topic_name}
+                        </Link>
+                    </li>
+                ))}
+                </>
+                :
+                <><li>Topics aren't mapping</li></>
+            }
             </>
             :
             <>
-                <li>week is null</li>
             </>
             }
             <li>
