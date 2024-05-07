@@ -160,21 +160,14 @@ class UserLogin(APIView):
             token, _ = Token.objects.get_or_create(user=user)  # Retrieve or create a token for the user.
             login(request, user)  # Log the user in.
 
-            user_account = UserAccount.objects.get(user=user)
+            # user_account = UserAccount.objects.get(user=user)
+            # print(f'THIS IS BAIL: {user_account.cohort_name.id}')
             # user_account_serializer = UserAccountSerializer(user_account)
             # user_cohort = user_account_serializer.data.get('cohort_name')
             # print(user_cohort.id)
-            user_cohort = user_account.cohort_name
+            # user_cohort = user_account.cohort_name
             # Fetch the resource link for the user's cohort and the resource named 'Zoom'
-            resource = Resources.objects.filter(cohort_name_id=user_cohort)
-            print(resource)
-            results = []
-            for result in resource:
-                resourceDict = {
-                    'name': result.resource_name,
-                    'url': result.resource_link
-                }
-                results.append(resourceDict)
+            
 
 
 
@@ -183,14 +176,23 @@ class UserLogin(APIView):
             # Getting all groups of which the user is a member
             students = user.groups.filter(name ='Students')
             if students:
-
+                
              # Serialize the user's details and account information
                 user_detail = UserDetail.objects.get(user=user)
                 user_account = UserAccount.objects.get(user=user)
                 user_detail_serializer = UserDetailSerializer(user_detail)
                 user_account_serializer = UserAccountSerializer(user_account)
                 group_names = user.groups.values_list('name', flat=True)
-
+                user_cohort = user_account.cohort_name
+                resource = Resources.objects.filter(cohort_name_id=user_cohort)
+                print(resource)
+                results = []
+                for result in resource:
+                    resourceDict = {
+                        'name': result.resource_name,
+                        'url': result.resource_link
+                    }
+                    results.append(resourceDict)
 
                 response_data = {
                     'token': token.key,
@@ -220,6 +222,7 @@ class UserLogin(APIView):
 
         except UserAccount.DoesNotExist:
             print('User not found')
+            print(f' THIS IS THE CURRENT USER {user} // THIS IS THE EMAIL {user.email}')
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
 class UserLogout(GenericAuthPermissions):
