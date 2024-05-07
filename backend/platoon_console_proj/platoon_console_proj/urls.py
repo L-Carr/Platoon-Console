@@ -25,6 +25,5 @@ urlpatterns = [
     path('teams/', include('teams.urls')),
     path('accountability/', include('accountability_app.urls')),
     path('cohort/', include('cohort.urls')),
+    path('resources/', include('resources.urls')),
 ]
-
-

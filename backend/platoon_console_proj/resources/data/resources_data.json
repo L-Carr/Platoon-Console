@@ -1,0 +1,12 @@
+[
+    {
+        "model": "resources.resources",
+        "pk": 1,
+        "fields": {
+            "resource_name": "Zoom",
+            "cohort_name": "Whiskey",
+            "program_name": "Full Stack Development Course",
+            "resource_link": "https://zoom.us/j/1234567890"
+        }
+    }
+]
