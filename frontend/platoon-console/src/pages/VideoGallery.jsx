@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
-import { Button } from "reactstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import YouTube from "react-youtube"; // Import YouTube component to display YouTube videos
 
 const VideoGallery = () => {
@@ -11,6 +10,7 @@ const VideoGallery = () => {
   const [hoverIndex, setHoverIndex] = useState(null); // Hover effect for video thumbnails
   const [searchQuery, setSearchQuery] = useState(""); // Search query for videos
   const [isSearching, setIsSearching] = useState(false); // Flag to determine if user is searching
+  const [sortOrder, setSortOrder] = useState("date"); // Manage the sort order
 
   // Function to fetch videos from YouTube API
   const fetchPlaylistVideos = async () => {
@@ -18,24 +18,25 @@ const VideoGallery = () => {
     const API_KEY = import.meta.env.VITE_REACT_APP_YT_API_KEY;
     const playlistId = import.meta.env.VITE_REACT_APP_YT_WHISKEY_PLAYLIST_ID;
     const channelId = "UCASZ7zW_Egu0T4KG3YEdGfw"; // Channel ID for Whiskey!
-    let url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&key=${API_KEY}&maxResults=100`;
+    let url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&key=${API_KEY}&maxResults=50`;
     // If user is searching, fetch videos based on search query
     if (isSearching && searchQuery) {
-      url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&q=${searchQuery}&type=video&key=${API_KEY}&maxResults=100`;
+      url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&q=${searchQuery}&type=video&key=${API_KEY}&maxResults=50`;
     }
 
     try {
       const response = await fetch(url);
       const data = await response.json();
-      const videoItems = data.items.map((item) => ({
+      let videoItems = data.items.map((item) => ({
         // Check if video ID is in the item object
         id: item.id.videoId || item.snippet.resourceId.videoId,
         title: item.snippet.title, // Video title
         thumbnail: item.snippet.thumbnails.high.url, // Use high quality thumbnail
         publishedAt: item.snippet.publishedAt, // Video publish date
       }));
-      // console.log("DATA ALL DAY!!! >>", data);
-      // console.log("VIDEOITEMS!!!>>", videoItems);
+
+      // Sort videos by date or title
+      videoItems = sortVideos(videoItems, sortOrder);
       setVideos(videoItems);
     } catch (error) {
       console.error("Failed to fetch videos", error);
@@ -44,7 +45,22 @@ const VideoGallery = () => {
   // Fetch videos when component mounts and when user searches
   useEffect(() => {
     fetchPlaylistVideos();
-  }, [isSearching, searchQuery]);
+  }, [isSearching, searchQuery, sortOrder]);
+
+  // Function to sort the videos array
+  const sortVideos = (videos, order) => {
+    return [...videos].sort((a, b) => {
+      if (order === "title") {
+        return a.title.localeCompare(b.title);
+      } else {
+        return new Date(b.publishedAt) - new Date(a.publishedAt);
+      }
+    });
+  };
+
+  const handleSortChange = () => {
+    setSortOrder(sortOrder === "date" ? "title" : "date"); // Toggle sort order
+  };
 
   // Handle search query change in input field
   const handleSearchChange = (e) => {
@@ -82,6 +98,15 @@ const VideoGallery = () => {
   return (
     <div className="container mt-2">
       <h2 className="mainH2">Playlist Videos</h2>
+      <div className="d-flex justify-content-center align-items-center">
+        <div style={{ marginRight: 10 }}>Sort by Date</div>
+        <Form.Switch
+          id="custom-switch"
+          checked={sortOrder === "title"}
+          onChange={handleSortChange}
+        />
+        <div style={{ marginLeft: 10 }}>Sort by Title</div>
+      </div>
       <input
         type="text"
         value={searchQuery}
@@ -129,8 +154,8 @@ const VideoGallery = () => {
               style={{
                 position: "absolute",
                 top: 0,
-                left: 30,
-                right: 30,
+                left: 20,
+                right: 20,
                 bottom: "30%",
                 backgroundColor:
                   hoverIndex === index ? "rgba(0, 0, 0, 0.4)" : "transparent",
@@ -152,13 +177,13 @@ const VideoGallery = () => {
         }} // Prevent the modal from being too wide
       >
         {/* Display the selected video title in the modal header, Body, and video */}
-        <div className="mainH4">
-          <Modal.Header closeButton style={{backgroundColor: "#3b7f82"}}>
-            <Modal.Title style={{color: "#ffffff"}}>
+        <div className="modal-mainH4">
+          <Modal.Header closeButton>
+            <Modal.Title>
               {selectedVideo ? selectedVideo.title : "Loading..."}
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body style={{backgroundColor: "#2f2f2f"}}>
+          <Modal.Body>
             {selectedVideo && (
               <YouTube videoId={selectedVideo.id} opts={opts} />
             )}
