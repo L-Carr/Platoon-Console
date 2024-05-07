@@ -3,6 +3,9 @@ from .models import Resources
 
 class ResourceSerializer(serializers.ModelSerializer):
 
+    def get_cohort(self, instance):
+            return instance.cohort.cohort_name
+
     class Meta:
         model = Resources
         fields = "__all__"

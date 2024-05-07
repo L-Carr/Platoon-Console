@@ -160,15 +160,22 @@ class UserLogin(APIView):
             token, _ = Token.objects.get_or_create(user=user)  # Retrieve or create a token for the user.
             login(request, user)  # Log the user in.
 
-            user_cohort = getattr(user, 'cohort_name', None)  # Get the user_cohort from the request data
-
+            user_account = UserAccount.objects.get(user=user)
+            # user_account_serializer = UserAccountSerializer(user_account)
+            # user_cohort = user_account_serializer.data.get('cohort_name')
+            # print(user_cohort.id)
+            user_cohort = user_account.cohort_name
             # Fetch the resource link for the user's cohort and the resource named 'Zoom'
-            resource = Resources.objects.filter(cohort_name__cohort_name=user_cohort, resource_name='Zoom').first()
+            resource = Resources.objects.filter(cohort_name_id=user_cohort)
+            print(resource)
+            results = []
+            for result in resource:
+                resourceDict = {
+                    'name': result.resource_name,
+                    'url': result.resource_link
+                }
+                results.append(resourceDict)
 
-            if resource is not None:
-                resource_link = resource.resource_link
-            else:
-                resource_link = 'No resource found for this cohort and resource.'
 
 
             user = User.objects.get(username=username)  # Replace 'username' with the actual username
@@ -193,7 +200,7 @@ class UserLogin(APIView):
                     'user_first_name': user.first_name,
                     'user_last_name': user.last_name,
                     'user_phone_number': user_detail_serializer.data.get('phone_number'),
-                    'resource_link': resource_link
+                    'resources': results
 
                 }
             else:

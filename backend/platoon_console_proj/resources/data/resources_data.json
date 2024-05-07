@@ -4,9 +4,10 @@
         "pk": 1,
         "fields": {
             "resource_name": "Zoom",
-            "cohort_name": "Whiskey",
+            "cohort_name": '1',
             "program_name": "Full Stack Development Course",
             "resource_link": "https://zoom.us/j/1234567890"
         }
     }
+
 ]
