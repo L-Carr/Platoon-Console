@@ -10,6 +10,7 @@ import Register from "./pages/Register";
 import GroupProgramming from "./pages/GroupProgramming";
 import DemoPage from "./pages/DemoPage";
 import RollCallPage from "./pages/RollCallPage";
+import CanvasPage from "./pages/CanvasPage";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: "rollcall/",
         element: <RollCallPage />,
+      },
+      {
+        path: "canvas/",
+        element: <CanvasPage />,
       },
     ],
   },
