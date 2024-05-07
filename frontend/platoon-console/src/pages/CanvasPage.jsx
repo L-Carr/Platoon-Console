@@ -13,6 +13,7 @@ function createElement(x1, y1, x2, y2, type) {
 }
 
 const CanvasPage = () => {
+    //using state to have an array of elements representing lines, rectangles and whatever other shapes I'll include
     const [elements, setElements] = useState([])
     const [drawing, setDrawing] = useState(false)
     const [elementType, setElementType] = useState("line")
@@ -30,6 +31,7 @@ const CanvasPage = () => {
 
     }, [elements])
     
+    //these functions capture mouse activity
     const handleMouseDown = (event) => {
         setDrawing(true)
         const {clientX, clientY} = event
