@@ -12,6 +12,8 @@ import {
 } from "reactstrap";
 import Accountability from "../components/Accountability";
 import Demo from "../components/Demo";
+import Github from "../components/Github";
+import CreateTeamComponent from "../components/CreateTeams";
 
 const Homepage = () => {
   const [accountabilityModalOpen, setAccountabilityModalOpen] = useState(false);
@@ -53,6 +55,7 @@ const Homepage = () => {
           className="card-container"
           style={{
             marginTop: "2rem",
+            marginBottom: "2rem",
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "center",
@@ -118,51 +121,6 @@ const Homepage = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <h3>GitHub</h3>
-                </div>
-              </CardTitle>
-              <ul className="consoleCardUl">
-                <li>
-                  <Link
-                    to="http://github.com/Code-Platoon-Curriculum"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Curriculum
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="http://github.com/Code-Platoon-Curriculum/whiskey-demos-and-notes"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Demos & Notes
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="http://github.com/Code-Platoon-Assignments/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Assignments
-                  </Link>
-                </li>
-              </ul>
-            </CardBody>
-          </Card>
-
-          <Card className="consoleCard">
-            <CardBody>
-              <CardTitle style={{ marginBottom: "0" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
                   <h3>Pairs & Demos</h3>
                 </div>
               </CardTitle>
@@ -200,6 +158,27 @@ const Homepage = () => {
               </ul>
             </CardBody>
           </Card>
+
+          <Card className="gitHubCard">
+            <CardBody>
+              <CardTitle style={{ marginBottom: "0" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <h3>GitHub</h3>
+
+                </div>
+              </CardTitle>
+              <Card className="gitHubCard2">
+              <Github />     
+              </Card>
+            </CardBody>
+          </Card>
+
         </div>
       </div>
 

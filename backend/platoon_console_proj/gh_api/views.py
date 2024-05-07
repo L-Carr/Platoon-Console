@@ -153,47 +153,113 @@ class GhApiWeekDir(StudentPermissions):
                 }
                 # For each topic that matches a day we'll assign them to dictionary values
                 # This currently depends on the directories starting with the day number - the current pattern they are stored in
+                topics = []
                 for topic in week_content:
                     # print(topic.name)
-                    if re.match(r'^(?:1\D)|(?:^[Dd]ay1)', topic.name):
-                        result['day_one_name'] = topic.name
-                        result['day_one_url'] = topic.html_url
+                    if re.match(f'^readme\w*', topic.name.lower()):
+                        # print(f'Lets skip: {topic.name}')
+                        continue
+                    elif re.match(r'^(?:1\D)|(?:^[Dd]ay1)', topic.name):
+                        # result['day_one_name'] = topic.name
+                        # result['day_one_url'] = topic.html_url
+                        day_topic = {
+                            'topic_name':topic.name,
+                            'html_url':topic.html_url
+                        }
                     elif re.match(r'(?:^2)|(?:^[Dd]ay2)', topic.name):
-                        result['day_two_name'] = topic.name
-                        result['day_two_url'] = topic.html_url
+                        # result['day_two_name'] = topic.name
+                        # result['day_two_url'] = topic.html_url
+                        day_topic = {
+                            'topic_name':topic.name,
+                            'html_url':topic.html_url
+                        }
                     elif re.match(r'(?:^3)|(?:^[Dd]ay3)', topic.name):
-                        result['day_three_name'] = topic.name
-                        result['day_three_url'] = topic.html_url
+                        # result['day_three_name'] = topic.name
+                        # result['day_three_url'] = topic.html_url
+                        day_topic = {
+                            'topic_name':topic.name,
+                            'html_url':topic.html_url
+                        }
                     elif re.match(r'^4', topic.name):
-                        result['day_four_name'] = topic.name
-                        result['day_four_url'] = topic.html_url
+                        # result['day_four_name'] = topic.name
+                        # result['day_four_url'] = topic.html_url
+                        day_topic = {
+                            'topic_name':topic.name,
+                            'html_url':topic.html_url
+                        }
                     elif re.match(r'^5', topic.name):
-                        result['day_five_name'] = topic.name
-                        result['day_five_url'] = topic.html_url
+                        # result['day_five_name'] = topic.name
+                        # result['day_five_url'] = topic.html_url
+                        day_topic = {
+                            'topic_name':topic.name,
+                            'html_url':topic.html_url
+                        }
                     elif re.match(r'^6', topic.name):
-                        result['day_six_name'] = topic.name
-                        result['day_six_url'] = topic.html_url
+                        # result['day_six_name'] = topic.name
+                        # result['day_six_url'] = topic.html_url
+                        day_topic = {
+                            'topic_name':topic.name,
+                            'html_url':topic.html_url
+                        }
                     elif re.match(r'^7', topic.name):
-                        result['day_seven_name'] = topic.name
-                        result['day_seven_url'] = topic.html_url
+                        # result['day_seven_name'] = topic.name
+                        # result['day_seven_url'] = topic.html_url
+                        day_topic = {
+                            'topic_name':topic.name,
+                            'html_url':topic.html_url
+                        }
                     elif re.match(r'^8', topic.name):
-                        result['day_eight_name'] = topic.name
-                        result['day_eight_url'] = topic.html_url
+                        # result['day_eight_name'] = topic.name
+                        # result['day_eight_url'] = topic.html_url
+                        day_topic = {
+                            'topic_name':topic.name,
+                            'html_url':topic.html_url
+                        }
                     elif re.match(r'^9', topic.name):
-                        result['day_nine_name'] = topic.name
-                        result['day_nine_url'] = topic.html_url
+                        # result['day_nine_name'] = topic.name
+                        # result['day_nine_url'] = topic.html_url
+                        day_topic = {
+                            'topic_name':topic.name,
+                            'html_url':topic.html_url
+                        }
                     elif re.match(r'^10', topic.name):
-                        result['day_ten_name'] = topic.name
-                        result['day_ten_url'] = topic.html_url
+                        # result['day_ten_name'] = topic.name
+                        # result['day_ten_url'] = topic.html_url
+                        day_topic = {
+                            'topic_name':topic.name,
+                            'html_url':topic.html_url
+                        }
                     elif re.match(f'^old', topic.name):
-                        result['previous_name'] = topic.name
-                        result['previous_url'] = topic.html_url
+                        # result['previous_name'] = topic.name
+                        # result['previous_url'] = topic.html_url
+                        day_topic = {
+                            'topic_name':topic.name,
+                            'html_url':topic.html_url
+                        }
                     elif re.match(f'^R|resources', topic.name):
-                        result['resources_name'] = topic.name
-                        result['resources_url'] = topic.html_url
+                        # result['resources_name'] = topic.name
+                        # result['resources_url'] = topic.html_url
+                        day_topic = {
+                            'topic_name':topic.name,
+                            'html_url':topic.html_url
+                        }
                     elif re.match(f'^C|cheatS|sheets?', topic.name):
-                        result['cheatsheets_name'] = topic.name
-                        result['cheatsheets_url'] = topic.html_url
+                        # result['cheatsheets_name'] = topic.name
+                        # result['cheatsheets_url'] = topic.html_url
+                        day_topic = {
+                            'topic_name':topic.name,
+                            'html_url':topic.html_url
+                        }
+                    
+                    # Prevent duplicates
+                    #TODO: Figure out where this happened
+                    # resources was showing up twice in week 8
+                    if day_topic in topics:
+                        continue
+
+                    topics.append(day_topic)
+
+                result['topics'] = topics
 
                 return Response(result)
             return Response({"error":"That week does not exist in the curriculum."}, status=status.HTTP_400_BAD_REQUEST)
