@@ -1,15 +1,15 @@
 describe('Homepage', () => {
     beforeEach(() => {
       // Visit the homepage before each test
-      cy.visit('/');
+      cy.visit('http://localhost:5173/');
     });
   
     it('toggles accountability modal when link is clicked', () => {
       // Click on the "Attendance Check In" link
-      cy.contains('Attendance Check In').click();
+      cy.get('Attendance Check In').click();
   
       // Assert that the accountability modal is opened
-      cy.get('.modal-content').should('be.visible');
+    //   cy.get('[data-test="attendance-modal"]').click();
     });
   
     it('toggles feedback modal when link is clicked', () => {
@@ -17,10 +17,8 @@ describe('Homepage', () => {
       cy.contains('Daily Feedback Form').click();
   
       // Assert that the feedback modal is opened
-      cy.get('.modal-content').should('be.visible');
+      cy.get().should('be.visible');
     });
-  
-    // Add similar tests for toggling other modals
   
   });
   

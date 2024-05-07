@@ -8,11 +8,9 @@ describe('Navbar', () => {
       it('displays only login and register links', () => {
         // Check that the "Register" link is visible and has the correct href attribute
         cy.get('nav').contains('Register').should('be.visible')
-        // .and('have.attr', 'href', '/register');
   
         // Check that the "Login" link is visible and has the correct href attribute
         cy.get('nav').contains('Login').should('be.visible')
-        // .and('have.attr', 'href', '/login');
   
         // Ensure that other links are not visible
         cy.get('nav').contains('Home').should('not.exist');
@@ -29,11 +27,9 @@ describe('Navbar', () => {
         it('displays home and logout links', () => {
           // Check that the "Home" link is visible and has the correct href attribute
           cy.get('nav').contains('Home').should('be.visible')
-          // .and('have.attr', 'href', '/')
     
           // Check that the "Logout" link is visible and has the correct href attribute
           cy.get('nav').contains('Logout').should('be.visible')
-          // .and('have.attr', 'href', '/login');
     
           // Ensure that other links are not visible
           cy.get('nav').contains('Register').should('not.exist');

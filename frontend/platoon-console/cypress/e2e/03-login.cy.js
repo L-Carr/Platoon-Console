@@ -9,28 +9,11 @@ describe('User Login', () => {
         cy.get("#exampleEmail").type('john.doe@example.com')
         cy.get('#examplePassword').type('password')
 
-        //check token
-        // Cypress.Commands.add('checkToken', (token) => {
-        //     cy.window().its('localStorage.token').should('eq', token)
-        // })
-        // cy.checkToken('abc123')
-        // cy.window().its('localStorage.token').should('exist');
-
-
         //submit form
         cy.get('form').submit()
 
         // Verify token in localStorage
         cy.window().its('localStorage.token').should('exist');
 
-        //send post request to login endpoint
-        // cy.request({
-        //     url: 'http://localhost:8000/user/login/',
-        //     method: 'POST',
-        //     body: {
-        //         email: 'john.doe@example.com',
-        //         password: 'password'
-        //     }
-        // })
     })
 })

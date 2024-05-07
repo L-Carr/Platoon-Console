@@ -42,7 +42,7 @@ const Homepage = () => {
               </div>
             </CardTitle>
             <ul className="consoleCardUl">
-              <li><Link onClick={toggleAccountabilityModal}>Attendance Check In</Link></li>
+              <li><Link onClick={toggleAccountabilityModal} data-test='attendance-modal'>Attendance Check In</Link></li>
               <li><Link onClick={toggleFeedbackModal}>Daily Feedback Form</Link></li>
             </ul>
           </CardBody>
