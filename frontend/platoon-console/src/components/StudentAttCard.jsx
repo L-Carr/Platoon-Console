@@ -55,7 +55,7 @@ const StudentAttCard = ({ id, first_name, last_name, accountability_status, excu
         };
         console.log(data);
     
-        axios.patch(`https://127.0.0.1:8000/accountability/alter/${id}/`, data, {
+        axios.patch(`http://127.0.0.1:8000/accountability/alter/${id}/`, data, {
             headers: {
                 Authorization: `Token ${token}`
             }

@@ -153,12 +153,12 @@ const VideoGallery = () => {
       >
         {/* Display the selected video title in the modal header, Body, and video */}
         <div className="mainH4">
-          <Modal.Header closeButton style={{backgroundColor: "#3b7f82"}}>
-            <Modal.Title style={{color: "#ffffff"}}>
+          <Modal.Header closeButton style={{ backgroundColor: "#3b7f82" }}>
+            <Modal.Title style={{ color: "#ffffff" }}>
               {selectedVideo ? selectedVideo.title : "Loading..."}
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body style={{backgroundColor: "#2f2f2f"}}>
+          <Modal.Body style={{ backgroundColor: "#2f2f2f" }}>
             {selectedVideo && (
               <YouTube videoId={selectedVideo.id} opts={opts} />
             )}

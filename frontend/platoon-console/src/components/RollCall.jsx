@@ -58,7 +58,7 @@ const RollCall = () => {
   useEffect(() => {
     const fetchCohorts = async () => {
       try {
-        const response = await axios.get('https://127.0.0.1:8000/cohort/', config);
+        const response = await axios.get('http://127.0.0.1:8000/cohort/', config);
         const cohortData = response.data;
         const names = cohortData.map(cohort => cohort.cohort_name);
         const sortedNames = names.sort((a, b) => a.localeCompare(b));
@@ -74,7 +74,7 @@ const RollCall = () => {
     const fetchAttendance = async () => {
       if (selectedOption) {
         try {
-          const response = await axios.get(`https://127.0.0.1:8000/accountability/retrieve/?cohort_name=${selectedOption}`, config);
+          const response = await axios.get(`http://127.0.0.1:8000/accountability/retrieve/?cohort_name=${selectedOption}`, config);
           let sortedData = response.data.filter(item => item.accountability_date === fetchDate);
 
           if (sortedData.length === 0) {
