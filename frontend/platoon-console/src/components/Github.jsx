@@ -126,7 +126,7 @@ useEffect(() => {
                     {weekCurriculum.week_name}
                     </Link>
                 </li>
-                {weekCurriculum.topics > 0 ?
+                {weekCurriculum.topics ?
                 <>
                 {weekCurriculum.topics.map((topic, index) => (
                     <li key={index}>
@@ -135,13 +135,13 @@ useEffect(() => {
                         target="_blank"
                         rel="noopener noreferrer"
                         >
-                        {topic.topic_name}
+                        {`Topic: ${topic.topic_name}`}
                         </Link>
                     </li>
                 ))}
                 </>
                 :
-                <><li>Topics aren't mapping</li></>
+                <></>
             }
             </>
             :

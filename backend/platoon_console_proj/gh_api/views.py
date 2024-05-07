@@ -156,7 +156,10 @@ class GhApiWeekDir(StudentPermissions):
                 topics = []
                 for topic in week_content:
                     # print(topic.name)
-                    if re.match(r'^(?:1\D)|(?:^[Dd]ay1)', topic.name):
+                    if re.match(f'^readme\w*', topic.name.lower()):
+                        # print(f'Lets skip: {topic.name}')
+                        continue
+                    elif re.match(r'^(?:1\D)|(?:^[Dd]ay1)', topic.name):
                         # result['day_one_name'] = topic.name
                         # result['day_one_url'] = topic.html_url
                         day_topic = {
@@ -247,6 +250,7 @@ class GhApiWeekDir(StudentPermissions):
                             'topic_name':topic.name,
                             'html_url':topic.html_url
                         }
+
                     topics.append(day_topic)
 
                 result['topics'] = topics
