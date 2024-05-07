@@ -83,16 +83,17 @@ useEffect(() => {
 
 
     return (
-        <>
+        <>  
+            <card className="gitHubCard2">
             <ul className="consoleCardUl">
             {mainCurriculum.name ? 
             <>
                 <li>
-                    <Dropdown isOpen={weekDropdownOpen} toggle={toggleWeekDropdown} style={{ margin: "10px 10px 10px 10px" }}>
-                        <DropdownToggle className="attendanceDropdown" caret>
+                    <Dropdown isOpen={weekDropdownOpen} toggle={toggleWeekDropdown} style={{marginBottom: "10px"}}>
+                        <DropdownToggle className="attendanceDropdown" style={{backgroundColor: "#2f2f2f", border: "0px", height: "30px"}}caret>
                         {selectedWeek !== null ? `${selectedWeek}` : 'Select Week'}
                         </DropdownToggle>
-                        <DropdownMenu>
+                        <DropdownMenu container="body">
                             {/* <DropdownItem onClick={() => { handleWeekSelect('Week 1'); toggleWeekDropdown(); }}>Week 1</DropdownItem> */}
                             {WEEKS.map( name => (
                                 <DropdownItem key={name} onClick={() => {
@@ -168,6 +169,7 @@ useEffect(() => {
                 </Link>
             </li>
             </ul>
+            </card>
         </>
     )
 }

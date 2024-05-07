@@ -119,24 +119,6 @@ const Homepage = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <h3>GitHub</h3>
-
-                </div>
-              </CardTitle>
-              <Github />     
-            </CardBody>
-          </Card>
-
-          <Card className="consoleCard">
-            <CardBody>
-              <CardTitle style={{ marginBottom: "0" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
                   <h3>Pairs & Demos</h3>
                 </div>
               </CardTitle>
@@ -171,6 +153,27 @@ const Homepage = () => {
               </ul>
             </CardBody>
           </Card>
+
+          <Card className="gitHubCard">
+            <CardBody>
+              <CardTitle style={{ marginBottom: "0" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <h3>GitHub</h3>
+
+                </div>
+              </CardTitle>
+              <Card className="gitHubCard2">
+              <Github />     
+              </Card>
+            </CardBody>
+          </Card>
+
         </div>
       </div>
 

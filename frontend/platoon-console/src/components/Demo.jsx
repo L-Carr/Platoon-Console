@@ -15,6 +15,10 @@ const Demos = () => {
   const [selectionDropdownOpen, setSelectionDropdownOpen] = useState(false);
   const [isInstructor, setIsInstructor] = useState(false)
 
+  const toTitleCase = (str) => {
+    return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
+}
+
   useEffect(() => {
     const checkInstructor = () => {
       const userGroup = localStorage.getItem('user_groups')
@@ -224,7 +228,7 @@ const Demos = () => {
 
   return (
     <>
-      <h3 className="tertiaryH3">Demo Tracking</h3>
+      <h2 className="mainH2">Demo Tracking</h2>
       {isInstructor && selectedDemo === "Students" && (
         <>
           <Button color="secondary" onClick={handleRandomOnDeck} className="demoDropButton">Random Student On Deck</Button>
@@ -271,7 +275,7 @@ const Demos = () => {
                   {isInstructor ? (
                     <Dropdown isOpen={demo.dropdownOpen} toggle={() => toggleDemoDropdown(index)}>
                       <DropdownToggle className="attendanceDropdown" caret>
-                        {demo.status}
+                        {toTitleCase(demo.status)}
                       </DropdownToggle>
                       <DropdownMenu container="body">
                         <DropdownItem onClick={() => handleStatusChange(index, 'to do')}>
@@ -287,7 +291,7 @@ const Demos = () => {
                     </Dropdown>
                   ) : (
                     <Button color="secondary" style={{ width: "180px", pointerEvents: "none" }}>
-                      {demo.status}
+                      {toTitleCase(demo.status)}
                     </Button>
                   )}
                 </div>
@@ -310,7 +314,7 @@ const Demos = () => {
                   {isInstructor ? (
                     <Dropdown isOpen={demo.dropdownOpen} toggle={() => toggleTeamDemoDropdown(index)}>
                       <DropdownToggle className="attendanceDropdown" caret>
-                        demo.status
+                      {toTitleCase(demo.status)}
                       </DropdownToggle>
                       <DropdownMenu container="body">
                         <DropdownItem onClick={() => handleTeamStatusChange(index, 'to do')}>
@@ -326,7 +330,7 @@ const Demos = () => {
                     </Dropdown>
                   ) : (
                     <Button color="secondary" style={{ width: "180px", pointerEvents: "none" }}>
-                      {demo.status}
+                      {toTitleCase(demo.status)}
                     </Button>
                   )}
                 </div>
