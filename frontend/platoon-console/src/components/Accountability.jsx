@@ -30,7 +30,7 @@ const Accountability = () => {
             return;
         }
         try {
-            let response = await axios.post("https://127.0.0.1:8000/accountability/record/", requestData, {
+            let response = await axios.post("http://127.0.0.1:8000/accountability/record/", requestData, {
                 headers: {
                     Authorization: `Token ${token}`,
                     'Content-Type': 'application/json'
