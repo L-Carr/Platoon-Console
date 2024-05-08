@@ -22,6 +22,17 @@ const Homepage = () => {
   const [monthlyModalOpen, setMonthlyModalOpen] = useState(false);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const [resources, setResources] = useState([]);
+  const [isInstructor, setIsInstructor] = useState(false);
+
+  useEffect(() => {
+    const checkInstructor = () => {
+      const userGroup = localStorage.getItem('user_groups')
+      if (userGroup.includes('Instructors')) {
+        setIsInstructor(true)
+      }
+    };
+    checkInstructor();
+  }, []);
 
   // Fetch resources from API
   useEffect(() => {
@@ -75,31 +86,67 @@ const Homepage = () => {
             justifyContent: "center",
           }}
         >
-          <Card className="consoleCard">
-            <CardBody>
-              <CardTitle style={{ marginBottom: "0" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <h3>Daily Tasks</h3>
-                </div>
-              </CardTitle>
-              <ul className="consoleCardUl">
-                <li>
-                  <Link onClick={toggleAccountabilityModal}>
-                    Attendance Check In
-                  </Link>
-                </li>
-                <li>
-                  <Link onClick={toggleFeedbackModal}>Daily Feedback Form</Link>
-                </li>
-              </ul>
-            </CardBody>
-          </Card>
+          {isInstructor ?
+            <Card className="consoleCard">
+              <CardBody>
+                <CardTitle style={{ marginBottom: "0" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <h3>Administration</h3>
+                  </div>
+                </CardTitle>
+                <ul className="consoleCardUl">
+                  <li>
+                    <Link tag={Link} to="rollcall/">
+                      Roll Call
+                    </Link>
+                  </li>
+                  <li>
+                    <Link tag={Link} to="InstructorAdmin/">
+                      Instructor Admin
+                    </Link>
+                  </li>
+                  <li>
+                    <Link tag={Link} to="create-teams/">
+                      Create Teams
+                    </Link>
+                  </li>
+                </ul>
+              </CardBody>
+            </Card>
+            :
+            <Card className="consoleCard">
+              <CardBody>
+                <CardTitle style={{ marginBottom: "0" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <h3>Daily Tasks</h3>
+                  </div>
+                </CardTitle>
+                <ul className="consoleCardUl">
+                  <li>
+                    <Link onClick={toggleAccountabilityModal}>
+                      Attendance Check In
+                    </Link>
+                  </li>
+                  <li>
+                    <Link onClick={toggleFeedbackModal}>Daily Feedback Form</Link>
+                  </li>
+                </ul>
+              </CardBody>
+            </Card>
+
+          }
 
           <Card className="consoleCard">
             <CardBody>
@@ -124,7 +171,7 @@ const Homepage = () => {
               </ul>
             </CardBody>
           </Card>
-
+          {isInstructor ? 
           <Card className="consoleCard">
             <CardBody>
               <CardTitle style={{ marginBottom: "0" }}>
@@ -148,6 +195,31 @@ const Homepage = () => {
               </ul>
             </CardBody>
           </Card>
+          :
+          <Card className="consoleCard">
+            <CardBody>
+              <CardTitle style={{ marginBottom: "0" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <h3>Pairs & Demos</h3>
+                </div>
+              </CardTitle>
+              <ul className="consoleCardUl">
+                <li>
+                  <Link to="groups/">Pair Programming</Link>
+                </li>
+                <li>
+                  <Link to="demo/">Code Demo List</Link>
+                </li>
+              </ul>
+            </CardBody>
+          </Card>
+          }
 
           <Card className="consoleCard">
             <CardBody>
