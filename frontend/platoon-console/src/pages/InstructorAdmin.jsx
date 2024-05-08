@@ -23,7 +23,7 @@ const InstructorAdmin = () => {
 
 
   const [errorGithubConf, setErrorGithubConf] = useState("");
-  const [successGithubConf, setSuccessGithubConf] = useState("TEST");
+  const [successGithubConf, setSuccessGithubConf] = useState("");
 
   const [errorConfigCohort, setErrorConfigCohort] = useState("");
   const [successConfigCohort, setSuccessConfigCohort] = useState("");
