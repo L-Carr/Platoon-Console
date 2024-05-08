@@ -19,6 +19,21 @@ const InstructorAdmin = () => {
   const [resourceLink, setResourceLink] = useState("");
   const [resourceCohort, setResourceCohort] = useState("");
   const [allResources, setAllResources] = useState([]);
+
+
+
+  const [errorGithubConf, setErrorGithubConf] = useState("");
+  const [successGithubConf, setSuccessGithubConf] = useState("TEST");
+
+  const [errorConfigCohort, setErrorConfigCohort] = useState("");
+  const [successConfigCohort, setSuccessConfigCohort] = useState("");
+
+  const [errorCreateLink, setErrorCreateLink] = useState("");
+  const [successCreateLink, setSuccessCreateLink] = useState("");
+  
+
+  const [errorUpdateLink, setErrorUpdateLink] = useState("");
+  const [successUpdateLink, setSuccessUpdateLink] = useState("");
   const configDataPut = async () => {
     try {
       const configData = {
@@ -36,9 +51,16 @@ const InstructorAdmin = () => {
           },
         }
       );
+
+      if (response.status === 201) {
+        setSuccessGithubConf("Successfully Updated");
+      }
       console.log(response.data);
     } catch (error) {
+      setErrorGithubConf("Error Updating Configuration");
       if (error.response) {
+
+      
         const errorMessage = error.response.data.error;
         console.log("Error", errorMessage);
       }
@@ -100,7 +122,7 @@ const InstructorAdmin = () => {
         );
       if (response.status === 201) {
         setSuccessCohort(true)
-
+        setSuccessConfigCohort("Successfully Added Cohort")
         if (successCohort) {
          
           setCohortCode('')
@@ -111,6 +133,7 @@ const InstructorAdmin = () => {
       }
       console.log(response.data)
     } catch (error) {
+      setErrorConfigCohort("Error Adding Cohort")
       console.log("Error", error);
     }
   }
@@ -161,9 +184,11 @@ const InstructorAdmin = () => {
         setResourceCohort('')
 
         getConfigLinks();
+        setSuccessCreateLink("Successfully Added Link")
       }
       console.log(response.data);
     } catch (error) {
+      setErrorCreateLink("Error Adding Link")
       if (error) {
       
         console.log("Error", error);
@@ -184,8 +209,20 @@ const InstructorAdmin = () => {
           Authorization: `Token ${token}`,
         },
       });
+
+      if (response.status === 200) {
+
+      
+        setSuccessUpdateLink("Successfully Updated Link")
+        setTimeout(() => {
+          setSuccessUpdateLink('');
+        }, 3000);
+  
+      }
       console.log(response.data);
     } catch (error) {
+
+      setErrorUpdateLink("Error Updating Link")
       if (error) {
       
         console.log("Error", error);
@@ -262,7 +299,11 @@ const InstructorAdmin = () => {
           </Col>
           <Col md={2}>
             <Button type="submit">Submit</Button>
-          </Col>
+            </Col>
+            <div className="mt-3">
+            {errorGithubConf && <p style={{ color: 'red' }}>{errorGithubConf}</p>}
+              {successGithubConf && <p style={{ color: 'green' }}>{successGithubConf}</p>}
+              </div>
         </Row>
         </Form>
       </Container>
@@ -298,7 +339,11 @@ const InstructorAdmin = () => {
           </Col>
           <Col md={2}>
             <Button type="submit">Add</Button>
-          </Col>
+            </Col>
+            <div className="mt-3">
+            {errorConfigCohort && <p style={{ color: 'red' }}>{errorConfigCohort}</p>}
+              {successConfigCohort && <p style={{ color: 'green' }}>{successConfigCohort}</p>}
+              </div>
         </Row>
         </Form>
       </Container>
@@ -338,6 +383,10 @@ const InstructorAdmin = () => {
             <Col md={1}>
               <Button type="submit">add</Button>
             </Col>
+            <div className="mt-3">
+            {errorCreateLink && <p style={{ color: 'red' }}>{errorCreateLink}</p>}
+              {successCreateLink && <p style={{ color: 'green' }}>{successCreateLink}</p>}
+              </div>
           </Row>
         </Form>
       </Container>
@@ -377,9 +426,14 @@ const InstructorAdmin = () => {
           
           <Col md={1} className="mt-3 mb-3">
               <Button onClick={() => UpdateExistingLinks(resource.id )}>update</Button>
-            </Col>
+          </Col>
+         
           </Row>
-        ))}
+      ))}
+         <div className="mt-3">
+            {errorUpdateLink && <p style={{ color: 'red' }}>{errorUpdateLink}</p>}
+              {successUpdateLink && <p style={{ color: 'green' }}>{successUpdateLink}</p>}
+              </div>
        
        
       </Container>
