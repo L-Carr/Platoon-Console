@@ -11,7 +11,8 @@ import GroupProgramming from "./pages/GroupProgramming";
 import DemoPage from "./pages/DemoPage";
 import RollCallPage from "./pages/RollCallPage";
 import CanvasPage from "./pages/CanvasPage";
-
+import CreateTeamComponent from "./components/CreateTeams";
+import InstructorAdmin from "./pages/InstructorAdmin";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -57,9 +58,15 @@ const router = createBrowserRouter([
         path: "canvas/",
         element: <CanvasPage />,
       },
+      
+      { path: "create-teams/",
+      element: <CreateTeamComponent />},
     ],
   },
-
+  {
+    path: "InstructorAdmin/",
+    element: <InstructorAdmin />,
+  },
   {
     path: "*",
     element: <ErrorPage />,
@@ -78,3 +85,9 @@ export default router;
 // Group 8: Daniel Thompson, Sandra Jackson, Anthony Anderson
 // Group 9: Mark Davis, Jennifer Smith, Joseph Gonzalez
 // Group 10: Thomas Robinson, Jessica White, David Ramirez
+
+
+// {
+//   "repo_owner": "Code-Platoon-Curriculum",
+//   "repo_name": "curriculum"
+//   }
