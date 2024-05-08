@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import NavBar from './components/NavBar';
+import Footer from './components/Footer';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,6 +27,7 @@ function App() {
       <div className="mainContent" style={{paddingTop: "8rem"}}>
         <Outlet />
       </div>
+      <Footer />
     </>
   );
 }

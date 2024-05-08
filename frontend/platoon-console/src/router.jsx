@@ -13,6 +13,8 @@ import RollCallPage from "./pages/RollCallPage";
 import CanvasPage from "./pages/CanvasPage";
 import CreateTeamComponent from "./components/CreateTeams";
 import InstructorAdmin from "./pages/InstructorAdmin";
+import Policy from "./pages/Policy";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -58,9 +60,14 @@ const router = createBrowserRouter([
         path: "canvas/",
         element: <CanvasPage />,
       },
-      
-      { path: "create-teams/",
-      element: <CreateTeamComponent />},
+      { 
+        path: "create-teams/",
+        element: <CreateTeamComponent />
+      },
+      {
+        path: "policy/",
+        element: <Policy />,
+      },
     ],
   },
   {

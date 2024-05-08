@@ -356,6 +356,14 @@ a:hover {
   background: red;
 }
 
+.footerLink {
+  color: grey;
+}
+
+.footerLink:hover {
+  color: #3b7f82;
+}
+
 @media (max-width: 768px) {
   .mainH1 {
     font-size: 3rem; 
