@@ -153,6 +153,15 @@ const InstructorAdmin = () => {
           Authorization: `Token ${token}`,
         },
       });
+
+      if (response.status === 200) {
+        setResourceName('')
+        setResourceProgram('')
+        setResourceLink('')
+        setResourceCohort('')
+
+        getConfigLinks();
+      }
       console.log(response.data);
     } catch (error) {
       if (error) {
@@ -326,8 +335,8 @@ const InstructorAdmin = () => {
                 <Input id="resourceCohort" name="CohortName" placeholder="Cohort Name" type="text" value={resourceCohort} onChange={(e) => setResourceCohort(e.target.value)} />
               </FormGroup>
             </Col>
-            <Col md={3}>
-              <Button type="submit">Add Resource</Button>
+            <Col md={1}>
+              <Button type="submit">add</Button>
             </Col>
           </Row>
         </Form>
@@ -345,25 +354,29 @@ const InstructorAdmin = () => {
             <Col md={3}>
                
  
-              <Input id="resourceName" name="resourceName" placeholder="Resource Name" type="text" value={resource.resource_name}  onChange={(e) => updateRecord(resource.id, 'resource_name', e.target.value, index)}/>
-            </Col>
+              <Input className= "mt-3" id="resourceName" name="resourceName" placeholder="Resource Name" type="text" value={resource.resource_name}  onChange={(e) => updateRecord(resource.id, 'resource_name', e.target.value, index)}/>
+          </Col>
+         
             <Col md={3}>
                
-              <Input id="programName" name="programName" placeholder="Program Name" type="text" value={resource.program_name} onChange={(e) => updateRecord(resource.id, 'program_name', e.target.value, index)}/>
+              <Input className= "mt-3" id="programName" name="programName" placeholder="Program Name" type="text" value={resource.program_name} onChange={(e) => updateRecord(resource.id, 'program_name', e.target.value, index)}/>
                
-            </Col>
+          </Col>
+         
             <Col md={3}>
                
-              <Input id="resourceLink" name="resourceLink" placeholder="Resource Link" type="text" value={resource.resource_link}  onChange={(e) => updateRecord(resource.id, 'resource_link', e.target.value, index)}/>
+              <Input className= "mt-3" id="resourceLink" name="resourceLink" placeholder="Resource Link" type="text" value={resource.resource_link}  onChange={(e) => updateRecord(resource.id, 'resource_link', e.target.value, index)}/>
               
-            </Col>
+          </Col>
+          
             <Col md={3}>
                 
-              <Input id="resourceLink" name="CohortName" placeholder="Cohort Name" type="text" value={resource.cohort_name} onChange={(e) => updateRecord(resource.id, 'cohort_name', e.target.value, index)} />
+              <Input  className= "mt-3" id="resourceLink" name="CohortName" placeholder="Cohort Name" type="text" value={resource.cohort_name} onChange={(e) => updateRecord(resource.id, 'cohort_name', e.target.value, index)} />
                
-            </Col>
-            <Col md={3}>
-              <Button onClick={() => UpdateExistingLinks(resource.id )}>Update Link</Button>
+          </Col>
+          
+          <Col md={1} className="mt-3 mb-3">
+              <Button onClick={() => UpdateExistingLinks(resource.id )}>update</Button>
             </Col>
           </Row>
         ))}
