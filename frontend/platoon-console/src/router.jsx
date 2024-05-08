@@ -11,6 +11,7 @@ import GroupProgramming from "./pages/GroupProgramming";
 import DemoPage from "./pages/DemoPage";
 import RollCallPage from "./pages/RollCallPage";
 import CanvasPage from "./pages/CanvasPage";
+import Policy from "./pages/Policy";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: "canvas/",
         element: <CanvasPage />,
+      },
+      {
+        path: "policy/",
+        element: <Policy />,
       },
     ],
   },
